@@ -1,0 +1,271 @@
+%% Copyright 2018 H.\ Rabus
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `author-maintained'.
+%
+% This work consists of the file texbsp.tex
+%
+
+\documentclass[smallheadings]{scrartcl}
+
+%%% GENERAL PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% inputenc allows the usage of non-ascii characters in the LaTeX source code
+\usepackage[utf8]{inputenc}
+
+
+
+% title of the document
+\title{Dokumentation computer.py}
+% optional subtitle
+%\subtitle{Draft from~\today}
+% information about the author
+\author{%
+  H.\ Rabus, Institut f\"ur Mathematik\\ Humboldt-Universit\"at zu Berlin
+}
+\date{18.05.2018}
+
+
+%%% LANGUAGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% babel provides hyphenation patterns and translations of keywords like 'table
+% of contents'
+\usepackage[ngerman]{babel}
+
+%%% HYPERLINKS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% automatic generation of hyperlinks for references and URIs
+\usepackage{hyperref}
+
+%%% MATH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% amsmath provides commands for type-setting mathematical formulas
+\usepackage{amsmath}
+% amssymb provides additional symbols
+\usepackage{amssymb}
+% HINT
+% Use http://detexify.kirelabs.org/classify.html to find unknown symbols!
+
+%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define own colors and use colored text
+\usepackage[pdftex,svgnames,hyperref]{xcolor}
+
+%%% Code Listings %%%%%%%%%%%%%%%%
+% provides commands for including code (python, latex, ...)
+\usepackage{listings}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\lstset{language=Python, 
+        basicstyle=\ttfamily\small, 
+        keywordstyle=\color{keywords},
+        commentstyle=\color{comments},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        identifierstyle=\color{green},
+        }
+
+
+\usepackage{paralist}
+
+% setting the font style for input und returns in description items
+\newcommand{\initem}[2]{\item[\hspace{0.5em} {\normalfont\ttfamily{#1}} {\normalfont\itshape{(#2)}}]}
+\newcommand{\outitem}[1]{\item[\hspace{0.5em} \normalfont\itshape{(#1)}]}
+\newcommand{\bfpara}[1]{
+	
+	\noindent \textbf{#1:}\,}
+
+\begin{document}
+
+% generating the title page
+\maketitle
+% generating the table of contents (requires to run pdflatex twice!)
+\tableofcontents
+\bigskip
+
+\hrule
+\hrule
+
+%%% BEGIN OF CONTENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Bemerkung zu dieser Dokumentation}
+
+Die Klasse \texttt{Computer} dient zur Demonstration der objektorientierten Programmierung im Rahmen der VL \textbf{Einf\"uhrung in das wissenschaftliche Rechnen}. Ebenso dient diese Schnittstellendokumentation als inhaltliches Beispiel - jedoch nicht als Formatvorlage oder gar Designvoraussetzung  -  wie diese in \LaTeX{} umgesetzt werden kann. 
+
+Weitere denkbare M\"oglichkeiten zur Darstellung des Inhaltes sind 
+\begin{compactitem}
+	\item Tabellenumgebungen, z.B.\ \\
+		\begin{tabular}{|c|ll|}
+			\hline
+			Input & new\_room (int) & the room this computer will be moved to\\
+			      & tba & NN \\
+			      \hline
+			Returns & None & \\
+			      \hline
+		\end{tabular}
+		\\
+		oder
+	\item itemize/enumerate anstelle der description-Umgebungen (evtl.\ in der hier verwendeten kompakten Form (compactitem oder compactenum) aus dem Paket \textit{paralist}.
+	\item \ldots
+\end{compactitem}
+Probieren sie verschiedene Varianten aus und bleiben dann innerhalb einer Dokumentation konsequent bei einer Variante.
+
+In der Sprache haben Sie freie Wahl zwischen Englisch und Deutsch. Bitte bleiben Sie innerhalb eines Dokumentes konsequent bei einer Sprache. Alternativ d\"urfen Sie, wie in diesem Dokument, zwischen den Sprachen wechseln, wenn Sie dabei einen konsequenten Stil verfolgen (hier: Beschreibung von Inputparameter und R\"uckgabewerten in Englisch und so aus den \textit{doc-Strings} \"ubernommen, Rest deutsch).
+
+
+\section{Schnittstellendokumentation computer.py}
+
+
+Die Klasse erm\"oglicht die Computer mit verschiedenen Betriebssystemen in einem Geb\"aude zu verwalten. 
+\subsection{Attribute}
+\textit{Bemerkung} Bei der Aufz\"ahlung der Attribute (ebenso wie sp\"ater bei den Methoden) muss zwischen dynamischen (oder nicht-statischen) Attributen (auch Objektattribute) und den statischen Attributen (auch Klassenattributen) unterschieden werden. Eine m\"ogliche Variante ist die Folgende; eine andere wird bei den Methoden verwendet.
+\bfpara{nicht-statische Attribute}
+\begin{compactdesc}
+	\initem{sys}{string} The operating system, that is currently run on the computer.
+                      Should be one of the values `MAC`, `WINDOWS` or `LINUX`
+	      \initem{room}{int} The room in which the computer is currently located.
+	      \initem{state}{bool} The state of the computer.\\
+                      False = The computer is turned off.\\
+                      True = The computer is turned on.
+\end{compactdesc}
+\bfpara{statische Attribute}
+\begin{compactdesc}
+	\initem{all\_computers}{list of computers} A collection of all created computers.
+\end{compactdesc}
+\subsection{Konstruktor}
+\texttt{Computer(self, operating\_system, room)}\\
+ Beim Erstellen eines neuen Objektes der Klasse \texttt{Computer} wird \textit{state = False} gesetzt, d.h.\ der Computer ist zun\"achst ausgeschaltet. Desweiteren werden die Attribute \textit{operating\_system} und \textit{room} entsprechend der Eingabeparameter im Konstruktor gesetzt; die Liste \textit{all\_computers} um das neue Objekt erg\"anzt.
+
+\bfpara{Input}
+	    \begin{compactdesc}
+		    \initem{operating\_system}{string} The system, that the computer will be launched with.
+                                       Should be one of the values `MAC`, `WINDOWS` or `LINUX`
+		   \initem{room}{int} The room the computer will be set up in.
+	    \end{compactdesc}
+
+	    %\lstinputlisting{computer.py}
+\paragraph{Beispiel} Im Folgenden wird beispielhaft der Quellcode des Konstruktors eingef\"ugt.
+	    \begin{lstlisting}
+def __init__(self, operating_system, room):
+    self.sys = operating_system
+    self.room = room
+    self.state = False
+    
+    Computer.all_computers.append(self)	    
+	    \end{lstlisting}
+\subsection{Methoden}
+\textit{Konvention - Bemerkung} Das Objekt \texttt{self} wird bei nicht-statischen Methoden (und dem Konstruktor) nicht mit in die Beschreibung aufgenommen.
+\subsubsection{\texttt{change\_room(self, new\_room)}}
+       Diese Methode erm\"oglicht die Zuordnung eines Computers zu einem neuen Raum.
+
+\bfpara{Input}
+            \begin{compactdesc}
+		    \initem{new\_room}{int} the room this computer will be moved to
+		\end{compactdesc}
+\bfpara{Returns} {\normalfont\itshape{None}}
+
+\subsubsection{\texttt{toggle\_state(self)}}
+       Diese Methode \"andert den Zustand (ein- vs.\ ausgeschaltet).
+
+\bfpara{Input} -
+
+\bfpara{Returns} {\normalfont\itshape{None}}
+	
+	\subsubsection{\texttt{\_\_str\_\_(self)}}
+Methode, die die Ausgabe mittels \texttt{print()} auf die Standardausgabe regelt. 
+
+	\bfpara{Input} - 
+
+	\bfpara{Returns}{ \normalfont\itshape{string}} a representation of the object for the use with \texttt{print()}
+
+\paragraph{Beispiel} F\"ur ein Objekt der Klasse \texttt{Computer} mit den Attributen 
+\texttt{self.room = 123}, \texttt{self.sys = LINUX} und \texttt{self.state = True} liefert die Methode
+folgende Zeichenkette
+\begin{verbatim} 
+Der Computer
+    - steht im Raum 123
+    - läuft mit Linux
+    - ist derzeit eingeschaltet.
+\end{verbatim}
+
+\subsubsection{\texttt{static get\_computers\_in(room)}}
+Diese statische Methode liefert eine Aufstellung aller Computer, die sich in einem Raum befinden.
+
+\bfpara{Input}
+      \begin{compactdesc}
+	      \initem{room}{int} The room number
+	\end{compactdesc}
+\bfpara{Returns}
+          \begin{compactdesc}
+		  \outitem{list of computers} All computers in room `room`
+	  \end{compactdesc}
+
+
+\section{Nutzungshinweise und Hauptprogramm}
+In \texttt{computer.py} ist eine \texttt{main()} Funktion implementiert. Sie dient zur Demonstration der Klasse und wird nur ausgef\"uhrt wenn \texttt{computer.py} direkt mittels \texttt{python3 computer.py} gestartet wird. 
+
+Es wird die Verwendung des Konstruktors und der Methoden anhand dreier Objekte demonstriert.
+\begin{lstlisting}
+def main():
+    """ Main function to test the Computer class.
+    """
+
+    cmp1 = Computer("LINUX", 1115)
+    print(cmp1)
+    cmp1.toggle_state()
+    cmp1.change_room(2407)
+    print(cmp1)
+
+    print("\n==================\n")
+
+    Computer("MAC", 2407)
+    Computer("LINUX", 1115)
+
+    my_computers = Computer.get_computers_in(2407)
+    for computer in my_computers:
+        print(computer)
+\end{lstlisting}
+	Die Standardausgabe liefert hierdurch folgende Ausgabe:
+\begin{verbatim}
+Der Computer
+	- steht im Raum 1115.
+	- läuft mit Linux.
+	- ist derzeit ausgeschaltet.
+Der Computer
+	- steht im Raum 2407.
+	- läuft mit Linux.
+	- ist derzeit eingeschaltet.
+
+==================
+
+Der Computer
+	- steht im Raum 2407.
+	- läuft mit Linux.
+	- ist derzeit eingeschaltet.
+Der Computer
+	- steht im Raum 2407.
+	- läuft mit MAC-OS.
+	- ist derzeit ausgeschaltet.
+\end{verbatim}
+\hfill
+\hrule
+\smallskip
+
+\itshape{Copyright 2018, H.\ Rabus
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either version 1.3
+of this license or (at your option) any later version.
+The latest version of this license is in
+  http://www.latex-project.org/lppl.txt
+and version 1.3 or later is part of all distributions of LaTeX
+version 2005/12/01 or later.
+}
+
+
+%%% END OF DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
