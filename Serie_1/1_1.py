@@ -13,45 +13,193 @@ from matplotlib import pyplot as plt
 import sys
 
 class Plotten(object):
-    def __init__(self, plotbereich, unten, oben, h, titel=""):
+    """
+    Diese Klasse erlaubt das Plotten von Funktionen und ihren Ableitungen (exakt und
+    approximiert mit der Methode der Vorwärtsdifferenz). 
+
+    Attribute:
+
+        plotbereich (pyplot.Axes-Objekt):
+            Bestimmt, wohin die Funktionen gezeichnet werden.
+        unten (float):
+            Untere Intervallgrenze.
+        oben (float):
+            Obere intervallgrenze.
+    """
+    def __init__(self, plotbereich, unten, oben, titel=""):
         """
         Initialisiert einen neuen Plot. 
-        Dabei wird aus den Intervallgrenzen und der Länge der 
-        Teilintervalle die Anzahl der Teilintervalle berechnet und 
-        ein Array aus den Intervallgrenzen erstellt.
+        Die Achsen werden beschriftet, optional kann ein Plottitel übergeben werden.
+        
+        Input:
+
+            plotbereich (pyplot.Axes-Objekt):
+                Bestimmt, wohin die Funktionen gezeichnet werden.
+            unten (float):
+                Untere Intervallgrenze.
+            oben (float):
+                Obere intervallgrenze.
+            titel (str, optional, Standard:""):
+                Titel des Plots.
         """
         self.plotbereich = plotbereich
         self.unten = unten
         self.oben = oben
-        self.h = h
-        #self.fkt = fkt
-        self.anz = int((oben - unten)/h) # Anzahl der Teilintervalle
-        self.intervall = np.linspace(unten, oben, self.anz)
+                
         self.plotbereich.set_title(titel)
         self.plotbereich.set_xlabel("$[a,b]$") 
         self.plotbereich.set_ylabel("$\mathbb{R}$")
 
+    def intervall_h(self, h):
+        """
+        Erstellt ein ein Intervall mit vorgegebener Schrittweite h zwischen den
+        Intervallgrenzen eines Plotten-Objekts. Ist die Intervalllänge kein ganzzahliges
+        Vielfaches von h, so wird die Anzahl der Teilintervalle kaufmännisch gerundet.
+
+        Input: 
+
+            h (float):
+                Länge der Teilintervalle
+        
+        Return:
+
+            (numpy.ndarray) Array aus Teilintervallgrenzen.
+        """
+        anz_int = int((self.oben-self.unten)/h + 0.5) # Anzahl der Teilintervalle
+        return np.linspace(self.unten, self.oben, anz_int)
+
     def plotfkt(self, fkt, name="Funktion"):
-        self.plotbereich.plot(self.intervall, fkt(self.intervall), label=name)
+        """
+        Plottet eine Funktion auf dem Intervall [a,b]. Das Intervall
+        wird hierzu äquidistant in 1000 Teilintervalle eingeteilt, was eine 
+        gute Darstellung des Verlaufs gewährleistet.
+
+        Input:
+
+            fkt (function):
+                Zu zeichnende Funktion.
+            name (str, optional, Standard: "Funktion"):
+                Legendeneintrag der zu zeichnenden Funktion.
+        
+        Return: -
+        """
+        intervall = np.linspace(self.unten, self.oben, 1001)
+        self.plotbereich.plot(intervall, fkt(intervall), label=name)
         self.plotbereich.legend(loc="best")
     
-    def plotablex(self, ablex, name="Erste Ableitung (exakt)"):
-        self.plotbereich.plot(self.intervall, ablex(self.intervall), label=name)
+    def plotablex(self, ablex, h=-1, name="Erste Ableitung (exakt)"):
+        """
+        Plottet eine Ableitungs-Funktion auf dem Intervall [a,b]. Das 
+        Intervall wird hierzu äquidistant in 1000 Teilintervalle eingeteilt, 
+        was eine gute Darstellung des Verlaufs gewährleistet.
+
+
+        Input:
+
+            ablex (function):
+                Zu zeichnende Ableitungs-Funktion.
+            name (str, optional, Standard: "Erste Ableitung (exakt)"):
+                Legendeneintrag der zu zeichnenden Abl.-Funktion.
+        
+        Return: -
+        """
+        intervall = np.linspace(self.unten, self.oben, 1001)
+        self.plotbereich.plot(intervall, ablex(intervall), label=name)
         self.plotbereich.legend(loc="best")
     
     def plotabl2ex(self, abl2ex, name="Zweite Ableitung (exakt)"):
-        self.plotbereich.plot(self.intervall, abl2ex(self.intervall), label=name)
+        """
+        Plottet eine zweite Ableitungs-Funktion auf dem Intervall [a,b]. Das 
+        Intervall wird hierzu äquidistant in 1000 Teilintervalle eingeteilt, 
+        was eine gute Darstellung des Verlaufs gewährleistet.
+
+
+        Input:
+
+            abl2ex (function):
+                Zu zeichnende zweite Ableitungs-Funktion.
+            name (str, optional, Standard: "Zweite Ableitung (exakt)"):
+                Legendeneintrag der zu zeichnenden 2. Abl.-Funktion.
+        
+        Return: -
+        """        
+        intervall = np.linspace(self.unten, self.oben, 1001)
+        self.plotbereich.plot(intervall, abl2ex(intervall), label=name)
+        self.plotbereich.legend(loc="best")
+    
+    def ablapprox(self, fkt, h):
+        """
+        Implementierung der Vorwärtsdifferenz.
+
+        Input:
+            fkt (function):
+                Abzuleitende Funktion.
+            h (float):
+                Schrittweite der diskreten Differenziation.
+        Return:
+            (numpy.ndarray) mehrdimensionales Array:
+                [x-Werte zwischen a und b, Werte von fkt' bei den x-Werten]
+        """        
+        return np.array([self.intervall_h(h), (fkt(self.intervall_h(h)+h) 
+                                              - fkt(self.intervall_h(h)))/h])
+
+    def abl2approx(self, fkt, h):
+        """
+        Implementierung des Differenzenquotients zur Approximation der zweiten Ableitung.
+
+        Input:
+            fkt (function):
+                Abzuleitende Funktion.
+            h (float):
+                Schrittweite der diskreten Differenziation.
+
+        Return:
+            (numpy.ndarray) mehrdimensionales Array:
+                [x-Werte zwischen a und b, Werte von fkt'' bei den x-Werten]
+                
+        """
+        return np.array([self.intervall_h(h),(fkt(self.intervall_h(h)+h) - 2*fkt(self.intervall_h(h))
+              + fkt(self.intervall_h(h)-h))/h**2])
+    
+    def plotabl(self, fkt, h, name="Erste Ableitung (appr.)"):
+        """
+        Plottet die per Vorwärtsdifferenz approximierte erste Ableitung einer 
+        gegebenen Funktion.
+
+        Input:
+
+            fkt (function):
+                Abzuleitende Funktion.
+            h (float):
+                Schrittweite der diskreten Differenziation.
+            name (str, optional, Standard:"Erste Ablleitung (appr.)"):
+                Legendeneintrag der approx. Abl.-Funktion
+
+        Return: -
+        """        
+        x, y = self.ablapprox(fkt, h)
+        self.plotbereich.plot(x, y, label=name)
         self.plotbereich.legend(loc="best")
 
-    def plotabl(self, fkt, name="Erste Ableitung (appr.)"):
-        abl = (fkt(self.intervall+self.h)-fkt(self.intervall))/self.h
-        self.plotbereich.plot(self.intervall, abl, label=name)
-        self.plotbereich.legend(loc="best")
+    def plotabl2(self, fkt, h, name="Zweite Ableitung (appr.)"):
+        """
+        Plottet die per approximierte zweite Ableitung einer 
+        gegebenen Funktion.
 
-    def plotabl2(self, fkt, name="Zweite Ableitung (appr.)"):
-        abl2=(fkt(self.intervall+self.h) - 2*fkt(self.intervall) 
-              + fkt(self.intervall-self.h))/self.h**2
-        self.plotbereich.plot(self.intervall, abl2, label=name)
+        Input:
+
+            fkt (function):
+                Abzuleitende Funktion.
+            h (float):
+                Schrittweite der diskreten Differenziation.
+            name (str, optional, Standard:"Erste Ablleitung (appr.)"):
+                Legendeneintrag der approx. zweiten Abl.-Funktion
+
+        Return: -
+        """
+
+        x, y = self.abl2approx(fkt, h)
+        self.plotbereich.plot(x, y, label=name)
         self.plotbereich.legend(loc="best")
 
 
@@ -70,31 +218,37 @@ def test():
     """
     plt.figure(figsize=(20,10))
     
+    # zum Testen wird h=0.01 gesetzt:
+
+    h_test = 0.01 
+
     # Plotten der appr. Funktionen im linken Subplot:
     
     AX_L = plt.subplot(121)
-    IM_1 = Plotten(AX_L,0, 2*np.pi, 0.01)
+    IM_1 = Plotten(AX_L,0, 2*np.pi)
     IM_1.plotfkt(np.sin)
-    IM_1.plotabl(np.sin)
-    IM_1.plotabl2(np.sin)
+    IM_1.plotabl(np.sin, h_test)
+    IM_1.plotabl2(np.sin, h_test)
 
     # Plotten der exakten Funktionen im rechten Subplot:
     
     AX_R = plt.subplot(122)
-    IM_2 = Plotten(AX_R, 0, 2*np.pi, 0.01)
+    IM_2 = Plotten(AX_R, 0, 2*np.pi)
     IM_2.plotfkt(np.sin)
     IM_2.plotablex(np.cos)
     IM_2.plotabl2ex(negsin)
     plt.show()
 
-testing = False
-for befehl in sys.argv:
-    if befehl == "test":
-        testing = True
-        test()
-if testing == False:
-    print("Das Skript wird ohne Test beendet. Zum Testen der Funktionen übergeben Sie " + 
-          "beim Aufruf \"test\"")
+
+if __name__=="__main__":
+    testing = False
+    for befehl in sys.argv:
+        if befehl == "test":
+            testing = True
+            test()
+    if testing == False:
+        print("Das Skript wird ohne Test beendet. Zum Testen der Funktionen übergeben Sie " + 
+              "beim Aufruf \"test\"")
 
 
 
