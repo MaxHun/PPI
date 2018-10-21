@@ -205,12 +205,12 @@ class Plotten(object):
 
     def err_abl(self, fkt, h_arr, ablex):
         x, y = self.ablapprox(fkt,h_arr)
-        error = y - ablex(x)
+        error = np.abs(y - ablex(x))
         return(np.amax(error))
 
     def err_abl2(self, fkt, h_arr, ablex2):
         x, y = self.abl2approx(fkt,h_arr)
-        error = y - ablex2(x)
+        error = np.abs(y - ablex2(x))
         return(np.amax(error))
 
 def negsin(x):
@@ -248,7 +248,7 @@ def test():
     IM_2.plotablex(np.cos)
     IM_2.plotabl2ex(negsin)
     
-    print(IM_2.err_abl(np.sin, h_test, np.cos))
+    print(np.vectorize(IM_2.err_abl)(np.sin, np.array([h_test, 0.1]), np.cos))
     plt.show()
 
 
