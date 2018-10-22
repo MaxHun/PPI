@@ -3,6 +3,8 @@ DIESES FILE _NICHT_ MIT ABGEBEN!
 
 kleiner Test zum Plotten des Fehlers in Abh. von h
 """
+import matplotlib
+matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
 import numpy as np
 import plotten
