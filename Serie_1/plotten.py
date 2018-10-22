@@ -68,7 +68,7 @@ class Plotten(object):
         anz_int = int((self.oben-self.unten)/h + 0.5) # Anzahl der Teilintervalle
         return np.linspace(self.unten, self.oben, anz_int)
 
-    def plotfkt(self, fkt, name="Funktion"):
+    def plotfkt(self, p, fkt, name="Funktion"):
         """
         Plottet eine Funktion auf dem Intervall [a,b]. Das Intervall
         wird hierzu aequidistant in 1000 Teilintervalle eingeteilt, was eine
@@ -80,14 +80,15 @@ class Plotten(object):
                 Zu zeichnende Funktion.
             name (str, optional, Standard: "Funktion"):
                 Legendeneintrag der zu zeichnenden Funktion.
+            p (int): Anzahl an Teilintervalle
 
         Return: -
         """
-        intervall = np.linspace(self.unten, self.oben, 1001)
+        intervall = np.linspace(self.unten, self.oben, p)
         self.plotbereich.plot(intervall, fkt(intervall), label=name)
         self.plotbereich.legend(loc="best")
 
-    def plotablex(self, ablex, h=-1, name="Erste Ableitung (exakt)"):
+    def plotablex(self, p, ablex, h=-1, name="Erste Ableitung (exakt)"):
         """
         Plottet eine Ableitungs-Funktion auf dem Intervall [a,b]. Das
         Intervall wird hierzu aequidistant in 1000 Teilintervalle eingeteilt,
@@ -100,14 +101,15 @@ class Plotten(object):
                 Zu zeichnende Ableitungs-Funktion.
             name (str, optional, Standard: "Erste Ableitung (exakt)"):
                 Legendeneintrag der zu zeichnenden Abl.-Funktion.
+            p (int): Anzahl an Teilintervalle
 
         Return: -
         """
-        intervall = np.linspace(self.unten, self.oben, 1001)
-        self.plotbereich.plot(intervall, ablex(intervall), label=name)
+        intervall = np.linspace(self.unten, self.oben, p)
+        self.plotbereich.plot(intervall, ablex(intervall), "--", label=name)
         self.plotbereich.legend(loc="best")
 
-    def plotabl2ex(self, abl2ex, name="Zweite Ableitung (exakt)"):
+    def plotabl2ex(self, p, abl2ex, name="Zweite Ableitung (exakt)"):
         """
         Plottet eine zweite Ableitungs-Funktion auf dem Intervall [a,b]. Das
         Intervall wird hierzu aequidistant in 1000 Teilintervalle eingeteilt,
@@ -120,11 +122,12 @@ class Plotten(object):
                 Zu zeichnende zweite Ableitungs-Funktion.
             name (str, optional, Standard: "Zweite Ableitung (exakt)"):
                 Legendeneintrag der zu zeichnenden 2. Abl.-Funktion.
+            p (int): Anzahl an Teilintervalle
 
         Return: -
         """
-        intervall = np.linspace(self.unten, self.oben, 1001)
-        self.plotbereich.plot(intervall, abl2ex(intervall), label=name)
+        intervall = np.linspace(self.unten, self.oben, p)
+        self.plotbereich.plot(intervall, abl2ex(intervall), "--", label=name)
         self.plotbereich.legend(loc="best")
 
     def ablapprox(self, fkt, h):
@@ -140,8 +143,9 @@ class Plotten(object):
             (numpy.ndarray) mehrdimensionales Array:
                 [x-Werte zwischen a und b, Werte von fkt' bei den x-Werten]
         """
-        return np.array([self.intervall_h(h), (fkt(self.intervall_h(h)+h)
-                                               - fkt(self.intervall_h(h)))/h])
+        intervall = self.intervall_h(h)
+        return np.array([intervall, (fkt(intervall+h)
+                                               - fkt(intervall))/h])
 
     def abl2approx(self, fkt, h):
         """
@@ -158,9 +162,10 @@ class Plotten(object):
                 [x-Werte zwischen a und b, Werte von fkt'' bei den x-Werten]
 
         """
-        return np.array([self.intervall_h(h), (fkt(self.intervall_h(h)+h)
-                                               - 2*fkt(self.intervall_h(h))
-                                               + fkt(self.intervall_h(h)-h))/h**2])
+        intervall = self.intervall_h(h)
+        return np.array([intervall, (fkt(intervall+h)
+                                               - 2*fkt(intervall)
+                                               + fkt(intervall-h))/h**2])
 
     def plotabl(self, fkt, h, name="Erste Ableitung (appr.)"):
         """
