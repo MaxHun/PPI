@@ -203,15 +203,47 @@ class Plotten(object):
         self.plotbereich.plot(x, y, label=name)
         self.plotbereich.legend(loc="best")
 
-    def err_abl(self, fkt, h_arr, ablex):
-        x, y = self.ablapprox(fkt,h_arr)
-        error = np.abs(y - ablex(x))
-        return(np.amax(error))
+    def err_abl(self, fkt, h, ablex):
+        """
+        Diese Funktion bestimmt das Maximum der absoluten Differenz zwischen approximierter
+        Ableitung einer Funktion und der exakten Ableitung.
 
-    def err_abl2(self, fkt, h_arr, ablex2):
-        x, y = self.abl2approx(fkt,h_arr)
+        Input:
+
+            fkt (function):
+                Abzuleitende Funktion.
+            h (float):
+                Schrittweite der diskreten Differenziation.
+            ablex (function):
+                Exakte Ableitung von fkt.
+
+        Return:
+            (float) Maximale absolute Abweichung der approximierten Ableitung von ablex.
+        """
+        x, y = self.ablapprox(fkt, h)
+        error = np.abs(y - ablex(x))
+        return np.amax(error)
+
+    def err_abl2(self, fkt, h, ablex2):
+        """
+        Diese Funktion bestimmt das Maximum der absoluten Differenz zwischen approximierter
+        zweiter Ableitung einer Funktion und der exakten zweiten Ableitung.
+
+        Input:
+
+            fkt (function):
+                Abzuleitende Funktion.
+            h (float):
+                Schrittweite der diskreten Differenziation.
+            ablex (function):
+                Exakte zweite Ableitung von fkt.
+
+        Return:
+            (float) Maximale absolute Abweichung der approximierten zweiten Ableitung von ablex.
+        """
+        x, y = self.abl2approx(fkt, h)
         error = np.abs(y - ablex2(x))
-        return(np.amax(error))
+        return np.amax(error)
 
 def negsin(x):
     """
@@ -248,11 +280,15 @@ def test():
     IM_2.plotablex(np.cos)
     IM_2.plotabl2ex(negsin)
     
-    print(np.vectorize(IM_2.err_abl)(np.sin, np.array([h_test, 0.1]), np.cos))
     plt.show()
 
 
 if __name__ == "__main__":
+    """
+    Uebergibt man beim Aufruf den String "test", so wird als Test der Sinus und seine ersten beiden
+    Ableitungen (exakt und approximiert) geplottet. Ansonsten wird lediglich ein Hinweis darauf
+    der Standardausgabe uebergeben.
+    """
     testing = False
     for befehl in sys.argv:
         if befehl == "test":
@@ -262,9 +298,3 @@ if __name__ == "__main__":
         print("Das Skript wird ohne Test beendet. Zum Testen der Funktionen uebergeben Sie " +
               "beim Aufruf \"test\"")
 
-
-
-
-
-
-# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
