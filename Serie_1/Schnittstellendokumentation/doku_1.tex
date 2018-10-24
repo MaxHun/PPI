@@ -93,9 +93,20 @@
 
 %%% BEGIN OF CONTENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{Bemerkung }
+\section{Schnittstellendokumentation \emph{plotten.py}}
 
+Diese Klasse erlaubt das Plotten von Funktionen und ihren Ableitungen. Die Ableitungen werden dabei approximiert oder können als exakte Funktionen übergeben werden. 
 
+\subsection{Attribute}
+
+\textbf{nicht-statische Attribute:}\\
+
+\begin{compactdesc}
+	\initem{plotbereich}{pyplot.Axes-Objekt} The operating system, that is currently run on the computer.
+                      Should be one of the values `MAC`, `WINDOWS` or `LINUX`
+	      \initem{unten}{float} Untere Intervallgrenze.
+	      \initem{oben}{float} ~\\ Obere Intervallgrenze.
+\end{compactdesc}
 
 
 %%% END OF DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

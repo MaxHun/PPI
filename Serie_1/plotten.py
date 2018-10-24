@@ -5,7 +5,6 @@ Dazu wird die Methode der sogenannten Vorwaertsdifferenz verwendet.
 A. Hnatiuk
 M. Huneshagen
 """
-
 import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
@@ -59,7 +58,7 @@ class Plotten(object):
         Input:
 
             h (float):
-                Laenge der Teilintervalle
+                Laenge der Teilintervalle.
 
         Return:
 
@@ -68,7 +67,7 @@ class Plotten(object):
         anz_int = int((self.oben-self.unten)/h + 0.5) # Anzahl der Teilintervalle
         return np.linspace(self.unten, self.oben, anz_int)
 
-    def plotfkt(self, p, fkt, name="Funktion"):
+    def plotfkt(self, fkt, p=1000, name="Funktion"):
         """
         Plottet eine Funktion auf dem Intervall [a,b]. Das Intervall
         wird hierzu aequidistant in 1000 Teilintervalle eingeteilt, was eine
@@ -78,9 +77,10 @@ class Plotten(object):
 
             fkt (function):
                 Zu zeichnende Funktion.
+            p (int, optional, Standard: 1000):
+                Anzahl der Plotpunkte
             name (str, optional, Standard: "Funktion"):
                 Legendeneintrag der zu zeichnenden Funktion.
-            p (int): Anzahl an Teilintervalle
 
         Return: -
         """
@@ -88,7 +88,7 @@ class Plotten(object):
         self.plotbereich.plot(intervall, fkt(intervall), label=name)
         self.plotbereich.legend(loc="best")
 
-    def plotablex(self, p, ablex, h=-1, name="Erste Ableitung (exakt)"):
+    def plotablex(self, ablex, p=1000, name="Erste Ableitung (exakt)"):
         """
         Plottet eine Ableitungs-Funktion auf dem Intervall [a,b]. Das
         Intervall wird hierzu aequidistant in 1000 Teilintervalle eingeteilt,
@@ -99,9 +99,10 @@ class Plotten(object):
 
             ablex (function):
                 Zu zeichnende Ableitungs-Funktion.
+            p (int, optional, Standard: 1000):
+                Anzahl der Plotpunkte.
             name (str, optional, Standard: "Erste Ableitung (exakt)"):
                 Legendeneintrag der zu zeichnenden Abl.-Funktion.
-            p (int): Anzahl an Teilintervalle
 
         Return: -
         """
@@ -109,9 +110,9 @@ class Plotten(object):
         self.plotbereich.plot(intervall, ablex(intervall), "--", label=name)
         self.plotbereich.legend(loc="best")
 
-    def plotabl2ex(self, p, abl2ex, name="Zweite Ableitung (exakt)"):
+    def plotabl2ex(self, abl2ex, p=1000, name="Zweite Ableitung (exakt)", **kwargs):
         """
-        Plottet eine zweite Ableitungs-Funktion auf dem Intervall [a,b]. Das
+        Plottet eine zweite Ableitung auf dem Intervall [a,b]. Das
         Intervall wird hierzu aequidistant in 1000 Teilintervalle eingeteilt,
         was eine gute Darstellung des Verlaufs gewaehrleistet.
 
@@ -120,9 +121,10 @@ class Plotten(object):
 
             abl2ex (function):
                 Zu zeichnende zweite Ableitungs-Funktion.
+            p (int, optional, Standard: 1000):
+                Anzahl der Plotpunkte
             name (str, optional, Standard: "Zweite Ableitung (exakt)"):
                 Legendeneintrag der zu zeichnenden 2. Abl.-Funktion.
-            p (int): Anzahl an Teilintervalle
 
         Return: -
         """
@@ -145,7 +147,7 @@ class Plotten(object):
         """
         intervall = self.intervall_h(h)
         return np.array([intervall, (fkt(intervall+h)
-                                               - fkt(intervall))/h])
+                                     - fkt(intervall))/h])
 
     def abl2approx(self, fkt, h):
         """
@@ -164,8 +166,8 @@ class Plotten(object):
         """
         intervall = self.intervall_h(h)
         return np.array([intervall, (fkt(intervall+h)
-                                               - 2*fkt(intervall)
-                                               + fkt(intervall-h))/h**2])
+                                     - 2*fkt(intervall)
+                                     + fkt(intervall-h))/h**2])
 
     def plotabl(self, fkt, h, name="Erste Ableitung (appr.)"):
         """
@@ -284,7 +286,7 @@ def test():
     IM_2.plotfkt(np.sin)
     IM_2.plotablex(np.cos)
     IM_2.plotabl2ex(negsin)
-    
+
     plt.show()
 
 

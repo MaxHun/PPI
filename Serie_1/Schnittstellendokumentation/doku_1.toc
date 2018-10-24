@@ -1,1 +1,3 @@
-\select@language {ngerman}
+\babel@toc {ngerman}{}
+\contentsline {section}{\numberline {1}Schnittstellendokumentation \emph {plotten.py}}{1}{section.1}
+\contentsline {subsection}{\numberline {1.1}Attribute}{1}{subsection.1.1}

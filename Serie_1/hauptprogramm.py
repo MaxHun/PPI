@@ -37,11 +37,11 @@ def main():
     #Hier werden die Funktion und ihre Ableitungen geplottet
     axis2 = plt.subplot(122)
     objct2 = plotten.Plotten(axis2, 0, np.pi)
-    objct2.plotfkt(1000, np.sin)
+    objct2.plotfkt(np.sin, p=1000)
     objct2.plotabl(np.sin, (2*np.pi)/1000)
     objct2.plotabl2(np.sin, (2*np.pi)/1000)
-    objct2.plotablex(1000, np.cos)
-    objct2.plotabl2ex(1000, negsin)
+    objct2.plotablex(np.cos, p=1000)
+    objct2.plotabl2ex(negsin, p=1000)
     axis2.set_title('Die Funktion und ihre Ableitungen (exacte und approximierte)')
     print("Der absolute Fehler in der ersten Ableitung" +
           " ist {0:.5f}".format(objct2.err_abl(np.cos, (2*np.pi)/1000, negsin)))
