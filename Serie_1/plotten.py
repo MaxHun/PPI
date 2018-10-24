@@ -1,6 +1,6 @@
 """
 Enthaelt eine Klasse, die der Berechnung und Darstellung von Funktionen und deren Ableitungen dient.
-Dazu wird die Methode der sogenannten Vorwaertsdifferenz verwendet.
+Dazu wird die Methode der sogenannten Vorwaertsdifferenz für die erste Ableitung verwendet.
 
 A. Hnatiuk
 M. Huneshagen
