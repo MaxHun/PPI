@@ -2,8 +2,8 @@
 Enthaelt eine Klasse, die der Berechnung und Darstellung von Funktionen und deren Ableitungen dient.
 Dazu wird die Methode der sogenannten Vorwaertsdifferenz für die erste Ableitung verwendet.
 
-A. Hnatiuk
-M. Huneshagen
+Arsen Hnatiuk
+Max Huneshagen
 """
 import numpy as np
 import matplotlib
