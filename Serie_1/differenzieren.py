@@ -150,7 +150,7 @@ def test():
     Ableitungen geplottet.
     Aufruf dieser Funktion erfolgt durch Uebergabe von "test" beim Aufruf dieses Skripts
     """
-    h_test = 2                                                  # zum Testen wird h=0.01 gesetzt
+    h_test = 0.01                                                  # zum Testen wird h=0.01 gesetzt
     p_werte = np.linspace(0, np.pi, 1000)                       # Plotpunkte
     sin_diff = Differenzieren(np.sin, np.cos, negsin, p_werte)  # Neues Objekt initialisieren
     
@@ -158,12 +158,12 @@ def test():
 
     # Exakte Funktionen werden links geplottet:
     
-    for grad in [0,1,2]:
+    for grad in [0, 1, 2]:
         sin_diff.plotfkt_exakt(ax_l, grad=grad)
     
     # Die exakte Funktion und die approx. Ableitungen werden rechts geplottet:
     
-    for grad in [0,1,2]:
+    for grad in [0, 1, 2]:
         sin_diff.plotfkt_approx(h_test, ax_r, grad=grad)
     
     plt.show()

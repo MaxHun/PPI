@@ -9,18 +9,8 @@ import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
-import plotten
-from plotten import negsin
-
-def fktn(wert):
-    """
-    Das ist die zweite Ableitung der Testfunktion
-    Input:
-        wert (float):
-            Wert, auf dem man die Funktion evaliuiren will
-    Return: -
-    """
-    return -np.sin(wert)
+import differenzieren
+from differenzieren import negsin
 
 def main():
     """
@@ -30,48 +20,63 @@ def main():
     Input:-
     Return:-
     """
-    plt.figure(figsize=(20, 10))
-    axis = plt.subplot(121)
-    h_array = np.logspace(-4, 0, 100)             #Werte der getesteten Schrittweiten
-    objct = plotten.Plotten(axis, 0, np.pi)
+    h_test = 0.01
+    [axis1, axis2] = plt.subplots(1,2,figsize=(20, 10))[1]
+    h_arr = np.logspace(-10, 0, 100)           #Werte der getesteten Schrittweiten
+    p_werte = np.linspace(0, np.pi, 1000)
+    sin_obj = differenzieren.Differenzieren(np.sin, np.cos, negsin, p_werte)
     #Hier werden die Funktion und ihre Ableitungen geplottet
-    axis2 = plt.subplot(122)
-    objct2 = plotten.Plotten(axis2, 0, np.pi)
-    objct2.plotfkt(np.sin, p=1000)
-    objct2.plotabl(np.sin, (2*np.pi)/1000)
-    objct2.plotabl2(np.sin, (2*np.pi)/1000)
-    objct2.plotablex(np.cos, p=1000)
-    objct2.plotabl2ex(negsin, p=1000)
-    axis2.set_title('Die Funktion und ihre Ableitungen (exacte und approximierte)')
-    print("Der absolute Fehler in der ersten Ableitung" +
-          " ist {0:.5f}".format(objct2.err_abl(np.cos, (2*np.pi)/1000, negsin)))
-    print("Der absolute Fehler in der zweiten Ableitung" +
-          " ist {0:.5f}".format(objct2.err_abl2(np.cos, (2*np.pi)/1000, negsin)))
-    method(axis, objct, h_array)
+    colors = ["r", "g", "b"]
+    sin_obj.plotfkt_exakt(axis2, color="m",label=r"$\sin(x)$")
+    k = 1
+    for grad in [ 1, 2]:
+        sin_obj.plotfkt_exakt(axis2, grad=grad, color=colors[k%len(colors)], alpha=0.3, 
+                              lw=4, label="{}. Ableitung, exakt".format(grad))
+        sin_obj.plotfkt_approx(h_test, axis2, grad=grad, color=colors[k%len(colors)],
+                ls="--", label="{}. Ableitung, exakt".format(grad) )              
+        k += 1
 
-def method(axis, objct, h_array):
+    axis2.set_title('Die Funktion und ihre Ableitungen (exakte und approximierte)')
+    print("Der absolute Fehler in der ersten Ableitung" +
+          " ist {0:.5f}".format(sin_obj.err_abl(h_test, grad=1)))
+    print("Der absolute Fehler in der zweiten Ableitung" +
+          " ist {0:.5f}".format(sin_obj.err_abl(h_test, grad=2)))
+    fehlerplot(axis1, sin_obj, h_arr)
+    axis1.legend()
+    axis2.set_xlim(0, np.pi)
+    axis2.set_xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi])
+    axis2.set_xticklabels(["$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",
+                           r"$\pi$"])
+    axis2.legend(loc="upper right")
+    plt.show()
+
+def fehlerplot(plotbereich, diff_objct, h_arr):
     """
     In dieser Funktion wird ein Plot des relativen Fehlers
     in Abhängigkeit von der Schrittweite mittles der Plotten Klasse gezeichnet.
     Input:
-        axis (axes-Objekt): Subplot, auf dem das Plot erzeugt wird
-        objct (Plotten): Das Plotten Obkekt, auf dem der Fehler berechnet wird
-        h_array (numpy.ndarray): Array mit den Schnittweitewerten
+        axis (pyplot.Axes-Objekt): 
+            Subplot, auf dem das Plot erzeugt wird
+        diff_objct (Differenzieren-Instanz): 
+            Differenzieren-Obejekt, das untersucht wird
+        h_array (numpy.ndarray aus floats): 
+            Array mit den Schrittweiten
+
     Return:-
     """
-    err_array1 = np.vectorize(objct.err_abl)(np.sin, h_array, np.cos)   #Fehlern 1. Ableitung
-    err_array2 = np.vectorize(objct.err_abl2)(np.sin, h_array, fktn)    #Fehlern 2. Ableitung
-    axis.loglog(h_array, err_array1, 'g', label='Fehler in erster Ableitung')
-    axis.loglog(h_array, err_array2, 'k', label='Fehler in zweiter Ableitung')
-    axis.loglog(h_array, h_array, 'g', ls="--", label=r'$y = h$')
-    axis.loglog(h_array, (h_array)**2, 'k', ls="--", label=r'$y = h^2$')
-    axis.loglog(h_array, (h_array)**3, 'b', ls="--", label=r'$y = h^3$')
+    err_array1 = np.vectorize(diff_objct.err_abl)(h_arr, grad=1)   #Fehlern 1. Ableitung
+    err_array2 = np.vectorize(diff_objct.err_abl)(h_arr, grad=2)    #Fehlern 2. Ableitung
+    plotbereich.loglog(h_arr, err_array1, 'g', label='Fehler in erster Ableitung')
+    plotbereich.loglog(h_arr, err_array2, 'k', label='Fehler in zweiter Ableitung')
+    plotbereich.loglog(h_arr, h_arr, 'g', ls="--", label=r'$y = h$')
+    plotbereich.loglog(h_arr, (h_arr)**2, 'k', ls="--", label=r'$y = h^2$')
+    plotbereich.loglog(h_arr, (h_arr)**3, 'b', ls="--", label=r'$y = h^3$')
 
-    axis.set_title('Absoluter Fehler in Abhängigkeit von der Schrittweite')
-    axis.set_xlabel(r'Schrittweite $h$')
-    axis.set_ylabel('Relativer Fehler')
-    axis.legend()
-    plt.show()
+    plotbereich.set_title('Absoluter Fehler in Abhängigkeit von der Schrittweite')
+    plotbereich.set_xlabel(r'Schrittweite $h$')
+    plotbereich.set_ylabel('Absoluter Fehler')
+   
+    
 
 if __name__ == "__main__":
     main()
