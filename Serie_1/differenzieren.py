@@ -92,7 +92,7 @@ class Differenzieren(object):
             return (fkt(self.p_arr+h)- fkt(self.p_arr))/h
         elif grad == 2:
             return (fkt(self.p_arr+h) - 2*fkt(self.p_arr) + fkt(self.p_arr-h))/h**2
-        else:
+        elif True:
             print("Die Funktion ablapprox kann nur die erste oder die zweite Ableitung " +
                   "berechnen, bitte geben Sie als Grad 1 oder 2 ein (Standard: 1)")
             return True
