@@ -6,10 +6,10 @@ Arsen Hnatiuk
 Max Huneshagen
 """
 import sys
-from matplotlib import pyplot as plt
 import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
 
 class Differenzieren(object):
     """
@@ -67,7 +67,7 @@ class Differenzieren(object):
         """
         plotbereich.plot(self.p_arr, self.ablex_lis[grad](self.p_arr), **kwargs)
 
-    def ablapprox(self, h, grad=1):
+    def ablapprox(self, schrittw, grad=1):
         """
         Diese Funktion approximiert die erste oder zweite Ableitung der Funktion
         an den plotpunkten. Wird als grad der zu approximierenden Ableitung 0
@@ -89,15 +89,18 @@ class Differenzieren(object):
         if grad == 0:
             return fkt(self.p_arr)
         elif grad == 1:
-            return (fkt(self.p_arr+h)- fkt(self.p_arr))/h
+            return (fkt(self.p_arr+schrittw)- fkt(self.p_arr))/schrittw
         elif grad == 2:
-            return (fkt(self.p_arr+h) - 2*fkt(self.p_arr) + fkt(self.p_arr-h))/h**2
-        elif True:
-            print("Die Funktion ablapprox kann nur die erste oder die zweite Ableitung " +
-                  "berechnen, bitte geben Sie als Grad 1 oder 2 ein (Standard: 1)")
-            return True
+            return (fkt(self.p_arr+schrittw) - 2*fkt(self.p_arr)
+                    + fkt(self.p_arr-schrittw))/schrittw**2
 
-    def plotfkt_approx(self, h, plotbereich, grad=1, **kwargs):
+        # Falls als Grad ein ungültiger Ausdruck eingegeben wird, wird der Nutzer darauf
+        # hingewiesen:schrittw
+
+        print("Die Funktion ablapprox kann nur die erste oder die zweite Ableitung " +
+              "berechnen, bitte geben Sie als Grad 1 oder 2 ein (Standard: 1)")
+
+    def plotfkt_approx(self, schrittw, plotbereich, grad=1, **kwargs):
         """
         Plottet die approximierte Ableitung (eines bestimmten Grades) der Funktion.
         Dabei wird die Funktion als nullte Ableitung aufgefasst.
@@ -116,10 +119,10 @@ class Differenzieren(object):
 
         Return: -
         """
-        y_werte = self.ablapprox(h, grad=grad)
+        y_werte = self.ablapprox(schrittw, grad=grad)
         plotbereich.plot(self.p_arr, y_werte, **kwargs)
 
-    def err_abl(self, h, grad=1):
+    def err_abl(self, schrittw, grad=1):
         """
         Diese Funktion bestimmt das Maximum der absoluten Differenz zwischen approximierter
         Ableitung einer Funktion und der exakten Ableitung an den Plotpunkten.
@@ -134,15 +137,15 @@ class Differenzieren(object):
         Return:
             (float) Maximale absolute Abweichung der approximierten Ableitung von ablex.
         """
-        abl_werte = self.ablapprox(h, grad=grad)
+        abl_werte = self.ablapprox(schrittw, grad=grad)
         error = np.abs(abl_werte - self.ablex_lis[grad](self.p_arr))
         return np.amax(error)
 
-def negsin(x):
+def negsin(arg):
     """
     Diese Funktion besteht aus der zweiten Ableitung des Sinus, also -sin.
     """
-    return -np.sin(x)
+    return -np.sin(arg)
 
 
 def test():
@@ -161,7 +164,6 @@ def test():
 
     for grad in [0, 1, 2]:
         sin_diff.plotfkt_exakt(ax_l, grad=grad)
-
     # Die exakte Funktion und die approx. Ableitungen werden rechts geplottet:
 
     for grad in [0, 1, 2]:
@@ -171,9 +173,9 @@ def test():
 
 
 if __name__ == "__main__":
-    # Uebergibt man beim Aufruf den String "test", so wird als Test der Sinus und seine ersten beiden
-    # Ableitungen (exakt und approximiert) geplottet. Ansonsten wird lediglich ein Hinweis darauf
-    # der Standardausgabe uebergeben.
+    # Uebergibt man beim Aufruf den String "test", so wird als Test der Sinus und seine ersten
+    # beiden Ableitungen (exakt und approximiert) geplottet. Ansonsten wird lediglich ein Hinweis
+    # darauf der Standardausgabe uebergeben.
     TESTING = False
     for befehl in sys.argv:
         if befehl == "test":
