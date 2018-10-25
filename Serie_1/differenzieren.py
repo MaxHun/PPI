@@ -75,7 +75,7 @@ class Differenzieren(object):
 
         Input:
 
-            h (float):
+            schwrittw (float):
                 Schrittweite der diskreten Differenziation.
             grad (int, optional, Standard: 1):
                 Grad der gewünschten Ableitung. bei grad==0 werden die Funktionswerte
@@ -107,7 +107,7 @@ class Differenzieren(object):
 
         Input:
 
-            h (float):
+            schwrittw (float):
                 Schrittweite der diskreten Differenziation.
             plotbereich (pyplot.Axes-Objekt):
                 Bestimmt, wohin die Funktion geplottet wird.
@@ -129,7 +129,7 @@ class Differenzieren(object):
 
         Input:
 
-            h (float):
+            schwrittw (float):
                 Schrittweite der diskreten Differenziation.
             grad (int, optional, Standard: 1):
                 Grad der gewünschten Ableitung. bei grad==0 wird die Funktion selbst geplottet.
