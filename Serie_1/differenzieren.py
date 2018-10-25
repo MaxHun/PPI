@@ -5,11 +5,11 @@ Dazu wird die Methode der sogenannten Vorwaertsdifferenz für die erste Ableitun
 Arsen Hnatiuk
 Max Huneshagen
 """
+import sys
+from matplotlib import pyplot as plt
 import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
-from matplotlib import pyplot as plt
-import sys
 
 class Differenzieren(object):
     """
@@ -19,8 +19,8 @@ class Differenzieren(object):
     Attribute:
 
         ablex_lis (list):
-            Liste aus den ersten drei (anfangend bei 0) exakten Ableitungen der 
-            zu untersuchenden Funktion. Der list-Index gibt hierbei den Grad der 
+            Liste aus den ersten drei (anfangend bei 0) exakten Ableitungen der
+            zu untersuchenden Funktion. Der list-Index gibt hierbei den Grad der
             Ableitung an, wobei die Funktion selbst als nullte Ableitung aufgefasst wird.
         p_arr (numpy.ndarray aus floats):
             Plotpunkte, an denen die Funktionen geplottet bzw. für die Fehlerbestimmung aus-
@@ -74,18 +74,18 @@ class Differenzieren(object):
         angegeben, so wird der Funktionswert an der Plotpunkten zurückgegeben.
 
         Input:
-        
+
             h (float):
                 Schrittweite der diskreten Differenziation.
             grad (int, optional, Standard: 1):
-                Grad der gewünschten Ableitung. bei grad==0 werden die Funktionswerte 
+                Grad der gewünschten Ableitung. bei grad==0 werden die Funktionswerte
                 an den Plotpunkten zurückgegeben.
         Return:
             (numpy.ndarray aus floats):
                 [Werte der <grad>ten Ableitung der Funktion an den Plotpunkten]
         """
         fkt = self.ablex_lis[0]
-        
+
         if grad == 0:
             return fkt(self.p_arr)
         elif grad == 1:
@@ -95,14 +95,15 @@ class Differenzieren(object):
         else:
             print("Die Funktion ablapprox kann nur die erste oder die zweite Ableitung " +
                   "berechnen, bitte geben Sie als Grad 1 oder 2 ein (Standard: 1)")
+            return True
 
-    def plotfkt_approx(self,  h, plotbereich, grad=1, **kwargs):
+    def plotfkt_approx(self, h, plotbereich, grad=1, **kwargs):
         """
-        Plottet die approximierte Ableitung (eines bestimmten Grades) der Funktion. 
+        Plottet die approximierte Ableitung (eines bestimmten Grades) der Funktion.
         Dabei wird die Funktion als nullte Ableitung aufgefasst.
 
         Input:
-            
+
             h (float):
                 Schrittweite der diskreten Differenziation.
             plotbereich (pyplot.Axes-Objekt):
@@ -112,12 +113,12 @@ class Differenzieren(object):
             **kwargs (keyword arguments, optional):
                 Keyword arguments zur Übergabe an pyplot.plot. Nachzulesen in der
                 matplotlib.lines.Line2D-Doku.
-            
+
         Return: -
         """
         y_werte = self.ablapprox(h, grad=grad)
         plotbereich.plot(self.p_arr, y_werte, **kwargs)
-        
+
     def err_abl(self, h, grad=1):
         """
         Diese Funktion bestimmt das Maximum der absoluten Differenz zwischen approximierter
@@ -150,38 +151,35 @@ def test():
     Ableitungen geplottet.
     Aufruf dieser Funktion erfolgt durch Uebergabe von "test" beim Aufruf dieses Skripts
     """
-    h_test = 0.01                                                  # zum Testen wird h=0.01 gesetzt
+    h_test = 0.01                                               # zum Testen wird h=0.01 gesetzt
     p_werte = np.linspace(0, np.pi, 1000)                       # Plotpunkte
     sin_diff = Differenzieren(np.sin, np.cos, negsin, p_werte)  # Neues Objekt initialisieren
-    
-    [ax_l, ax_r]  = plt.subplots(1, 2, figsize=(20,10))[1]
+
+    [ax_l, ax_r] = plt.subplots(1, 2, figsize=(20, 10))[1]
 
     # Exakte Funktionen werden links geplottet:
-    
+
     for grad in [0, 1, 2]:
         sin_diff.plotfkt_exakt(ax_l, grad=grad)
-    
+
     # Die exakte Funktion und die approx. Ableitungen werden rechts geplottet:
-    
+
     for grad in [0, 1, 2]:
         sin_diff.plotfkt_approx(h_test, ax_r, grad=grad)
-    
+
     plt.show()
 
 
 if __name__ == "__main__":
-    """
-    Uebergibt man beim Aufruf den String "test", so wird als Test der Sinus und seine ersten beiden
-    Ableitungen (exakt und approximiert) geplottet. Ansonsten wird lediglich ein Hinweis darauf
-    der Standardausgabe uebergeben.
-    """
-    testing = False
+    # Uebergibt man beim Aufruf den String "test", so wird als Test der Sinus und seine ersten beiden
+    # Ableitungen (exakt und approximiert) geplottet. Ansonsten wird lediglich ein Hinweis darauf
+    # der Standardausgabe uebergeben.
+    TESTING = False
     for befehl in sys.argv:
         if befehl == "test":
-            testing = True
+            TESTING = True
             test()
-    if not testing:
+    if not TESTING:
         plt.show()
         print("Das Skript wird ohne Test beendet. Zum Testen der Funktionen uebergeben Sie " +
               "beim Aufruf \"test\"")
-
