@@ -24,10 +24,13 @@ def main():
     while abbr == 1:    #In dieser Schleife wird die Schrittweite durch den Benutzer ermittelt
         try:
             h_test = float(input('Mit welcher Schrittweite wollen Sie die Ableitungen' +
-                                 ' Approximieren?\n' +
-                                 'Schreiben Sie bitte eine Zahl, z.B. 0.1\n'))
+                                 ' approximieren?\n' +
+                                 'Schreiben Sie bitte eine echt positive Zahl, z.B. 0.1\n'))
             abbr = 0
         except ValueError:
+            print('Nicht gültiger Wert eingegeben. Versuchen Sie erneut.')
+            abbr = 1
+        if h_test <= 0:
             print('Nicht gültiger Wert eingegeben. Versuchen Sie erneut.')
             abbr = 1
     [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10))[1]

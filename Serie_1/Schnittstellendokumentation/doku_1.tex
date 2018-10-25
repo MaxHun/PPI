@@ -18,6 +18,8 @@
 %%% GENERAL PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % inputenc allows the usage of non-ascii characters in the LaTeX source code
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx} 
+\graphicspath{ {/u/hnatiuka/Praktikum/PPI/} }
 
 
 
@@ -93,6 +95,10 @@
 
 %%% BEGIN OF CONTENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Einleitung}
+
+Aus der Theorie der Taylorentwicklung kann man ein günstiges Verfahren zur Approximation der ersten und zweiten Ableitungen einer Funktion ableiten. Dieses Verfahren nennt man die Methode der Vorwärtsdifferenz. Dieses Programm erlaubt eine numerische Analyse dieses Verfahrens. Insbesondere dient dieses Programm zur Berechnung des absoluten Fehlers dieses Verfahrens und zur Veranschaulichung der Beziehung zwischen diesem Fehler und anderen Parametern. 
+
 \section{Schnittstellendokumentation \emph{plotten.py}}
 
 Diese Klasse erlaubt das Plotten von Funktionen und ihren Ableitungen. Die Ableitungen werden dabei approximiert oder können als exakte Funktionen übergeben werden. 
@@ -112,6 +118,70 @@ Diese Klasse erlaubt das Plotten von Funktionen und ihren Ableitungen. Die Ablei
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%  Beginn Arsens Teil
+
+\section{Bedienungsanleitung zum Hauptprogramm}
+
+In der Datei \texttt{hauptprogramm.py} wird eine \texttt{main()} Methode implementiert. In dieser Methode werden alle Objekte erstellt, die später zur graphischen Darstellung des Fehlerplots dienen. Es werden auch die in der \texttt{differenzieren} Klasse definierten Methoden mittels der Beispielfunktion (Sinus) veranschaulicht. 
+
+Zuerst wird der Benutzer gefordert, eine Schrittweite einzugeben. Es muss eine beliebige nichtnegative \texttt{float} Zahl eingegeben werden. Die Gültigkeit des Eingabetyps wird durch \texttt{exceptions} behandelt, und danach durch eine \texttt{if} Schleife auf Positivität geprüft. Eine nicht gültige Eingabe wird nicht berücksichtigt  und der Benutzer wird erneut gefordert, eine Eingabe zu machen.
+
+Diese Kontrolle erfolgt auf die folgende Weise:
+
+\begin{lstlisting}
+abbr = 1 
+while abbr == 1: 
+    try:
+        h_test = float(input('Mit welcher Schrittweite wollen Sie die' + 
+        ' Ableitungen  approximieren?\n' +
+        'Schreiben Sie bitte eine echt positive Zahl, z.B. 0.1\n'))
+        abbr = 0
+    except ValueError:
+        print('Nicht gueltiger Wert eingegeben. Versuchen Sie erneut.')
+        abbr = 1
+    if h_test <= 0:
+        print('Nicht gueltiger Wert eingegeben. Versuchen Sie erneut.')
+        abbr = 1
+\end{lstlisting}
+
+Danach wird die Beispielfunktion (die Sinus Funktion) bearbeitet. Es werden Die \texttt{subplots} und die \texttt{arrays} erzeugt, auf welchen die Abbildungen geplottet und entsprechend evaluiert und approximiert werden. Ein Objekt der \texttt{differenzieren} Klasse für die Sinus Abbildung wird auch erzeugt.  Schließlich wird die Sinus Abbildung samt seinen zwei ersten Ableitungen
+und der Approximation (für die durch den Benutzer eingegebene Schrittweite) dieser Ableitungen mittels der in der \texttt{differenzieren} Klasse definierten Methoden graphisch dargestellt. Der absolute Fehler der Approximation jeder von den zwei Ableitungen wird dann im Terminal ausgedruckt. 
+
+Anschließend wird die Funktion \texttt{fehlerplot()} aufgerufen, um die Beziehung zwischen dem absoluten Fehler und der Schrittweite zu veranschaulichen. 
+
+\subsection{fehlerplot()}
+
+In dieser Funktion wird ein Plot des absoluten Fehlers in Abhängigkeit von der Schrittweite mittels der Differenzieren Klasse gezeichnet. Diese Funktion benutzt insbesondere die \texttt{np.vectorize} Methode, um Arrays mit den Fehlerwerten zu erzeugen, und die \texttt{.loglog} Methode, um eine doppelt-logarithmisch skalierte Graphik zu erstellen.
+
+\paragraph{Input}
+\begin{compactdesc}
+	\initem{plotbereich}{pyplot.Axes-Objekt} Subplot, auf dem das Plot erzeugt wird
+	\initem{diff\_objct}{Differenzieren-Instanz} Differenzieren-Obejekt, das untersucht wird
+	\initem{h\_array}{numpy.ndarray aus floats} Array mit den Schrittweiten
+\end{compactdesc}
+
+\paragraph{Output}
+
+Diese Funktion hat keinen Output
+
+\subsection{Beispieldurchlauf}
+
+Hier is ein Beispieldurchlauf. Der eingegebene Wert für die Schrittweite ist \texttt{0.1}.
+
+\begin{verbatim}
+Mit welcher Schrittweite wollen Sie die Ableitungen approximieren?
+Schreiben Sie bitte eine echt positive Zahl, z.B. 0.1
+0.1
+Der absolute Fehler in der ersten Ableitung ist 0.04999, Schrittweite 0.10
+Der absolute Fehler in der zweiten Ableitung ist 0.00083, Schrittweite 0.10
+\end{verbatim}
+
+Es werden dazu zwei Graphiken erzeugt (Abbildung 1). Man sieht auf der linken Seite eine Graphik mit dem absoluten Fehler als Funktion von der Schrittweite. Auf der rechten Graphik steht die Beispielfunktion mit ihren Ableitungen (exakt und approximiert).
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{Figure_1.png}
+	\caption{Die ausgegebene Graphik}
+	\label{Abbildung 1}
+\end{figure}
 
 %%% END OF DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
