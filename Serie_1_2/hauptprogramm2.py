@@ -23,9 +23,9 @@ def main():
     abbr = 1           #Abbruchindex
     while abbr == 1:    #In dieser Schleife wird die Schrittweite durch den Benutzer ermittelt
         try:
-            h_test = float(input('Mit welcher Schrittweite wollen Sie die Ableitungen' +
+            h_test = np.pi/float(input('Mit welcher Schrittweite pi/n wollen Sie die Ableitungen' +
                                  ' approximieren?\n' +
-                                 'Schreiben Sie bitte eine echt positive Zahl, z.B. 0.1\n'))
+                                 'Schreiben Sie bitte eine echt positive Zahl n, z.B. 1\n'))
             abbr = 0
         except ValueError:
             print('Nicht gültiger Wert eingegeben. Versuchen Sie erneut.')
@@ -34,7 +34,7 @@ def main():
             print('Nicht gültiger Wert eingegeben. Versuchen Sie erneut.')
             abbr = 1
     [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10))[1]
-    h_arr = np.logspace(-10, 0, 100)           #Werte der getesteten Schrittweiten
+    h_arr = np.logspace(-2, 2, 100)           #Werte der getesteten Schrittweiten
     p_werte = np.linspace(0, np.pi, 1000)
     sin_obj = differenzieren.Differenzieren(np.sin, np.cos, negsin, p_werte)
     #Hier werden die Funktion und ihre Ableitungen geplottet
