@@ -1,12 +1,12 @@
 \select@language {ngerman}
-\contentsline {section}{\numberline {1}Schnittstellendokumentation computer.py}{1}{section.1}
+\contentsline {section}{\numberline {1}Schnittstellendokumentation computer.py}{2}{section.1}
 \contentsline {subsection}{\numberline {1.1}Attribute}{2}{subsection.1.1}
 \contentsline {subsection}{\numberline {1.2}Konstruktor}{2}{subsection.1.2}
-\contentsline {paragraph}{\nonumberline Beispiel}{2}{section*.3}
-\contentsline {subsection}{\numberline {1.3}Methoden}{2}{subsection.1.3}
-\contentsline {subsubsection}{\numberline {1.3.1}\texttt {change\_room(self, new\_room)}}{2}{subsubsection.1.3.1}
+\contentsline {paragraph}{\nonumberline Beispiel}{3}{section*.3}
+\contentsline {subsection}{\numberline {1.3}Methoden}{3}{subsection.1.3}
+\contentsline {subsubsection}{\numberline {1.3.1}\texttt {change\_room(self, new\_room)}}{3}{subsubsection.1.3.1}
 \contentsline {subsubsection}{\numberline {1.3.2}\texttt {toggle\_state(self)}}{3}{subsubsection.1.3.2}
 \contentsline {subsubsection}{\numberline {1.3.3}\texttt {\_\_str\_\_(self)}}{3}{subsubsection.1.3.3}
 \contentsline {paragraph}{\nonumberline Beispiel}{3}{section*.4}
 \contentsline {subsubsection}{\numberline {1.3.4}\texttt {static get\_computers\_in(room)}}{3}{subsubsection.1.3.4}
-\contentsline {section}{\numberline {2}Nutzungshinweise und Hauptprogramm}{3}{section.2}
+\contentsline {section}{\numberline {2}Nutzungshinweise und Hauptprogramm}{4}{section.2}

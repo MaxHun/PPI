@@ -137,15 +137,19 @@ Die Klasse erm\"oglicht die Computer mit verschiedenen Betriebssystemen in einem
 	\initem{all\_computers}{list of computers} A collection of all created computers.
 \end{compactdesc}
 \subsection{Konstruktor}
-\texttt{Computer(self, operating\_system, room)}\\
- Beim Erstellen eines neuen Objektes der Klasse \texttt{Computer} wird \textit{state = False} gesetzt, d.h.\ der Computer ist zun\"achst ausgeschaltet. Desweiteren werden die Attribute \textit{operating\_system} und \textit{room} entsprechend der Eingabeparameter im Konstruktor gesetzt; die Liste \textit{all\_computers} um das neue Objekt erg\"anzt.
+\texttt{Differenzieren(self, fkt, abl\_ex, abl2\_ex, p\_arr)}\\
+Initialisiert ein neues Differenzieren-Objekt. Dazu müssen eine Funktion und die exakte erste und zweite Ableitung übergeben 
+werden.
 
 \bfpara{Input}
 	    \begin{compactdesc}
-		    \initem{operating\_system}{string} The system, that the computer will be launched with.
-                                       Should be one of the values `MAC`, `WINDOWS` or `LINUX`
-		   \initem{room}{int} The room the computer will be set up in.
+		    \initem{fkt}{function}: ~\\ Bestimmt, wohin die Funktionen gezeichnet werden.
+		    \initem{abl\_ex}{function}: ~\\ Exakte erste Ableitung.
+		    \initem{abl2\_ex}{function}: ~\\ Exakte zweite Ableitung.
+		   \initem{p\_arr}{numpy.ndarray aus floats}: ~\\ Plotpunkte, an denen die Funktionen geplottet bzw. für die Fehlerbestimmung
+		                                                                                    aus gewertet werden.
 	    \end{compactdesc}
+
 
 	    %\lstinputlisting{computer.py}
 \paragraph{Beispiel} Im Folgenden wird beispielhaft der Quellcode des Konstruktors eingef\"ugt.

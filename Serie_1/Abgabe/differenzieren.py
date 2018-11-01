@@ -36,9 +36,9 @@ class Differenzieren(object):
             fkt (function):
                 Bestimmt, wohin die Funktionen gezeichnet werden.
             abl_ex (function):
-                Untere Intervallgrenze.
+                Exakte erste Ableitung.
             abl2_ex (function):
-                Obere intervallgrenze.
+                Exakte zweite Ableitung.
             p_arr (numpy.ndarray aus floats):
                 Plotpunkte, an denen die Funktionen geplottet bzw. für die Fehlerbestimmung aus-
                 gewertet werden.
@@ -51,7 +51,7 @@ class Differenzieren(object):
     def plotfkt_exakt(self, plotbereich, grad=0, **kwargs):
         """
         Plottet eine ("exakte") Funktion an den Plotpunkten in einen zu übergebenden Plot.
-        Man kann zwischen nullter, erster und zweiter Ableitung wählen.
+        Man kann zwischen nullter, erster und zweiter Ableitung waehlen.
 
         Input:
 
@@ -60,7 +60,7 @@ class Differenzieren(object):
             grad (int, optional, Standard: 0):
                 Grad der Ableitung. Bei grad==0 wird die Funktion selbst geplottet.
             **kwargs (keyword arguments, optional):
-                Keyword arguments zur Übergabe an pyplot.plot. Nachzulesen in der
+                Keyword arguments zur Uebergabe an pyplot.plot. Nachzulesen in der
                 matplotlib.lines.Line2D-Doku.
 
         Return: -
@@ -70,7 +70,7 @@ class Differenzieren(object):
     def ablapprox(self, schrittw, grad=1):
         """
         Diese Funktion approximiert die erste oder zweite Ableitung der Funktion
-        an den plotpunkten. Wird als grad der zu approximierenden Ableitung 0
+        an den plotpunkten. Wird als Grad der zu approximierenden Ableitung 0
         angegeben, so wird der Funktionswert an der Plotpunkten zurückgegeben.
 
         Input:
@@ -78,7 +78,7 @@ class Differenzieren(object):
             schwrittw (float):
                 Schrittweite der diskreten Differenziation.
             grad (int, optional, Standard: 1):
-                Grad der gewünschten Ableitung. bei grad==0 werden die Funktionswerte
+                Grad der gewuenschten Ableitung. bei grad==0 werden die Funktionswerte
                 an den Plotpunkten zurückgegeben.
         Return:
             (numpy.ndarray aus floats):
@@ -114,7 +114,7 @@ class Differenzieren(object):
             grad (int, optional, Standard: 1):
                 Grad der gewünschten Ableitung. Bei grad==0 wird die Funktion selbst geplottet.
             **kwargs (keyword arguments, optional):
-                Keyword arguments zur Übergabe an pyplot.plot. Nachzulesen in der
+                Keyword arguments zur Uebergabe an pyplot.plot. Nachzulesen in der
                 matplotlib.lines.Line2D-Doku.
 
         Return: -
@@ -132,7 +132,8 @@ class Differenzieren(object):
             schwrittw (float):
                 Schrittweite der diskreten Differenziation.
             grad (int, optional, Standard: 1):
-                Grad der gewünschten Ableitung. bei grad==0 wird die Funktion selbst geplottet.
+                Grad der gewuenschten Ableitung. bei grad==0 wird als Fehler 0 zurueckgegeben,
+                da die Funktion selbst exakt gegeben ist.
 
         Return:
             (float) Maximale absolute Abweichung der approximierten Ableitung von ablex.
@@ -144,6 +145,14 @@ class Differenzieren(object):
 def negsin(arg):
     """
     Diese Funktion besteht aus der zweiten Ableitung des Sinus, also -sin.
+
+    Input:
+
+            arg (float):
+                Stelle, die untersucht werden soll.
+
+    Return:
+            (float) Wert von -sin an der Stelle arg.
     """
     return -np.sin(arg)
 
@@ -157,18 +166,27 @@ def test():
     h_test = 0.01                                               # zum Testen wird h=0.01 gesetzt
     p_werte = np.linspace(0, np.pi, 1000)                       # Plotpunkte
     sin_diff = Differenzieren(np.sin, np.cos, negsin, p_werte)  # Neues Objekt initialisieren
-
-    [ax_l, ax_r] = plt.subplots(1, 2, figsize=(20, 10))[1]
+    fig, [ax_l, ax_r] = plt.subplots(1, 2, figsize=(20, 10))
 
     # Exakte Funktionen werden links geplottet:
 
     for grad in [0, 1, 2]:
-        sin_diff.plotfkt_exakt(ax_l, grad=grad)
+        sin_diff.plotfkt_exakt(ax_l, grad=grad, label="{}. Ableitung (exakt)".format(grad))
     # Die exakte Funktion und die approx. Ableitungen werden rechts geplottet:
 
     for grad in [0, 1, 2]:
-        sin_diff.plotfkt_approx(h_test, ax_r, grad=grad)
+        sin_diff.plotfkt_approx(h_test, ax_r, grad=grad,
+                                label="{}. Ableitung (approx.)".format(grad))
 
+    for axis in [ax_l, ax_r]:
+        axis.set_xlim(0, np.pi)
+        axis.set_xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi])
+        axis.set_xticklabels(["$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",
+                              r"$\pi$"])
+        axis.legend(loc="upper right")
+        axis.set_xlabel('Definitionsbereich der Abbildung')
+        axis.set_ylabel('Werte der Abbildung')
+    fig.suptitle("Test der Funktionalität der Klasse anhand der Sinus-Funktion")
     plt.show()
 
 
@@ -182,6 +200,5 @@ if __name__ == "__main__":
             TESTING = True
             test()
     if not TESTING:
-        plt.show()
         print("Das Skript wird ohne Test beendet. Zum Testen der Funktionen uebergeben Sie " +
               "beim Aufruf \"test\"")

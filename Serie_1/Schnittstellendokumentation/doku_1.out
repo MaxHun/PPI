@@ -1,6 +1,15 @@
 \BOOKMARK [1][-]{section.1}{Einleitung}{}% 1
-\BOOKMARK [1][-]{section.2}{Schnittstellendokumentation plotten.py}{}% 2
+\BOOKMARK [1][-]{section.2}{Schnittstellendokumentation differenzieren.py}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Attribute}{section.2}% 3
-\BOOKMARK [1][-]{section.3}{Bedienungsanleitung zum Hauptprogramm}{}% 4
-\BOOKMARK [2][-]{subsection.3.1}{fehlerplot\(\)}{section.3}% 5
-\BOOKMARK [2][-]{subsection.3.2}{Beispieldurchlauf}{section.3}% 6
+\BOOKMARK [2][-]{subsection.2.2}{Konstruktor}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Methoden}{section.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.3.1}{plotfkt\137exakt}{subsection.2.3}% 6
+\BOOKMARK [3][-]{subsubsection.2.3.2}{ablapprox}{subsection.2.3}% 7
+\BOOKMARK [3][-]{subsubsection.2.3.3}{plotfkt\137approx}{subsection.2.3}% 8
+\BOOKMARK [3][-]{subsubsection.2.3.4}{err\137abl}{subsection.2.3}% 9
+\BOOKMARK [2][-]{subsection.2.4}{Weitere Funktionen in differenzieren.py}{section.2}% 10
+\BOOKMARK [3][-]{subsubsection.2.4.1}{negsin}{subsection.2.4}% 11
+\BOOKMARK [3][-]{subsubsection.2.4.2}{test}{subsection.2.4}% 12
+\BOOKMARK [1][-]{section.3}{Bedienungsanleitung zum Hauptprogramm}{}% 13
+\BOOKMARK [2][-]{subsection.3.1}{fehlerplot\(\)}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.2}{Beispieldurchlauf}{section.3}% 15
