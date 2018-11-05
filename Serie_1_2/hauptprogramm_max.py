@@ -12,6 +12,7 @@ from matplotlib import pyplot as plt
 import differenzieren
 from differenzieren import negsin
 import functools
+from matplotlib.widgets import Slider, Button, RadioButtons
 
 
 def sin_j(x, j=1):
@@ -35,33 +36,37 @@ def main():
     fig, [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10),sharey=True)
     h_arr = np.logspace(-10, 0, 100)           #Werte der getesteten Schrittweiten
     p_werte = np.linspace(0, np.pi, 1000)
-    j=2
-    sin_j_fkt = functools.partial(sin_j,j=j)
-    cos_j_fkt = functools.partial(cos_j,j=j)
-    negsin_j_fkt = functools.partial(negsin_j,j=j)
-
     sin_obj = differenzieren.Differenzieren(np.sin, np.cos, negsin, p_werte)
-    sin_j_obj = differenzieren.Differenzieren(sin_j_fkt, cos_j_fkt, negsin_j_fkt, p_werte)
-    #Hier werden die Funktion und ihre Ableitungen geplottet
+    j_slider = Slider(plt.axes([0.3, 0.01, 0.4, 0.03]), 'Waehlen Sie ein j:', 0.0,10 , valinit=1, valstep=0.0001) 
+    j=2
     colors = ["r", "g", "b"]
     
-    print("Der absolute Fehler in der ersten Ableitung" +
-          " ist {0:.5f}".format(sin_obj.err_abl(h_test, grad=1))
-          + ', Schrittweite {}'.format(h_test))
-    print("Der absolute Fehler in der zweiten Ableitung" +
-          " ist {0:.5f}".format(sin_obj.err_abl(h_test, grad=2))
-          + ', Schrittweite {}'.format(h_test))
-    fehlerplot(axis1, sin_obj, h_arr)
-    fehlerplot(axis2, sin_j_obj, h_arr, labeling=False)
-
     axis1.set_xlabel(r'Differenziationsschrittweite $h$')
     axis1.set_ylabel('Fehler der Ableitung')
     axis1.xaxis.set_label_coords(1.05, -0.055)
-    fig.legend(ncol=5, loc = (0.25,0.9))
-    #fig.legend()
-    fig.suptitle("Fehler")
-    plt.subplots_adjust(wspace=0.0)
+    
+    axis2_neues_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider, p_werte=p_werte, h_arr=h_arr)
+    j_slider.on_changed(axis2_neues_j)
+    fehlerplot(axis1, sin_obj, h_arr)
+    axis2.text(0.3,10**-12,"Wählen Sie  ein j mithilfe des Sliders unten")
+    fig.legend(ncol=5, loc = (0.3,0.9), facecolor="w")
+    fig.suptitle("Fehlerverhalten der Approximation der ersten und zweiten Ableitung")
+
+    plt.subplots_adjust(wspace=0.0, top=0.94)
     plt.show()
+
+
+
+def neues_j(val, slider, plotbereich, p_werte, h_arr):
+    plotbereich.cla()
+    j = slider.val
+    plt.gcf().canvas.draw_idle()
+    sin_j_fkt = functools.partial(sin_j,j=j)
+    cos_j_fkt = functools.partial(cos_j,j=j)
+    negsin_j_fkt = functools.partial(negsin_j,j=j)
+    sin_j_obj = differenzieren.Differenzieren(sin_j_fkt, cos_j_fkt, negsin_j_fkt, p_werte)
+    fehlerplot(plotbereich, sin_j_obj, h_arr, labeling=False)
+
 
 def fehlerplot(plotbereich, diff_objct, h_arr, labeling=True):
     """
