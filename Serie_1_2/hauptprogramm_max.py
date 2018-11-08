@@ -34,7 +34,7 @@ def main():
     """
     h_test = 0.0001
     fig, [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10),sharey=True)
-    h_arr = np.logspace(-13, 2, 1000)           #Werte der getesteten Schrittweiten
+    h_arr = np.logspace(-17, 2, 5000)           #Werte der getesteten Schrittweiten
     p_werte = np.linspace(0, np.pi, 1000)
     sin_obj = differenzieren.Differenzieren(np.sin, np.cos, negsin, p_werte)
     j_slider = Slider(plt.axes([0.3, 0.01, 0.4, 0.03]), 'Waehlen Sie ein j:', 0.0,100 , valinit=1, valstep=0.0001) 
