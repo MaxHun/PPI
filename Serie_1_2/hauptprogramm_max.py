@@ -78,13 +78,8 @@ def main():
 
     # Anlegen einer Figure mit 2 Subplots:
 
-<<<<<<< HEAD
     fig, [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10), sharey=True)
     h_arr = np.logspace(-13, 2, 1000)           #Werte der getesteten Schrittweiten
-=======
-    fig, [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10),sharey=True)
-    h_arr = np.logspace(-17, 2, 5000)           #Werte der getesteten Schrittweiten
->>>>>>> caf494441440098f9707d818ece1b31239798873
     p_werte = np.linspace(0, np.pi, 1000)
 
     # Erstellung eines Differenzieren-Objektes:
@@ -97,7 +92,7 @@ def main():
 
     balken_oben = plt.axes([0.3, 0.05, 0.4, 0.03])
     balken_unten = plt.axes([0.3, 0.01, 0.4, 0.03])
-    j_slider_kleine_j = Slider(balken_oben, r'Waehlen Sie ein $j\in[0,1]$:', 0, 1, valinit=1, 
+    j_slider_kleine_j = Slider(balken_oben, r'Waehlen Sie ein $j\in[0,1]$:', 0, 1, valinit=1,
                                valstep=0.0001)
     j_slider_grosse_j = Slider(balken_unten, r'Waehlen Sie ein $j\in[1,100]$:', 1, 100,
                                valinit=1, valstep=0.5)
