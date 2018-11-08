@@ -24,7 +24,7 @@
 
 
 % title of the document
-\title{Schnittstellendokumentation Serie 1\\Teil 1}
+\title{Bericht zu Serie 1}
 % optional subtitle
 %\subtitle{Draft from~\today}
 % information about the author
@@ -115,13 +115,19 @@ Dieses Verfahren kann sehr nützlich in der numerischen Mathematik sein, jedoch 
 %Mein Vorschlag für dich wäre, deine Ergebnise aus Teil 1.6 anzugucken und sehen, wie du die erklären kannst. Falls diese Erklärungen irgendwelche Theorie brauchen, schreibe sie hier hin.  Den Rest werden wir nächste Woche machen. 
 
 \section{Experimente}
+
+\paragraph {Experiment 1}
 Für die Veranschaulichung der Genauigkeit der Approximation von den Ableitungen bei Schrittweiten $\frac{\pi}{3}$, $\frac{\pi}{4}$, $\frac{\pi}{5}$ und $\frac{\pi}{10}$ haben wir ein Programm geschrieben, und zwar \texttt{hauptprogramm2.py}, und dieses liefert die Abbildung 1.
 
 \begin{figure}
 	\includegraphics[width=\linewidth]{4Bilder.png}
-	\caption{Die approximierten Ableitungen für verschiedene Schrittweiten.}
+	\caption{Die approximierten Ableitungen für verschiedene Schrittweiten (Experiment 1).}
 	\label{Abbildung 1}
 \end{figure}
+
+\section{Analyse der Experimente}
+
+Die graphische Ausgabe des ersten Experiments zeigt, dass die Approximation der beiden Ableitungen genauer wird, je kleiner die Schrittweite. Dies stimmt mit der Theorie überein, weil wir erwarten, dass der Fehler in der ersten bzw zweiten Ableitung der Ordnung $\mathcal{O}(h)$ bzw. $\mathcal{O}(h^2)$ ist, insbesondere proportional zur Schrittweite $h$.
 
 %%% END OF DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
