@@ -2,7 +2,7 @@
 Dieses Programm dient zur Veranschaulichung der Fehler bei der Approximation der ersen und
 zweiten Ableitungen der Sinus Funtion durch die Methode der Vorwaertsdifferenz. Ausgegeben
 werden 2 pyplot-figures. Diese zeigen zum einen die aproximierten und exakten Ableitungen
-des Sinus an, zum anderen werden die abs. Fehler der approximierten Ableitungen in 
+des Sinus an, zum anderen werden die abs. Fehler der approximierten Ableitungen in
 Abhaengigkeit von der Differenziationsschrittweite h geplottet. Dies wird mit dem Verhalten
 der entsprechenden Fehler für f(x)=sin(j*x) graphisch verglichen. Hierbei ist das j vom
 Nutzer durch einen Schieberegler waehlbar.
@@ -10,61 +10,102 @@ Nutzer durch einen Schieberegler waehlbar.
 A. Hnatiuk
 M. Huneshagen
 """
+from differenzieren import negsin
+from matplotlib.widgets import Slider
+import differenzieren
+import functools
 import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
-import differenzieren
-from differenzieren import negsin
-import functools
-from matplotlib.widgets import Slider, Button, RadioButtons
+#import differenzieren
+#rom differenzieren import negsin
+#from matplotlib.widgets import Slider
 
 
-def sin_j(x, j=1):
-    return np.sin(x*j)
+def sin_j(arg, j=1):
+    """
+    Diese Funktion übernimmt ein Argument arg und einen Parameter j und gibt denn Wert von
+    sin(j*x) an der Stelle x=arg zurück.
+    Input:
 
-def cos_j(x, j=1):
-    return j*np.cos(x*j)
+        arg (float):
+            Stelle, die untersucht werden soll.
+        j (float, optional, Standard: 1):
+            Parameter, um den arg multipliziert wird.
 
-def negsin_j(x, j=1):
-    return -j**2*np.sin(x*j)
+    Return: -
+    """
+    return np.sin(arg*j)
+
+def cos_j(arg, j=1):
+    """
+    Ableitung von sin_j.
+    Input:
+
+        arg (float):
+            Stelle, die untersucht werden soll.
+        j (float, optional, Standard: 1):
+            Parameter, um den arg multipliziert wird.
+
+    Return: -
+    """
+    return j*np.cos(arg*j)
+
+def negsin_j(arg, j=1):
+    """
+    Zweite Ableitung von sin_j.
+    Input:
+
+        arg (float):
+            Stelle, die untersucht werden soll.
+        j (float, optional, Standard: 1):
+            Parameter, um den arg multipliziert wird.
+
+    Return: -
+    """
+    return -j**2*np.sin(arg*j)
 
 def main():
     """
     Dieses Hauptprogramm dient dem Plotten des Sinus und seiner Ableitungen (exakt und approx.)
-    sowie dem Untersuchen des bei der Berechnung maximal gemachten Fehlers. Darüber hinaus erfolgt der 
-    Vergleich mit der Funktion sin(j*x). Dazu werden zwei figures angelegt.
+    sowie dem Untersuchen des bei der Berechnung maximal gemachten Fehlers. Darüber hinaus erfolgt
+    der Vergleich mit der Funktion sin(j*x). Dazu werden zwei figures angelegt.
     Input: -
+
     Return: -
     """
-    
+
     # Anlegen einer Figure mit 2 Subplots:
 
-    fig, [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10),sharey=True)
+    fig, [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10), sharey=True)
     h_arr = np.logspace(-13, 2, 1000)           #Werte der getesteten Schrittweiten
     p_werte = np.linspace(0, np.pi, 1000)
-    
+
     # Erstellung eines Differenzieren-Objektes:
 
     sin_obj = differenzieren.Differenzieren(np.sin, np.cos, negsin, p_werte)
-    
-    # Erstellen von pyplot.Axes-Elementen für die Slider: Erstellung der Slider. Es wird ein Slider für grosse j und 
-    # ein Slider fuer kleine
-    # j verwendet, um zwischen 0 und 1 feinere Auswahl zu ermöglichen. Der verwendete Wert für j wird im Plotbereich
-    # angegeben:
+
+    # Erstellen von pyplot.Axes-Elementen für die Slider: Erstellung der Slider. Es wird ein
+    # Slider für grosse j und ein Slider fuer kleine j verwendet, um zwischen 0 und 1 feinere
+    # Auswahl zu ermöglichen. Der verwendete Wert für j wird im Plotbereich angegeben:
 
     balken_oben = plt.axes([0.3, 0.05, 0.4, 0.03])
     balken_unten = plt.axes([0.3, 0.01, 0.4, 0.03])
-    j_slider_kleine_j = Slider(balken_oben, r'Waehlen Sie ein $j\in[0,1]$:', 0, 1, valinit=1, valstep=0.0001) 
-    j_slider_grosse_j = Slider(balken_unten, r'Waehlen Sie ein $j\in[1,100]$:', 1, 100, valinit=1, valstep=0.5)
-    
+    j_slider_kleine_j = Slider(balken_oben, r'Waehlen Sie ein $j\in[0,1]$:', 0, 1, valinit=1, 
+                               valstep=0.0001)
+    j_slider_grosse_j = Slider(balken_unten, r'Waehlen Sie ein $j\in[1,100]$:', 1, 100,
+                               valinit=1, valstep=0.5)
 
-    # Da die Funktion slider.on_changed nur ein Argument übernimmt, müssen zuvor die keyword-Arguments für
-    # neues_j per functools.partial übergeben werden:
 
-    axis2_neues_kleines_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_kleine_j, p_werte=p_werte, h_arr=h_arr)
+    # Da die Funktion slider.on_changed nur ein Argument übernimmt, müssen zuvor die keyword-
+    # Arguments für neues_j per functools.partial übergeben werden:
+
+    axis2_neues_kleines_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_kleine_j,
+                                              p_werte=p_werte, h_arr=h_arr)
     j_slider_kleine_j.on_changed(axis2_neues_kleines_j)
-    axis2_neues_grosses_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_grosse_j, p_werte=p_werte, h_arr=h_arr)
+    axis2_neues_grosses_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_grosse_j,
+                                              p_werte=p_werte, h_arr=h_arr)
     j_slider_grosse_j.on_changed(axis2_neues_grosses_j)
 
     # Plotten des Fehlers für sin in den linken Subplot:
@@ -72,22 +113,22 @@ def main():
     fehlerplot(axis1, sin_obj, h_arr)
 
     # Beschriftungen etc.:
-    
+
     axis1.set_xlabel(r'Differenziationsschrittweite $h$')
     axis1.set_ylabel('Fehler der Ableitung')
     axis1.xaxis.set_label_coords(1.05, -0.045)
-    axis2.text(0.3,10**-12,"Wählen Sie  ein j mithilfe des Sliders unten")
-    fig.legend(ncol=5, loc = (0.3,0.9), facecolor="w")
+    axis2.text(0.3, 10**-12, "Wählen Sie  ein j mithilfe des Sliders unten")
+    fig.legend(ncol=5, loc=(0.3, 0.9), facecolor="w")
     fig.suptitle("Fehlerverhalten der Approximation der ersten und zweiten Ableitung")
     plt.subplots_adjust(wspace=0.0, top=0.94, bottom=0.14)
-    
-    ########################## neue figure ######################################################
-    
+
+    ########################## neue Figure ######################################################
+
     # Ab hier wird die figure zur Darstellung des Sinus bearbeitet:
 
     fig2, axis_arr = plt.subplots(2, 2, figsize=(18, 11))
     axis_arr = axis_arr.flatten()
-    
+
     # Das Plotten erfolgt durch die Differenzieren-Funktionen plotfkt_exakt bzw. plotfkt_approx
     # weitgehend analog zu Serie 1:
 
@@ -113,33 +154,32 @@ def main():
             else:
                 sin_obj.plotfkt_approx(schrittwt[nbr], axis_arr[nbr], grad=grad,
                                        color=colors[grad-1], ls="--")
-        # Beschriftungen etc..
+        # Beschriftungen etc:
 
-        axis_arr[nbr].set_title(r'$h=\frac{}{}$'.format(r"{\pi}","{"+str(nummer[nbr])+"}"))
+        axis_arr[nbr].set_title(r'$h=\frac{}{}$'.format(r"{\pi}", "{"+str(nummer[nbr])+"}"))
         axis_arr[nbr].set_xlim(0, np.pi)
         axis_arr[nbr].set_xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi])
-        axis_arr[nbr].set_xticklabels(["$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$",
-                                      r"$\frac{3\pi}{4}$", r"$\pi$"])
+        axis_arr[nbr].set_xticklabels([r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$",
+                                       r"$\frac{3\pi}{4}$", r"$\pi$"])
         axis_arr[nbr].set_xlabel('Definitionsbereich der Abbildung')
         axis_arr[nbr].set_ylabel('Werte der Abbildung')
-    fig2.suptitle(r"$\sin x$ und seine ersten beiden Ableitungen, exakt und approximiert mit verschiedenen Schrittweiten $h$")
+    fig2.suptitle(r"$\sin x$ und seine ersten beiden Ableitungen, exakt und approximiert mit " +
+                  r"verschiedenen Schrittweiten $h$")
     fig2.legend(loc="right")
-    plt.subplots_adjust(right = 0.87,left = 0.05,bottom = 0.12)
-    
-    
+    plt.subplots_adjust(right=0.87, left=0.05, bottom=0.12)
+
+
     plt.show()
-    
 
 
 
-def neues_j(val, slider, plotbereich, p_werte, h_arr):
+
+def neues_j(slider, plotbereich, p_werte, h_arr):
     """
     Diese Funktion dient dem Erstellen eines neuen Fehlerplots, wenn ein neuer j-Wert
     vom Nutzer auf dem Schieberegler ausgewählt wurde. Dazu wird ein neues Differenzieren-
     Objekt angelegt.
     Input:
-        val (float):
-            Wert, der in den Slider eingegeben wurde.
         slider (matplotlib.widgets.Slider-Objekt):
             Zu verwendender Slider.
         plotbereich (pyplot.Axes-Objekt):
@@ -152,26 +192,26 @@ def neues_j(val, slider, plotbereich, p_werte, h_arr):
 
     Return: -
     """
-    
+
     # Vorherigen Plot entfernen:
-    
+
     plotbereich.cla()
-    
+
     # j-Wert ermitteln und in plotbereich plotten:
-    
+
     j = slider.val
-    plotbereich.text(1e-3,1e-30,"j={0:.3f}".format(j))
+    plotbereich.text(1e-3, 1e-30, "j={0:.3f}".format(j))
     plt.gcf().canvas.draw_idle()
-    
+
     # Da der Konstruktor der Differenzieren-Klasse keine keyword-Arguments für die zu
     # untersuchende Funktion übernehmen kann, muss das j zuvor per functools.partial
     # an die entspr. Funktionen übergeben werden:
 
-    sin_j_fkt = functools.partial(sin_j,j=j)
-    cos_j_fkt = functools.partial(cos_j,j=j)
-    negsin_j_fkt = functools.partial(negsin_j,j=j)
+    sin_j_fkt = functools.partial(sin_j, j=j)
+    cos_j_fkt = functools.partial(cos_j, j=j)
+    negsin_j_fkt = functools.partial(negsin_j, j=j)
     sin_j_obj = differenzieren.Differenzieren(sin_j_fkt, cos_j_fkt, negsin_j_fkt, p_werte)
-    
+
     fehlerplot(plotbereich, sin_j_obj, h_arr, labeling=False)
 
 
@@ -191,8 +231,8 @@ def fehlerplot(plotbereich, diff_objct, h_arr, labeling=True):
     """
     err_array1 = np.vectorize(diff_objct.err_abl)(h_arr, grad=1)   #Fehler 1. Ableitung
     err_array2 = np.vectorize(diff_objct.err_abl)(h_arr, grad=2)    #Fehler 2. Ableitung
-    
-    if labeling == True:
+
+    if labeling:
         mult = 1
     else:
         mult = 0
