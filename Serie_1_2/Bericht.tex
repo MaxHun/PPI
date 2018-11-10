@@ -108,31 +108,52 @@ f''(x)=\underbrace{\frac{f(x+h)-2f(x)+f(x-h)}{h^2}}_{:=D_h^{(2)}(x)}+\mathcal{O}
 \end{align}
 mit der Differenziationsschrittweite $h$.
 
-Dieses Verfahren kann sehr nützlich in der numerischen Mathematik sein, jedoch hängt seine Genauigkeit, wie bei jedem Approximationsverfahren, stark von dem Wert der eingegebenen Parameter ab. Deswegen wird eine Studie der Genauigkeit für die sinnvolle Nutzung des Verfahrens benötigt. Die im Teil 1 erstellten Skripte (\texttt{differenzieren.py} und \texttt{hauptprogramm.py}) erlauben eine numerische Analyse von der Beziehung zwischen der Genauigkeit und den Parametern. Nun führen wir die Analyse aus.
+Dieses Verfahren kann sehr nützlich in der numerischen Mathematik sein, jedoch hängt seine Genauigkeit, wie bei jedem Approximationsverfahren, stark von dem Wert der eingegebenen Parameter ab. Deswegen wird eine Studie der Genauigkeit für die sinnvolle Nutzung des Verfahrens benötigt. Die im Teil 1 erstellte Klasse \texttt{Differenzieren} in \texttt{differnzieren.py} erlauben eine numerische Analyse der Beziehung zwischen der Genauigkeit der Approximation und den Parametern. 
 
 \section{Theorie}
-Wie schon gesagt, lassen sich die Formeln \ref{eq:1_abl} und \ref{eq:2_abl} aus der Theorie der Taylorentwicklung ableiten. Diese lautet, dass für eine glatte reellwertige Funktion $f$, für $x\in\mathbb{R}$ und für $h$ in einer passenden Umgebung von $x$, gilt
-\[f(x+h)=\sum_{k=0}^{\infty}\frac{f^{(k)}(x)}{k!}h^k=f(x)+f'(x)h+\sum_{k=2}^{\infty}\frac{f^{(k)}(x)}{k!}h^k\]
-Das Lösen nach $f'(x)$ liefert
-\[f'(x)=\frac{f(x+h)-f(x)}{h}-\sum_{k=2}^{\infty}\frac{f^{(k)}(x)}{k!}h^{k-1}=\frac{f(x+h)-f(x)}{h}+\mathcal{O}(h)\]
-Die zweite Formel bekommt man auf eine ähnliche Weise. Wir können die Taylorentwicklung auf ein negatives $h$ anwenden:
-\[f(x-h)=\sum_{k=0}^{\infty}\frac{f^{(k)}(x)}{k!}(-h)^k=f(x)-f'(x)h+\frac{f''(x)h^2}{2} +\sum_{k=3}^{\infty}\frac{f^{(k)}(x)}{k!}(-h)^k\]
-Daraus bekommen wir
-\[f(x+h)+f(x-h)=2f(x)+f''(x)h^2+\sum_{k=2}^{\infty}\frac{f^{(2k)}(x)}{(2k)!}h^{2k}\]
-Und das Lösen nach $f''(x)$ liefert
-\[f''(x)=\frac{f(x+h)+f(x-h)-2f(x)}{h^2}+\mathcal{O}(h^2)\]
+Die in der Einleitung genannten Formeln  \eqref{eq:1_abl} und~\eqref{eq:2_abl}  lassen sich aus der Theorie der Taylorentwicklung wie folgt ableiten:
+Für eine glatte reellwertige Funktion $f$, für $x\in\mathbb{R}$ und für $h$ in einer passenden Umgebung von $x$ gilt
+\begin{align}
+f(x+h)&=\sum_{k=0}^{\infty}\frac{f^{(k)}(x)}{k!}h^k\\
+&=f(x)+f'(x)h+\sum_{k=2}^{\infty}\frac{f^{(k)}(x)}{k!}h^k
+\label{eq:taylor_neg_h}
+\end{align}
+Das Lösen nach $f'(x)$ liefert:
+\begin{align}
+f'(x)&=\frac{f(x+h)-f(x)}{h}-\sum_{k=2}^{\infty}\frac{f^{(k)}(x)}{k!}h^{k-1}\\
+&=\frac{f(x+h)-f(x)}{h}+\mathcal{O}(h)
+\end{align}
+Die zweite Formel erhält man auf eine ähnliche Weise. Wir können die Taylorentwicklung auf ein negatives $h$ anwenden:
+\begin{align}
+f(x-h)&=\sum_{k=0}^{\infty}\frac{f^{(k)}(x)}{k!}(-h)^k\\
+&=f(x)-f'(x)h+\frac{f''(x)h^2}{2} +\sum_{k=3}^{\infty}\frac{f^{(k)}(x)}{k!}(-h)^k
+\label{eq:taylor_pos_h}
+\end{align}
+Addition von \eqref{eq:taylor_pos_h} und \eqref{eq:taylor_neg_h} liefert:
+\begin{align}
+f(x+h)+f(x-h)=2f(x)+f''(x)h^2+\sum_{k=2}^{\infty}\frac{f^{(2k)}(x)}{(2k)!}h^{2k}.
+\end{align}
+Das Lösen nach $f''(x)$ ergibt:
+\begin{align}
+f''(x)=\frac{f(x+h)+f(x-h)-2f(x)}{h^2}+\mathcal{O}(h^2).
+\end{align}
 
-Ein anderer wichtiger Begriff für die Bearbeitung folgender Experimente ist die Periodizität der Sinus Abbildung und seiner Ableitungen. Zu einem gegebenen $j\in\mathbb{R}$ ist die Periode von $sin(jx)$ gleich $\frac{2\pi}{j}$. Die Ableitungen von $sin(jx)$ verhalten sich auf die gleiche Weise.
+
+Ein anderer wichtiger Begriff für die Bearbeitung folgender Experimente ist die Periodizität der Sinus Abbildung und seiner Ableitungen. Zu einem gegebenen $j\in\mathbb{R}$ ist die Periode von $\sin(jx)$ gleich $\frac{2\pi}{j}$. Die Ableitungen von $\sin(jx)$ verhalten sich auf die gleiche Weise.
 
 \section{Experimente}
 
 \paragraph {Experiment 1}
-Für die Veranschaulichung der Genauigkeit der Approximation von den Ableitungen bei Schrittweiten $\frac{\pi}{3}$, $\frac{\pi}{4}$, $\frac{\pi}{5}$ und $\frac{\pi}{10}$ haben wir ein Programm geschrieben, und zwar \texttt{hauptprogramm2.py}, und dieses liefert die Abbildung \ref{Abbildung 1}.
+Für die Veranschaulichung der Genauigkeit der Approximation von den Ableitungen bei Schrittweiten $\frac{\pi}{3}$, $\frac{\pi}{4}$, $\frac{\pi}{5}$ und $\frac{\pi}{10}$ wurde ein Programm geschrieben (\texttt{hauptprogramm2.py}), das den Sinus und seine ersten beiden Ableitungen (approximiert und exakt) im Intervall $\left[a,b\right]$ plottet. Das Ergebnis ist in Abbildung~\ref{im:ablplot} dargestellt.
+
+\paragraph {Experiment 2}
+
+
 
 \begin{figure}
 	\includegraphics[width=\linewidth]{4Bilder.png}
 	\caption{Die approximierten Ableitungen für verschiedene Schrittweiten (Experiment 1).}
-	\label{Abbildung 1}
+	\label{im:ablplot}
 \end{figure}
 
 \section{Analyse der Experimente}
