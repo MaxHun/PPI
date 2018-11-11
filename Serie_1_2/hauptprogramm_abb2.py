@@ -4,7 +4,7 @@ zweiten Ableitungen der Sinus Funtion durch die Methode der Vorwaertsdifferenz. 
 werden 2 pyplot-figures. Diese zeigen zum einen die aproximierten und exakten Ableitungen
 des Sinus an, zum anderen werden die abs. Fehler der approximierten Ableitungen in
 Abhaengigkeit von der Differenziationsschrittweite h geplottet. Dies wird mit dem Verhalten
-der entsprechenden Fehler für f(x)=sin(j*x) graphisch verglichen. Hierbei ist das j vom
+der entsprechenden Fehler fuer f(x)=sin(j*x) graphisch verglichen. Hierbei ist das j vom
 Nutzer durch einen Schieberegler waehlbar.
 
 A. Hnatiuk
@@ -21,13 +21,13 @@ from matplotlib import pyplot as plt
 #import differenzieren
 #rom differenzieren import negsin
 #from matplotlib.widgets import Slider
-matplotlib.rcParams.update({'font.size': 25})
+matplotlib.rcParams.update({'font.size': 40})
 plt.rc('text', usetex=True)
 
 def sin_j(arg, j=1):
     """
-    Diese Funktion übernimmt ein Argument arg und einen Parameter j und gibt denn Wert von
-    sin(j*x) an der Stelle x=arg zurück.
+    Diese Funktion uebernimmt ein Argument arg und einen Parameter j und gibt denn Wert von
+    sin(j*x) an der Stelle x=arg zurueck.
     Input:
 
         arg (float):
@@ -70,7 +70,7 @@ def negsin_j(arg, j=1):
 def main():
     """
     Dieses Hauptprogramm dient dem Plotten des Sinus und seiner Ableitungen (exakt und approx.)
-    sowie dem Untersuchen des bei der Berechnung maximal gemachten Fehlers. Darüber hinaus erfolgt
+    sowie dem Untersuchen des bei der Berechnung maximal gemachten Fehlers. Darueber hinaus erfolgt
     der Vergleich mit der Funktion sin(j*x). Dazu werden zwei figures angelegt.
     Input: -
 
@@ -79,7 +79,7 @@ def main():
 
     # Anlegen einer Figure mit 2 Subplots:
 
-    fig, [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10), sharey=True)
+    fig, axis2 = plt.subplots(1, 1, figsize=(20, 20), sharey=True)
     h_arr = np.logspace(-17, 2, 1000)           #Werte der getesteten Schrittweiten
     p_werte = np.linspace(0, np.pi, 1000)
 
@@ -87,9 +87,9 @@ def main():
 
     sin_obj = differenzieren.Differenzieren(np.sin, np.cos, negsin, p_werte)
 
-    # Erstellen von pyplot.Axes-Elementen für die Slider: Erstellung der Slider. Es wird ein
-    # Slider für grosse j und ein Slider fuer kleine j verwendet, um zwischen 0 und 1 feinere
-    # Auswahl zu ermöglichen. Der verwendete Wert für j wird im Plotbereich angegeben:
+    # Erstellen von pyplot.Axes-Elementen fuer die Slider: Erstellung der Slider. Es wird ein
+    # Slider fuer grosse j und ein Slider fuer kleine j verwendet, um zwischen 0 und 1 feinere
+    # Auswahl zu ermoeglichen. Der verwendete Wert fuer j wird im Plotbereich angegeben:
 
     balken_oben = plt.axes([0.3, 0.05, 0.4, 0.03])
     balken_unten = plt.axes([0.3, 0.01, 0.4, 0.03])
@@ -99,28 +99,27 @@ def main():
                                valinit=1, valstep=0.5)
 
 
-    # Da die Funktion slider.on_changed nur ein Argument übernimmt, müssen zuvor die keyword-
-    # Arguments für neues_j per functools.partial übergeben werden:
+    # Da die Funktion slider.on_changed nur ein Argument uebernimmt, muessen zuvor die keyword-
+    # Arguments fuer neues_j per functools.partial uebergeben werden:
 
     axis2_neues_kleines_j = functools.partial(neues_j, slider=j_slider_kleine_j, plotbereich=axis2,
-                                              p_werte=p_werte, h_arr=h_arr)
+                                              p_werte=p_werte, h_arr=h_arr,fig=fig)
     j_slider_kleine_j.on_changed(axis2_neues_kleines_j)
     axis2_neues_grosses_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_grosse_j,
-                                              p_werte=p_werte, h_arr=h_arr)
+                                              p_werte=p_werte, h_arr=h_arr, fig=fig)
     j_slider_grosse_j.on_changed(axis2_neues_grosses_j)
 
-    # Plotten des Fehlers für sin in den linken Subplot:
+    # Plotten des Fehlers fuer sin in den linken Subplot:
 
-    fehlerplot(axis1, sin_obj, h_arr)
+    #fehlerplot(axis1, sin_obj, h_arr)
 
     # Beschriftungen etc.:
 
-    axis1.set_xlabel(r'Differenziationsschrittweite $h$')
-    axis1.set_ylabel('Fehler der Ableitung')
-    axis1.xaxis.set_label_coords(1.05, -0.045)
-    axis2.text(0.3, 10**-12, "Wählen Sie  ein j mithilfe des Sliders unten")
-    fig.legend(ncol=5, loc=(0.3, 0.9), facecolor="w")
-    fig.suptitle("Fehlerverhalten der Approximation der ersten und zweiten Ableitung")
+    #axis1.set_xlabel(r'Differenziationsschrittweite $h$')
+    #axis1.set_ylabel('Fehler der Ableitung')
+    #axis1.xaxis.set_label_coords(1.05, -0.045)
+    axis2.text(0.3, 10**-12, "Waehlen Sie  ein j mithilfe des Sliders unten")
+    #fig.suptitle("Fehlerverhalten der Approximation der ersten und zweiten Ableitung")
     plt.subplots_adjust(wspace=0.0, top=0.94, bottom=0.14)
 
     ########################## neue Figure ######################################################
@@ -175,10 +174,10 @@ def main():
 
 
 
-def neues_j(self, slider, plotbereich, p_werte, h_arr):
+def neues_j(self, slider, plotbereich, p_werte, h_arr, fig):
     """
     Diese Funktion dient dem Erstellen eines neuen Fehlerplots, wenn ein neuer j-Wert
-    vom Nutzer auf dem Schieberegler ausgewählt wurde. Dazu wird ein neues Differenzieren-
+    vom Nutzer auf dem Schieberegler ausgewaehlt wurde. Dazu wird ein neues Differenzieren-
     Objekt angelegt.
     Input:
         slider (matplotlib.widgets.Slider-Objekt):
@@ -186,7 +185,7 @@ def neues_j(self, slider, plotbereich, p_werte, h_arr):
         plotbereich (pyplot.Axes-Objekt):
             Plotbereich, in den geplottet werden soll.
         p_werte (numpy.ndarray aus floats):
-            Plotpunkte, an denen die Funktionen geplottet bzw. für die Fehlerbestimmung aus-
+            Plotpunkte, an denen die Funktionen geplottet bzw. fuer die Fehlerbestimmung aus-
             gewertet werden.i
         h_array (numpy.ndarray aus floats):
                     Array mit den Schrittweiten.
@@ -204,22 +203,22 @@ def neues_j(self, slider, plotbereich, p_werte, h_arr):
     plotbereich.text(1e-3, 1e-30, "j={0:.3f}".format(j))
     plt.gcf().canvas.draw_idle()
 
-    # Da der Konstruktor der Differenzieren-Klasse keine keyword-Arguments für die zu
-    # untersuchende Funktion übernehmen kann, muss das j zuvor per functools.partial
-    # an die entspr. Funktionen übergeben werden:
+    # Da der Konstruktor der Differenzieren-Klasse keine keyword-Arguments fuer die zu
+    # untersuchende Funktion uebernehmen kann, muss das j zuvor per functools.partial
+    # an die entspr. Funktionen uebergeben werden:
 
     sin_j_fkt = functools.partial(sin_j, j=j)
     cos_j_fkt = functools.partial(cos_j, j=j)
     negsin_j_fkt = functools.partial(negsin_j, j=j)
     sin_j_obj = differenzieren.Differenzieren(sin_j_fkt, cos_j_fkt, negsin_j_fkt, p_werte)
 
-    fehlerplot(plotbereich, sin_j_obj, h_arr, labeling=False)
-
+    fehlerplot(plotbereich, sin_j_obj, h_arr, labeling=True)
+    #fig.legend(ncol=7, loc="upper center", facecolor="w")
 
 def fehlerplot(plotbereich, diff_objct, h_arr, labeling=True):
     """
     In dieser Funktion wird ein Plot des relativen Fehlers
-    in Abhängigkeit von der Schrittweite mittles der Differenzieren Klasse gezeichnet.
+    in Abhaengigkeit von der Schrittweite mittles der Differenzieren Klasse gezeichnet.
     Input:
         plotbereich (pyplot.Axes-Objekt):
             Subplot, auf dem das Plot erzeugt wird
@@ -238,12 +237,13 @@ def fehlerplot(plotbereich, diff_objct, h_arr, labeling=True):
     else:
         mult = 0
 
-    plotbereich.loglog(h_arr, err_array1, 'g', label='Fehler in erster Ableitung'*mult)
-    plotbereich.loglog(h_arr, err_array2, 'k', label='Fehler in zweiter Ableitung'*mult)
+    plotbereich.loglog(h_arr, err_array1, 'g', label='Fehler in erster Ableitung'*mult, lw=3)
+    plotbereich.loglog(h_arr, err_array2, 'k', label='Fehler in zweiter Ableitung'*mult, lw=3)
     plotbereich.loglog(h_arr, h_arr, 'g', ls="--", label=r'$y = h$'*mult)
     plotbereich.loglog(h_arr, (h_arr)**2, 'k', ls="--", label=r'$y = h^2$'*mult)
     plotbereich.loglog(h_arr, (h_arr)**3, 'b', ls="--", label=r'$y = h^3$'*mult)
-
+    plotbereich.loglog(h_arr, (h_arr)**-1, 'g', ls="-.", label=r'$y = h^{-1}$'*mult)
+    plotbereich.loglog(h_arr, (h_arr)**-2, 'k', ls="-.", label=r'$y = h^{-2}$'*mult)
 
 if __name__ == "__main__":
     main()
