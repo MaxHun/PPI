@@ -21,7 +21,8 @@ from matplotlib import pyplot as plt
 #import differenzieren
 #rom differenzieren import negsin
 #from matplotlib.widgets import Slider
-
+matplotlib.rcParams.update({'font.size': 25})
+plt.rc('text', usetex=True)
 
 def sin_j(arg, j=1):
     """
@@ -101,7 +102,7 @@ def main():
     # Da die Funktion slider.on_changed nur ein Argument übernimmt, müssen zuvor die keyword-
     # Arguments für neues_j per functools.partial übergeben werden:
 
-    axis2_neues_kleines_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_kleine_j,
+    axis2_neues_kleines_j = functools.partial(neues_j, slider=j_slider_kleine_j, plotbereich=axis2,
                                               p_werte=p_werte, h_arr=h_arr)
     j_slider_kleine_j.on_changed(axis2_neues_kleines_j)
     axis2_neues_grosses_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_grosse_j,
@@ -126,7 +127,7 @@ def main():
 
     # Ab hier wird die figure zur Darstellung des Sinus bearbeitet:
 
-    fig2, axis_arr = plt.subplots(2, 2, figsize=(18, 11))
+    fig2, axis_arr = plt.subplots(2, 2, figsize=(30,30))
     axis_arr = axis_arr.flatten()
 
     # Das Plotten erfolgt durch die Differenzieren-Funktionen plotfkt_exakt bzw. plotfkt_approx
@@ -163,10 +164,10 @@ def main():
                                        r"$\frac{3\pi}{4}$", r"$\pi$"])
         axis_arr[nbr].set_xlabel('Definitionsbereich der Abbildung')
         axis_arr[nbr].set_ylabel('Werte der Abbildung')
-    fig2.suptitle(r"$\sin x$ und seine ersten beiden Ableitungen, exakt und approximiert mit " +
-                  r"verschiedenen Schrittweiten $h$")
+    #fig2.suptitle(r"$\sin x$ und seine ersten beiden Ableitungen, exakt und approximiert mit " +
+    #              r"verschiedenen Schrittweiten $h$")
     fig2.legend(loc="right")
-    plt.subplots_adjust(right=0.87, left=0.05, bottom=0.12)
+    plt.subplots_adjust(left=0.05, bottom=0.08, hspace=0.28, right=0.85, top=0.95)
 
 
     plt.show()
@@ -174,7 +175,7 @@ def main():
 
 
 
-def neues_j(slider, plotbereich, p_werte, h_arr):
+def neues_j(self, slider, plotbereich, p_werte, h_arr):
     """
     Diese Funktion dient dem Erstellen eines neuen Fehlerplots, wenn ein neuer j-Wert
     vom Nutzer auf dem Schieberegler ausgewählt wurde. Dazu wird ein neues Differenzieren-

@@ -19,8 +19,8 @@
 % inputenc allows the usage of non-ascii characters in the LaTeX source code
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx} 
+\usepackage{float}
 %\graphicspath{ {/u/hnatiuka/Praktikum/PPI/} }
-
 
 
 % title of the document
@@ -143,11 +143,21 @@ Ein anderer wichtiger Begriff für die Bearbeitung folgender Experimente ist die
 
 \section{Experimente}
 
-\paragraph {Experiment 1}
-Für die Veranschaulichung der Genauigkeit der Approximation von den Ableitungen bei Schrittweiten $\frac{\pi}{3}$, $\frac{\pi}{4}$, $\frac{\pi}{5}$ und $\frac{\pi}{10}$ wurde ein Programm geschrieben (\texttt{hauptprogramm2.py}), das den Sinus und seine ersten beiden Ableitungen (approximiert und exakt) im Intervall $\left[a,b\right]$ plottet. Das Ergebnis ist in Abbildung~\ref{im:ablplot} dargestellt.
+\paragraph{Experiment 1}
+Für die Veranschaulichung der Genauigkeit der Approximation von den Ableitungen bei Schrittweiten $\frac{\pi}{3}$, $\frac{\pi}{4}$, $\frac{\pi}{5}$ und $\frac{\pi}{10}$ wurde ein Programm geschrieben (\texttt{hauptprogramm2.py}), das den Sinus und seine ersten beiden Ableitungen (approximiert und exakt) im Intervall $\left[a,b\right]:=\left[0,\pi\right]$ plottet. Das Ergebnis ist in Abbildung~\ref{im:ablplot} dargestellt.
 
-\paragraph {Experiment 2}
+\paragraph{Experiment 2}
+Im zweiten Experiment soll der maximale Fehler der Approximation 
+\begin{align}
+e_h^{(k)}:=\max\limits_{i=0,\dots,p}\vert f^{(k)}(x_i)-D_h^{(k)}x_i\vert\text{,~~~~~~~~}k=1,2
+\end{align}
+wiederum für $f(x)=\sin(x)$ in Abhängigkeit der Differenziationsschrittweite $h$ betrachtet werden. Besonderer Fokus soll hierbei auf das Konvergenzverhalten von $e_h^{(k)}$ gelegt werden. Aus \eqref{eq:1_abl} und \eqref{eq:2_abl} ist sofort ersichtlich, dass aus mathematisch naiver Sicht $e_h^{(k)}\sim h^k$ zu erwarten sein wird. 
 
+\paragraph{Experiment 3}
+Weiterhin wird das Konvergenzverhalten von $e_h^{(k)}$ für die Funktion $f_j(x)=\sin(jx)$ untersucht und mit dem des Sinus verglichen. In Experiment~3 wird zunächst der Fall $j<1$ betrachtet. Nach der Bemerkung zur Periodizität von $f_j$ in Abschnitt~\ref{sec:Theo} entspricht dies einer Streckung des Sinus entlang der Abszisse.
+
+\paragraph{Experiment 4}
+Im letzten Experiment wird analog zu Experiment~3 vorgegangen, allerdings wird nun der Fall $j>1$ untersucht, also der entlang der x-Achse gestauchte Sinus.
 
 
 \begin{figure}
@@ -159,15 +169,42 @@ Für die Veranschaulichung der Genauigkeit der Approximation von den Ableitungen
 \section{Analyse der Experimente}
 
 \paragraph{Experiment 1}
-Aus der graphischen Ausgabe des ersten Experiments \ref{Abbildung 1} werden drei Sachen ersichtlich. Erstens, die Approximation der beiden Ableitungen wird genauer, je kleiner die Schrittweite. Dies stimmt mit der Theorie überein, weil wir erwarten, dass der Fehler in der ersten bzw. zweiten Ableitung der Ordnung $\mathcal{O}(h)$ bzw. $\mathcal{O}(h^2)$ ist, insbesondere proportional zur Schrittweite $h$ für kleine $h$. \newline
-Zweitens, die Approximation der ersten Ableitung ist im Vergleich zu den genauen Daten nach Rechts verschoben. Dies ist auch erwartet und der Grund dafür liegt in der Approximationsformel für die erste Ableitung \ref{eq:1_abl}. Und zwar sieht man, dass die approximierte Tangente nicht um den Punkt $x$ zentriert ist, sondern um den Mittelpunkt zwischen $x+h$ und $x$. Folglich ist die Approximation um $\frac{h}{2}$ nach rechts verschoben. Dies passiert nicht bei der zweiten Ableitung, weil die entsprechende Formel \ref{eq:2_abl} sowohl auf $x+h$, als auch auf $x-h$ beruht. \newline
-Schließlich ist die Approximation der zweiten Ableitung für diese Schrittweiten genauer, als die erste. Wie die erste Beobachtung, liegt dies auf die Ordnung der entsprechenden Fehler. Für $h=\frac{\pi}{4}$, $\frac{\pi}{5}$ und $\frac{\pi}{10}$ ist $h^2<h$, und folglich soll die Approximation der zweiten Ableitung genauer sein, als die erste. Für $h=\frac{\pi}{3}$ lässt sie die höhere Genauigkeit der zweiten Ableitung durch die oben beschriebene Verschiebung in der ersten Ableitung erklären. 
+Aus der graphischen Ausgabe des ersten Experiments in Abb.~\ref{im:ablplot} wird dreierlei ersichtlich; zum Ersten wird die Approximation der beiden Ableitungen mit sinkendem $h$ genauer. Dies stimmt mit der Theorie überein, weil wir erwarten, dass der Fehler in der ersten bzw. zweiten Ableitung der Ordnung $\mathcal{O}(h)$ bzw. $\mathcal{O}(h^2)$ ist. 
+
+Zweitens ist die die Approximation der ersten Ableitung im Vergleich zu den genauen Daten nach Rechts verschoben. Dies ist auch erwartet, der Grund dafür liegt in der Approximationsformel für die erste Ableitung \ref{eq:1_abl}. Man sieht dort, dass die approximierte Tangente nicht um den Punkt $x$ zentriert ist, sondern um den Mittelpunkt zwischen $x+h$ und $x$. Folglich ist die Approximation um $\frac{h}{2}$ nach rechts verschoben. Dies passiert nicht bei der zweiten Ableitung, weil die entsprechende Formel \ref{eq:2_abl} sowohl auf $x+h$, als auch auf $x-h$ beruht. Dieser Effekt wurde bereits in der Schnittstellendokumentation der Funktion \texttt{Differenzieren.ablapprox} besprochen.
+
+Schließlich ist die Approximation der zweiten Ableitung für diese Schrittweiten genauer als die erste. Wie die erste Beobachtung, liegt dies an die Ordnung der entsprechenden Fehler nach \eqref{eq:1_abl} bzw.~\eqref{eq:2_abl}. Für $h=\frac{\pi}{4}$, $\frac{\pi}{5}$ und $\frac{\pi}{10}$ ist $h^2<h$, und folglich soll die Approximation der zweiten Ableitung genauer sein, als die erste. Für $h=\frac{\pi}{3}$ lässt sie die höhere Genauigkeit der zweiten Ableitung durch die oben beschriebene Verschiebung in der ersten Ableitung erklären. 
 
 \paragraph{Experiment 2}
 %hier Referenz zu Abbildung 2 zu schreiben
-Der Fehlerplot zeigt drei verschiedene Tendenzen im Fehlerverhalten in Abhängigkeit von der Schrittweite. In dem mittleren Bereich der Schrittweite (ungefähr für $h\in\left[10^{-8}, 1\right]$ für die erste Ableitung und $h\in[10^{-3}, 1] $ für die zweite) verhält sich der Fehler genau so, wie es die Approximationsformeln andeuten - er ist proportional zu der Schrittweite, und zwar linear im Fall der Approximation der ersten Ableitung und quadratisch im Fall der Approximation der zweiten Ableitung. \newline
-Dieses Verhalten ändert sich bei Schrittweiten, die größer als 1 sind. In diesem Bereich konvergiert der Fehler für beide Approximationen allmählich gegen 1. Der Grund dafür lässt sich auch aus den Formeln ablesen. Da wir mit der Sinus Funktion arbeiten, kann $f(x+h)-f(x)$ betragsmäßig niemals größer als 2 sein. Analog ist der Betrag von $f(x+h)-2f(x)+f(x-h)$ durch 4 beschränkt. Folglich geht bei wachsendem $h$ der Approximierte Wert der beiden Ableitungen für alle Punkte $x$ gegen 0. Da diese Werte mit denen der Kosinus bzw. negativen Sinus Abbildungen verglichen werden (diese bleiben immer im Intervall $[-1, 1]$), konvergiert der maximale Fehler gegen 1. \newline
-Ein ganz anderes Verhalten des Fehlers beobachtet man für sehr kleine Schrittweiten (kleiner als $10^{-8} $ für die erste und $10^{-3}$ für die zweite Abbildungen). Der erste Grund dafür ist dass die Sinus Abbildung in kleinen Umgebungen um ihre Extrema sehr flach ist. Der zweite Grund ist dass die \texttt{numpy.sin} Funktion, die wir in unserer Implementierung benutzen, während arithmetischer Operationen nur 16 Stellen Genauigkeit benutzt (das haben wir durchs Rechnen herausgefunden: \texttt{numpy.sin(1)-numpy.sin(1+10**-17)}  liefert \texttt{0}). Folglich unterscheiden sich \texttt{sin(x+h)} und \texttt{sin(x)} für kleinen $h$ in einer Umgebung von $\frac{\pi}{2}$ nur um die allerletzten Nachkommastellen. Also hat der Ausdruck \texttt{sin(x+h)-sin(x)} für genügend kleine Werte von $h$ nur eine oder zwei Stellen Genauigkeit. Das gleiche gilt auch für \texttt{sin(x-h)+sin(x+h)-2*sin(h)}. Wenn diese approximierte Werte dann mit den exakten verglichen werden, kommt ein immer größer Fehler raus (und zwar ein sehr großer Fehler bei der Approximation der zweiten Ableitung, weil diese Werte nicht um $h^{-1}$, sondern um $h^{-2}$ skaliert wird). Man sieht eine andere Auswirkung der Arithmetik mit 16-stelliger Genauigkeit bei dem Verhalten des Fehlers für $h=10^{-16}$. Für beide Ableitungen ist der Fehler in diesem Fall 1. Dies liegt daran, dass \texttt{sin(x)=sin(x + 10**-16)}, also die approximierten Werten sind immer 0. Wie im Fall der großen $h$, ist der Fehler dann immer 1.
+
+
+Der Fehlerplot zeigt drei verschiedene Tendenzen im Fehlerverhalten in Abhängigkeit von der Schrittweite $h$. In dem mittleren Bereich der Schrittweite (ungefähr für $h\in\left[10^{-8}, 1\right]$ für die erste Ableitung und $h\in[10^{-3}, 1] $ für die zweite) verhält sich der Fehler genau so, wie es die Approximationsformeln andeuten; er ist linear zu $h$ im Fall der Approximation der ersten Ableitung und quadratisch in $h$ im Fall der Approximation der zweiten Ableitung. 
+
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{Bilder/errplot_lang}
+	\caption{Maximaler Fehler der beiden ersten Ableitungen des Sinus im Abhängigkeit der Differenziationsschrittweite $h$.}
+	\label{im:ablplot}
+\end{figure}
+
+Dieses Verhalten ändert sich bei Schrittweiten, die größer als 1 sind. In diesem Bereich konvergiert der Fehler für beide Approximationen gegen 1 für $h\gg1$. Der Grund dafür lässt sich auch aus den Formeln ablesen. Für $f(x)=\sin(x)$ gilt, dass der Zähler des Differenzenquotienten $f(x+h)-f(x)$ betragsmäßig niemals größer als 2 ist. Analog ist der Betrag von $f(x+h)-2f(x)+f(x-h)$ durch 4 beschränkt. Folglich geht bei $h\rightarrow\infty$ der gemäß \eqref{eq:1_abl} bzw.~\eqref{eq:2_abl} approximierte Wert der beiden Ableitungen für alle Punkte $x$ gegen 0. Da diese Werte mit denen der Kosinus bzw. negativen Sinus Abbildungen verglichen werden (diese erreichen im Intervall $\left[0,\pi\right]$ stets den Wert $1$ oder $-1$), konvergiert der maximale Fehler gegen 1. 
+
+Ein anderes Verhalten des Fehlers beobachtet man für sehr kleine Schrittweiten (kleiner als $10^{-8}$ für die erste und $10^{-3}$ für die zweite Ableitung).
+In den genannten Bereichen gilt in etwa:
+\begin{align}
+e_h^{(k)}\sim h^{-k}.
+\end{align}
+Der Grund hierfür liegt in der finiten Genauigkeit der \texttt{numpy.sin}-Funktion. Während arithmetischer Operationen werden nur 16 Stellen Genauigkeit benutzt\\ (\texttt{numpy.sin(1)-numpy.sin(1+10**-17)}  liefert \texttt{0}). Folglich unterscheiden sich \texttt{numpy.sin(x+h)} und \texttt{numpy.sin(x)} für kleine $h$ in einer Umgebung von $\frac{\pi}{2}$ nur um die allerletzten Nachkommastellen. Also tritt im Ausdruck \texttt{numpy.sin(x+h)-numpy.sin(x)} für genügend kleine Werte von $h$ ein \glqq Rauschen\grqq auf, der Nenner von \eqref{eq:1_abl} bzw.~\eqref{eq:2_abl} wird auch in den vorderen Stellen eine statistisch verteilte Größe. Das gleiche gilt auch für \texttt{sin(x-h)+sin(x+h)-2*sin(h)}. Die approximierte $k$-te Ableitung skaliert nun also mit dem Nenner des Differenzenquotienten: $e_h^{(k)}\sim h^{-k}$. Dieser Verlauf ist in Abb. %TODO Abbildung referenzieren
+sichtbar, ebenso wie das rauschen um etwa eine Zehnerpotenz (i.~e.~Rauschen in der ersten Stelle.
+
+Das besagte Rauschen verschwindet wieder für $h\leq 10^{-16}$. Stattdessen liefert $e_h^{(k)}$ den Wert 1 für die erste und zweite Ableitung. %TODO Abbildung hinzufügen
+Für beide Ableitungen ist der Fehler in diesem Fall 1. Dies liegt daran, dass \texttt{numpy.sin(x)=numpy.sin(x + 10**-16)}, also sind die approximierten Werte immer 0. Wie im Fall der großen $h$ ist der Fehler dann immer 1.
+
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{Bilder/rauschen}
+	\caption{Vergrößerte Darstellung des Rauschens in der ersten Ableitung}
+	\label{im:rauschen}
+\end{figure}
 
 \section{Zusammenfassung}
 

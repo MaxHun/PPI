@@ -77,9 +77,14 @@ def main():
     """
 
     # Anlegen einer Figure mit 2 Subplots:
-
-    fig, [axis1, axis2] = plt.subplots(1, 2, figsize=(20, 10), sharey=True)
-    h_arr = np.logspace(-17, 2, 1000)           #Werte der getesteten Schrittweiten
+    matplotlib.rcParams.update({'font.size': 25})
+    plt.rc('text', usetex=True)
+    plt.rc('font', family='Open Sans')
+    matplotlib.rcParams['text.latex.preamble'] = [
+    r'\usepackage{amsmath}',
+    r'\usepackage{amssymb}',r"\usepackage{nicefrac}"]
+    fig, axis1 = plt.subplots(1,1 , figsize=(20, 16), sharey=True)
+    h_arr = np.logspace(-18, 2, 1000)           #Werte der getesteten Schrittweiten
     p_werte = np.linspace(0, np.pi, 1000)
 
     # Erstellung eines Differenzieren-Objektes:
@@ -90,23 +95,23 @@ def main():
     # Slider für grosse j und ein Slider fuer kleine j verwendet, um zwischen 0 und 1 feinere
     # Auswahl zu ermöglichen. Der verwendete Wert für j wird im Plotbereich angegeben:
 
-    balken_oben = plt.axes([0.3, 0.05, 0.4, 0.03])
-    balken_unten = plt.axes([0.3, 0.01, 0.4, 0.03])
-    j_slider_kleine_j = Slider(balken_oben, r'Waehlen Sie ein $j\in[0,1]$:', 0, 1, valinit=1,
-                               valstep=0.0001)
-    j_slider_grosse_j = Slider(balken_unten, r'Waehlen Sie ein $j\in[1,100]$:', 1, 100,
-                               valinit=1, valstep=0.5)
+    #balken_oben = plt.axes([0.3, 0.05, 0.4, 0.03])
+    #balken_unten = plt.axes([0.3, 0.01, 0.4, 0.03])
+    #j_slider_kleine_j = Slider(balken_oben, r'Waehlen Sie ein $j\in[0,1]$:', 0, 1, valinit=1,
+     #                          valstep=0.0001)
+    #j_slider_grosse_j = Slider(balken_unten, r'Waehlen Sie ein $j\in[1,100]$:', 1, 100,
+     #                          valinit=1, valstep=0.5)
 
 
     # Da die Funktion slider.on_changed nur ein Argument übernimmt, müssen zuvor die keyword-
     # Arguments für neues_j per functools.partial übergeben werden:
 
-    axis2_neues_kleines_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_kleine_j,
-                                              p_werte=p_werte, h_arr=h_arr)
-    j_slider_kleine_j.on_changed(axis2_neues_kleines_j)
-    axis2_neues_grosses_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_grosse_j,
-                                              p_werte=p_werte, h_arr=h_arr)
-    j_slider_grosse_j.on_changed(axis2_neues_grosses_j)
+    #axis2_neues_kleines_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_kleine_j,
+      #                                        p_werte=p_werte, h_arr=h_arr)
+    #j_slider_kleine_j.on_changed(axis2_neues_kleines_j)
+    #axis2_neues_grosses_j = functools.partial(neues_j, plotbereich=axis2, slider=j_slider_grosse_j,
+      #                                        p_werte=p_werte, h_arr=h_arr)
+    #j_slider_grosse_j.on_changed(axis2_neues_grosses_j)
 
     # Plotten des Fehlers für sin in den linken Subplot:
 
@@ -116,59 +121,59 @@ def main():
 
     axis1.set_xlabel(r'Differenziationsschrittweite $h$')
     axis1.set_ylabel('Fehler der Ableitung')
-    axis1.xaxis.set_label_coords(1.05, -0.045)
-    axis2.text(0.3, 10**-12, "Wählen Sie  ein j mithilfe des Sliders unten")
-    fig.legend(ncol=5, loc=(0.3, 0.9), facecolor="w")
-    fig.suptitle("Fehlerverhalten der Approximation der ersten und zweiten Ableitung")
+    #axis1.xaxis.set_label_coords(1.05, -0.045)
+    #axis2.text(0.3, 10**-12, "Wählen Sie  ein j mithilfe des Sliders unten")
+    #axis1.legend(ncol=4,loc="lower center" , facecolor="w")
+    #fig.suptitle("Fehlerverhalten der Approximation der ersten und zweiten Ableitung")
     plt.subplots_adjust(wspace=0.0, top=0.94, bottom=0.14)
-
+    #plt.xlim(10**-4,10**2)
     ########################## neue Figure ######################################################
 
     # Ab hier wird die figure zur Darstellung des Sinus bearbeitet:
 
-    fig2, axis_arr = plt.subplots(2, 2, figsize=(18, 11))
-    axis_arr = axis_arr.flatten()
+    #fig2, axis_arr = plt.subplots(2, 2, figsize=(18, 11))
+    #axis_arr = axis_arr.flatten()
 
     # Das Plotten erfolgt durch die Differenzieren-Funktionen plotfkt_exakt bzw. plotfkt_approx
     # weitgehend analog zu Serie 1:
 
-    colors = ["r", "g", "b"]
-    schrittwt = [np.pi/3, np.pi/4, np.pi/5, np.pi/10]
-    nummer = [3, 4, 5, 10]
-    sin_obj.plotfkt_exakt(axis_arr[0], color="m", label=r"$\sin(x)$")
-    sin_obj.plotfkt_exakt(axis_arr[1], color="m")
-    sin_obj.plotfkt_exakt(axis_arr[2], color="m")
-    sin_obj.plotfkt_exakt(axis_arr[3], color="m")
-    for nbr in [0, 1, 2, 3]:
-        for grad in [1, 2]:
-            if nbr == 0:
-                sin_obj.plotfkt_exakt(axis_arr[nbr], grad=grad, color=colors[grad-1], alpha=0.3,
-                                      lw=4, label="{}. Ableitung, exakt".format(grad))
-            else:
-                sin_obj.plotfkt_exakt(axis_arr[nbr], grad=grad, color=colors[grad-1], alpha=0.3,
-                                      lw=4)
-            if nbr == 0:
-                sin_obj.plotfkt_approx(schrittwt[nbr], axis_arr[nbr], grad=grad,
-                                       color=colors[grad-1], ls="--",
-                                       label="{}. Ableitung, approx.".format(grad))
-            else:
-                sin_obj.plotfkt_approx(schrittwt[nbr], axis_arr[nbr], grad=grad,
-                                       color=colors[grad-1], ls="--")
-        # Beschriftungen etc:
-
-        axis_arr[nbr].set_title(r'$h=\frac{}{}$'.format(r"{\pi}", "{"+str(nummer[nbr])+"}"))
-        axis_arr[nbr].set_xlim(0, np.pi)
-        axis_arr[nbr].set_xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi])
-        axis_arr[nbr].set_xticklabels([r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$",
-                                       r"$\frac{3\pi}{4}$", r"$\pi$"])
-        axis_arr[nbr].set_xlabel('Definitionsbereich der Abbildung')
-        axis_arr[nbr].set_ylabel('Werte der Abbildung')
-    fig2.suptitle(r"$\sin x$ und seine ersten beiden Ableitungen, exakt und approximiert mit " +
-                  r"verschiedenen Schrittweiten $h$")
-    fig2.legend(loc="right")
-    plt.subplots_adjust(right=0.87, left=0.05, bottom=0.12)
-
-
+    #colors = ["r", "g", "b"]
+    #schrittwt = [np.pi/3, np.pi/4, np.pi/5, np.pi/10]
+    #nummer = [3, 4, 5, 10]
+    #sin_obj.plotfkt_exakt(axis_arr[0], color="m", label=r"$\sin(x)$")
+    #sin_obj.plotfkt_exakt(axis_arr[1], color="m")
+    #sin_obj.plotfkt_exakt(axis_arr[2], color="m")
+    #sin_obj.plotfkt_exakt(axis_arr[3], color="m")
+    #for nbr in [0, 1, 2, 3]:
+    #    for grad in [1, 2]:
+    #        if nbr == 0:
+    #            sin_obj.plotfkt_exakt(axis_arr[nbr], grad=grad, color=colors[grad-1], alpha=0.3,
+    #                                  lw=4, label="{}. Ableitung, exakt".format(grad))
+    #        else:
+    #            sin_obj.plotfkt_exakt(axis_arr[nbr], grad=grad, color=colors[grad-1], alpha=0.3,
+    #                                  lw=4)
+    #        if nbr == 0:
+    #            sin_obj.plotfkt_approx(schrittwt[nbr], axis_arr[nbr], grad=grad,
+    #                                   color=colors[grad-1], ls="--",
+    #                                   label="{}. Ableitung, approx.".format(grad))
+    #        else:
+    #            sin_obj.plotfkt_approx(schrittwt[nbr], axis_arr[nbr], grad=grad,
+    #                                   color=colors[grad-1], ls="--")
+     #   # Beschriftungen etc:
+#
+#        axis_arr[nbr].set_title(r'$h=\frac{}{}$'.format(r"{\pi}", "{"+str(nummer[nbr])+"}"))
+#        axis_arr[nbr].set_xlim(0, np.pi)
+#        axis_arr[nbr].set_xticks([0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi])
+ #       axis_arr[nbr].set_xticklabels([r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$",
+  #                                     r"$\frac{3\pi}{4}$", r"$\pi$"])
+  #      axis_arr[nbr].set_xlabel('Definitionsbereich der Abbildung')
+  #      axis_arr[nbr].set_ylabel('Werte der Abbildung')
+  #  fig2.suptitle(r"$\sin x$ und seine ersten beiden Ableitungen, exakt und approximiert mit " +
+  #                r"verschiedenen Schrittweiten $h$")
+  #  fig2.legend(loc="right")
+  #  plt.subplots_adjust(right=0.87, left=0.05, bottom=0.12)
+#
+#
     plt.show()
 
 
@@ -237,11 +242,13 @@ def fehlerplot(plotbereich, diff_objct, h_arr, labeling=True):
     else:
         mult = 0
 
-    plotbereich.loglog(h_arr, err_array1, 'g', label='Fehler in erster Ableitung'*mult)
-    plotbereich.loglog(h_arr, err_array2, 'k', label='Fehler in zweiter Ableitung'*mult)
+    plotbereich.loglog(h_arr, err_array1, 'g', label='Fehler in erster Ableitung'*mult, lw=3)
+    plotbereich.loglog(h_arr, err_array2, 'k', label='Fehler in zweiter Ableitung'*mult, lw=3)
     plotbereich.loglog(h_arr, h_arr, 'g', ls="--", label=r'$y = h$'*mult)
     plotbereich.loglog(h_arr, (h_arr)**2, 'k', ls="--", label=r'$y = h^2$'*mult)
     plotbereich.loglog(h_arr, (h_arr)**3, 'b', ls="--", label=r'$y = h^3$'*mult)
+    plotbereich.loglog(h_arr, (h_arr)**-1, 'g', ls="-.", label=r'$y = h^{-1}$'*mult)
+    plotbereich.loglog(h_arr, (h_arr)**-2, 'k', ls="-.", label=r'$y = h^{-2}$'*mult)
 
 
 if __name__ == "__main__":
