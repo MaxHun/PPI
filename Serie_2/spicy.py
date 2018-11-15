@@ -1,11 +1,13 @@
 class Sparse(object):
     """
-    Diese Klasse erlaubt das Plotten von Funktionen und ihren Ableitungen (exakt und
-    approximiert).
+    Diese Klasse erlaubt das Erstellen der Matrizen A^(d) für d in [1,2,3]. Diese Matrizen werden
+    z. B. für die Berechnung der DGL u''(x)=-f(x) verwendet. Es handelt sich bei diesen Matrizen
+    um sehr dünn besetzte Block-Band-Matrizen, was die Verwendung von sog. sparse-Matrizen
+    in der numerischen Umsetzung nahelegt.
 
     Attribute:
 
-        ablex_lis (list):
+        :
             Liste aus den ersten drei (anfangend bei 0) exakten Ableitungen der
             zu untersuchenden Funktion. Der list-Index gibt hierbei den Grad der
             Ableitung an, wobei die Funktion selbst als nullte Ableitung aufgefasst wird.
@@ -13,26 +15,42 @@ class Sparse(object):
             Plotpunkte, an denen die Funktionen geplottet bzw. für die Fehlerbestimmung aus-
             gewertet werden.
     """
-    def __init__(slef, ):
+    def __init__(self, dim, dis):
         """
-        Initialisiert ein neues Differenzieren-Objekt. Legt aus der gegebenen Funktion und deren
-        Ableitungen eine Liste an.
+        Initialisiert ein neues Sparse-Objekt.
 
         Input:
 
-            fkt (function):
-                Bestimmt, wohin die Funktionen gezeichnet werden.
-            abl_ex (function):
-                Exakte erste Ableitung.
-            abl2_ex (function):
-                Exakte zweite Ableitung.
-            p_arr (numpy.ndarray aus floats):
-                Plotpunkte, an denen die Funktionen geplottet bzw. für die Fehlerbestimmung aus-
-                gewertet werden.
+            dim (int):
+                Raumdimension des zu untersuchenden Gebietes.
+            dis (int):
+                bestimmt die Feinheit der Diskretisierung.
 
         Return: -
         """
-        self.ablex_lis = [fkt, abl_ex, abl2_ex] # Liste aus exakten Ableitungen
-        self.p_arr = p_arr
+        self.dim = dim
+        self.dis = dis
 
-    def plotfkt_exakt(self, plotbereich, grad=0, **kwargs):
+    def a_d(self):
+        """
+        Diese Methode gibt die Matrix A^(d) als sparse-Matrix zurück.
+
+        Input: -
+
+        Return:
+            (scipy.sparse.dok_matrix-Objekt):
+                Die Matrix A^(d) als sparse-Matrix.
+        """
+        return True
+
+    def anz_nn(self):
+        """
+        Gibt die Anzahl von Einträgen von A^(d) zurück, die ungleich 0 sind.
+
+        Input: -
+
+        Return:
+            (int):
+                Anzahl von Nicht-Nulleinträgen von A^(d).
+        """
+        return True
