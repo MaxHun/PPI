@@ -1,10 +1,9 @@
 """
-sparse.py stellt die Klasse Sparse zur Verfuegung, mit der die Matrix A^(d) für d=1,2,3
+sparse.py stellt die Klasse Sparse zur Verfuegung, mit der die Matrix A^(d) fuer d=1,2,3
 bestimmt und analysiert werden kann.
 """
-
-import scipy.sparse as sp
 import numpy as np
+import scipy.sparse as sp
 
 
 class Sparse(object):
@@ -19,7 +18,7 @@ class Sparse(object):
         dim (int):
             Raumdimension des zu untersuchenden Gebietes.
         dis (numpy.ndarray aus floats):
-            Mass für die Diskretisierung des zu untersuchenden Gebietes.
+            Mass fuer die Diskretisierung des zu untersuchenden Gebietes.
         matr (scipy.dok_matrix-Objekt):
             A^(d) mit Diskretisierung dis.
     """
@@ -38,57 +37,61 @@ class Sparse(object):
         """
         self.dim = dim
         self.dis = dis
-        self.matr = self.constr_A_d(dim, dis)
+        self.matr = self.constr_mat_l_k(dim, dim, dis)
 
-    def constr_A_d(self, d, n):
+    def constr_mat_l_k(self, k, dim, dis):
         """
-        Konstruiert die Matrix A^(d) mit der gewuenschten Diskretisierung.
-        
+        Konstruiert die Matrix A_l(k) mit der gewuenschten Diskretisierung.
+
         Input:
-        
-            d (int, moegliche Werte: 1, 2, 3):
-                Gibt die Raumdimension des untersuchhten Gebietes fest sowie den
-                Wert auf der Hauptdiagonale der Koeffizientenmatrix (=2*d).
-        
+
+            k (float):
+                Bestimmt den Wert auf der Hauptdiagonalen der untersuchten Matrix (=2*k)
+            dim (int, moegliche Werte: 1, 2, 3):
+                Raumdimension des betrachteten Gebietes.
+            dis (int):
+                Diskretisierung des Gebietes.
+
         Return:
             (scipy.sparse.dok_matrix-Objekt):
-                A^(d) mit der gewuenschten Diskretisierung.
+                A_l(k) mit der gewuenschten Diskretisierung.
         """
-        if d == 1:
+        if dim == 1:
 
-            # im Falle d==1 wird die Koeffizientenmatrix zurueckgegeben:
-            
-            A = sp.dok_matrix((n-1, n-1))
-            A.setdiag(2*d)
-            A.setdiag(-1, 1)
-            A.setdiag(-1, -1)
-            return A
+            # Im Falle dim==1 werden die 3 mittleren Diagonalen gemaess Definition befuellt:
 
-        elif d == 2 or d == 3:
-            
+            mat = sp.dok_matrix((dis-1, dis-1))
+            mat.setdiag(2*k)
+            mat.setdiag(-1, 1)
+            mat.setdiag(-1, -1)
+            return mat
+        
+        elif dim == 2 or dim == 3:
+
             # Anlegen der Matrix:
-            
-            A = sp.dok_matrix(((n-1)**d,(n-1)**d))
-            
-            # per for-Schleife wird auf die (n-1)^(d-1)-dimensionale Diagonale
-            # die Matrix A^(d-1) gelegt
 
-            for min_ind in (n-1)**(d-1)*np.arange(n-1):
-                max_ind = min_ind + (n-1)**(d-1)
-                A[min_ind:max_ind, min_ind:max_ind] = self.constr_A_d(d-1 ,n)
-            for min_spalt in (n-1)**(d-1)*np.arange(n-2):
-                min_zeil = min_spalt + (n-1)**(d-1)
-                max_zeil = min_zeil + (n-1)**(d-1)
-                max_spalt = min_spalt + (n-1)**(d-1)
-                A.setdiag(-1, (n-1)**(d-1))
-                A.setdiag(-1, -(n-1)**(d-1))
-                return A
-        else:
-            print("Der Methode constr_A_d wurde ein falscher Wert fuer die Raumdimension d " +
-                  "uebergeben. Moeglich sind d=1,2,3")
-            return None
+            mat = sp.dok_matrix(((dis-1)**dim, (dis-1)**dim))
 
-    def return_A_d(self):
+            # Per for-Schleife wird auf die (n-1)^(d-1)-dimensionale Diagonale
+            # die Matrix A^(d-1) mit gleichem k gelegt (Rekursion):
+
+            for min_ind in (dis-1)**(dim-1)*np.arange(dis-1):
+                max_ind = min_ind + (dis-1)**(dim-1)
+                mat[min_ind:max_ind, min_ind:max_ind] = self.constr_mat_l_k(k, dim-1, dis)
+
+            # Zudem werden die beiden (n-1)**(l-1)-ten Nebendiagonalen mit -1 befuellt:
+
+            mat.setdiag(-1, (dis-1)**(dim-1))
+            mat.setdiag(-1, -(dis-1)**(dim-1))
+
+            return mat
+
+        # Ausgabe bei fehlerhaftem l:
+        print("Der Methode constr_A_k_l wurde ein falscher Wert fuer l " +
+              "uebergeben. Moeglich sind l=1,2,3")
+        return None
+
+    def return_mat_d(self):
         """
         Diese Methode gibt die Matrix A^(d) as sparse-Matrix zurueck.
 
@@ -180,7 +183,9 @@ class Sparse(object):
 
         return 1 - len(nn_arr)/matr_dim
 
-#test = Sparse(2,5)
-#A = test.return_A_d()
-#print(A.todense(), A.get_shape())
-#print(test.anz_n_rel(), test.anz_n_abs(), test.anz_nn_abs())
+
+if __name__ == "__main__":
+    TEST = Sparse(2, 5)
+    A = TEST.return_mat_d()
+    print(A.todense(), A.get_shape())
+    print(TEST.anz_n_rel(), TEST.anz_n_abs(), TEST.anz_nn_abs())
