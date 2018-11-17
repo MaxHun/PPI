@@ -1,10 +1,12 @@
 """
-Dieses Program dient zur Veranschaulichung der Funktionnalitaet der Sparse Klasse.
+Dieses Program dient zur Veranschaulichung der Funktionalitaet der Sparse-Klasse.
 Es wird zu der durch den Benutzer eingegebenen Feinheit der Diskretisierung
 und Raumdimension eine Koeffizientenmatrix mittles der Sparse Klasse erstellt.
 Anschließend werden die absolute und relative Anzahl der Null- und nicht-Null-Eintraege
-ausgedruckt.
+ausgegeben.
 """
+import sparse_matr
+
 
 abbr = 1
 while abbr == 1:
