@@ -291,9 +291,9 @@ Die Matrix $A^{(d)}$ als sparse-Matrix.
 
 \chapter{hauptprogramm\_2\_1.py}
 
-Das Hauptprogramm dient der Demonstration der Sparse Klasse. Der Nutzer kann durch eine Konsolen-Eingabe die Diskretisierung und die Raumdimension wählen. woraufhin ein entsprechendes Sparse-Objekt erstellt wird. Anschließend wird (jeweils relative und absolute) Anzahl der (Nicht-)Nulleinträge der Matrix $A^{(d)}$ mit der gewählten Dimensionalität ausgegeben. Ist die Matrix nicht größer als eine $(20\times20)$-Matrix, so wird die Matrix darüber hinaus auf der Konsole ausgegeben. Dafür wird die \emph{scipy.sparse.dok\_matrix.todense}-Methode benutzt.
+Das Hauptprogramm dient der Demonstration der Sparse-Klasse. Der Nutzer kann durch eine Konsolen-Eingabe die Diskretisierung und die Raumdimension wählen. woraufhin ein entsprechendes Sparse-Objekt erstellt wird. Anschließend wird (jeweils relative und absolute) Anzahl der (Nicht-)Nulleinträge der Matrix $A^{(d)}$ mit der gewählten Dimensionalität ausgegeben. Ist die Matrix nicht größer als eine $(20\times20)$-Matrix, so wird die Matrix darüber hinaus auf der Konsole ausgegeben. Dafür wird die \emph{scipy.sparse.dok\_matrix.todense}-Methode benutzt.
 
-Was bei der Benutzung der Sparse-Klasse auffält, ist, dass die Befüllung von  \emph{scipy.sparse.dok\_matrix}-Objekten im Vergleich zu \emph{numpy.ndarray}-Objekten sehr lange dauert. Grund hierfür ist, dass bei jedem Schreibvorgang, bei dem ein Matrix-Eintrag von 0 auf einen anderen Wert geändert wird, die sog.~\glqq sparsity\grqq, also %TODO
+Was bei der Benutzung der Sparse-Klasse auffält, ist, dass die Befüllung von  \emph{scipy.sparse.dok\_matrix}-Objekten im Vergleich zu \emph{numpy.ndarray}-Objekten sehr lange dauert. Grund hierfür ist, dass bei jedem Schreibvorgang, bei dem ein Matrix-Eintrag von 0 auf einen anderen Wert geändert wird, die sog.~\glqq sparsity\grqq, also die Anzahl der Nulleinträge ebenfalls geändert werden muss. Die Umsetzung dessen im \emph{dictionary of keys} ist ein vergleichsweise aufwendiger Prozess und führt zu langen Laufzeiten. Bei der Erstellung der Klasse 
 
 
 %\renewcommand{\indexname}{Python-Modulindex}

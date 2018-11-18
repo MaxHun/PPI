@@ -65,7 +65,7 @@ class Sparse(object):
             mat.setdiag(-1, 1)
             mat.setdiag(-1, -1)
             return mat
-        
+
         elif dim == 2 or dim == 3:
 
             # Anlegen der Matrix:
@@ -77,7 +77,20 @@ class Sparse(object):
 
             for min_ind in (dis-1)**(dim-1)*np.arange(dis-1):
                 max_ind = min_ind + (dis-1)**(dim-1)
-                mat[min_ind:max_ind, min_ind:max_ind] = self.constr_mat_l_k(k, dim-1, dis)
+                if dim == 2:
+
+                    # Der Fall d==2 wird gesondert behandelt, um einen rekursiven Aufruf der
+                    # Methode nur fuer d==3 ausfuehren zu müssen. Dies dient der Verbesserung
+                    # der Geschwindigkeit dieser Methode. Da setdiag nicht auf Teilmatrizen
+                    # anwendbar ist, werden numpy-arrays zur Indexierung verwendet. Die
+                    # folgenden drei Zeilen sind dabei analog zum Fall d==1, werden
+                    # hier aber auf Teilmatrizen einer groesseren Matrix angewendet.
+
+                    mat[np.arange(min_ind, max_ind), np.arange(min_ind, max_ind)] = 2*k
+                    mat[np.arange(min_ind, max_ind)[:-1], np.arange(min_ind, max_ind)[1:]] = -1
+                    mat[np.arange(min_ind, max_ind)[1:], np.arange(min_ind, max_ind)[:-1]] = -1
+                else:
+                    mat[min_ind:max_ind, min_ind:max_ind] = self.constr_mat_l_k(k, dim-1, dis)
 
             # Zudem werden die beiden (n-1)**(l-1)-ten Nebendiagonalen mit -1 befuellt:
 

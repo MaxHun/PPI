@@ -18,10 +18,13 @@ def A_matr(d, n):
         A = sp.dok_matrix(((n-1)**l,(n-1)**l))
         for min_ind in (n-1)**(l-1)*np.arange(n-1):
             max_ind = min_ind + (n-1)**(l-1)
-            if d == 82:
-                A[min_ind:max_ind, min_ind:max_ind].setdiag(2*k)
-                A[min_ind:max_ind, min_ind:max_ind].setdiag(-1,1)
-                A[min_ind:max_ind, min_ind:max_ind].setdiag(-1,-1)
+            if d == 2:
+                A[np.arange(min_ind,max_ind),np.arange(min_ind,max_ind)]=2*d
+                A[np.arange(min_ind,max_ind)[:-1],np.arange(min_ind,max_ind)[1:]]=-1
+                A[np.arange(min_ind,max_ind)[1:],np.arange(min_ind,max_ind)[:-1]]=-1
+                #A[min_ind:max_ind, min_ind:max_ind].setdiag(2*k)
+                #A[min_ind:max_ind, min_ind:max_ind].setdiag(-1,1)
+                #A[min_ind:max_ind, min_ind:max_ind].setdiag(-1,-1)
             else:
                 A[min_ind:max_ind, min_ind:max_ind] = A_matr(d-1,n)
         for min_spalt in (n-1)**(l-1)*np.arange(n-2):
@@ -32,7 +35,7 @@ def A_matr(d, n):
             A.setdiag(-1,-(n-1)**(l-1))
             return A
 start_A_matr = timer()
-T = A_matr(3,25)
+T = A_matr(2,5)
 end_A_matr = timer()
 print("Die Slicing-Methode dauerte {} s.".format(-start_A_matr+end_A_matr))
 print(T.todense())
