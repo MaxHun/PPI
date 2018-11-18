@@ -1,0 +1,23 @@
+\begin{sphinxtheindex}
+\def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+
+  \bigletter A
+  \item anz\_n\_abs() (Methode von sparse.Sparse), \hyperpage{1}
+  \item anz\_n\_rel() (Methode von sparse.Sparse), \hyperpage{1}
+  \item anz\_nn\_abs() (Methode von sparse.Sparse), \hyperpage{1}
+  \item anz\_nn\_rel() (Methode von sparse.Sparse), \hyperpage{1}
+
+  \indexspace
+  \bigletter C
+  \item constr\_mat\_l\_k() (Methode von sparse.Sparse), \hyperpage{2}
+
+  \indexspace
+  \bigletter R
+  \item return\_mat\_d() (Methode von sparse.Sparse), \hyperpage{2}
+
+  \indexspace
+  \bigletter S
+  \item Sparse (Klasse in sparse), \hyperpage{1}
+  \item sparse (Modul), \hyperpage{1}
+
+\end{sphinxtheindex}

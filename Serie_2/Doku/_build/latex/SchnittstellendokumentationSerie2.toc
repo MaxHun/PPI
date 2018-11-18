@@ -1,0 +1,4 @@
+\babel@toc {ngerman}{}
+\contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Die Sparse-Klasse}{3}{chapter.2}
+\contentsline {chapter}{\numberline {3}hauptprogramm\_2\_1.py}{5}{chapter.3}
