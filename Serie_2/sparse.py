@@ -80,7 +80,7 @@ class Sparse(object):
                 if dim == 2:
 
                     # Der Fall d==2 wird gesondert behandelt, um einen rekursiven Aufruf der
-                    # Methode nur fuer d==3 ausfuehren zu müssen. Dies dient der Verbesserung
+                    # Methode nur fuer d==3 ausfuehren zu muessen. Dies dient der Verbesserung
                     # der Geschwindigkeit dieser Methode. Da setdiag nicht auf Teilmatrizen
                     # anwendbar ist, werden numpy-arrays zur Indexierung verwendet. Die
                     # folgenden drei Zeilen sind dabei analog zum Fall d==1, werden
@@ -156,7 +156,7 @@ class Sparse(object):
 
     def anz_nn_rel(self):
         """
-        Gibt die relative Anzahl von Eintraegen von A^(d) zurueck, die gleich 0 sind.
+        Gibt die relative Anzahl von Eintraegen von A^(d) zurueck, die ungleich 0 sind.
 
         Input: -
 
