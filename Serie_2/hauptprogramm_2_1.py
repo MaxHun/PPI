@@ -3,7 +3,7 @@ Dieses Program dient zur Veranschaulichung der Funktionalitaet der Sparse-Klasse
 Es wird zu der durch den Benutzer eingegebenen Feinheit der Diskretisierung
 und Raumdimension eine Koeffizientenmatrix mittles der Sparse Klasse erstellt.
 Anschliessend werden die absolute und relative Anzahl der Null- und nicht-Null-Eintraege
-ausgegeben.
+ausgegeben. Wenn die Matrix nicht groesser als 20x20 ist, wird sie auf der Konsole ausgegeben.
 """
 import sparse
 
@@ -49,7 +49,7 @@ def main():
     matrix = sparse_obj.return_mat_d()
     print('Es wurden die Dimension {} und die Diskretisierung {} gewaehlt.'.format(dim, dis))
 
-    # Gebe Matrix aus, falls diese nicht größer als 20x20 ist:
+    # Gebe Matrix aus, falls diese nicht groesser als 20x20 ist:
     if matrix.get_shape()[0] <= 20:
         print('Die Koeffizientenmatrix ist:\n', matrix.todense())
 

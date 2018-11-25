@@ -195,10 +195,3 @@ class Sparse(object):
         matr_dim = self.matr.get_shape()[0]**2
 
         return 1 - len(nn_arr)/matr_dim
-
-
-if __name__ == "__main__":
-    TEST = Sparse(2, 5)
-    A = TEST.return_mat_d()
-    print(A.todense(), A.get_shape())
-    print(TEST.anz_n_rel(), TEST.anz_n_abs(), TEST.anz_nn_abs())
