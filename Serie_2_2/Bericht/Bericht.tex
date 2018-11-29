@@ -19,6 +19,7 @@
 % inputenc allows the usage of non-ascii characters in the LaTeX source code
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx} 
+\usepackage{float}
 %\graphicspath{ {/u/hnatiuka/Praktikum/PPI/} }
 
 
@@ -103,7 +104,7 @@ Das analytische Lösen von partiellen Differentialgleichungen kann manchmal schw
 \section{Theorie}
 
 \subsection{Speicherplatzbedarf}
-
+\label{sec:bedarf}
 Der wesentliche Unterschied zwischen vollbesetzten und \textit{sparse}-Matrizen  liegt in dem Speicherbedarf. Während eine vollbesetzte Matrix alle Einträge wie in einem Array speichert, werden nur die nicht-Null Einträge in einer \textit{sparse}-Matrix gespeichert. Also braucht eine $n \times n$ \textit{numpy.matrix} $n^2$ \textit{float}-Speicherplätze, jeweils \textit{64-bit}. Ein \textit{scipy.sparse.dok\_matrix}-Objekt  ist ein Wörterbuch-Objekt, dessen Schlüssel die \textit{(Zeile, Spalte)}-Koordinaten, und dessen Werte die Matrixeinträge sind. Also brauchen $n$ nicht-Null Einträge $2n$ \textit{int}Speicherplätze (für die zwei Schüssel-\textit{arrays}), jeweils \textit{24-bit}, und $n$ \textit{float}-Speicherplätze für den Matrixeintrag. Dagegen sind Keine Null Einträge gespeichert, also enthält das Wörterbuch die Schlüssel mit den Koordinaten der Null Einträge. Ein solches Objekt benutzt auch einen konstanten (also vernachlässigbaren) Speicherplatz für die Dimensionen der Matrix. Wir wenden nun die Speicherbedarfsanalyse auf eine Matrix wie in der Aufgabestellung mit Feinheit der Diskretisierung $n$ an. Wir approximieren dabei der Übersicht halber $2 \cdot 24 \approx 64$, um einen Wörterbuch-Eintrag als zwei \textit{float}-Einträge zu betrachten, damit nut \textit{float}-Speicherplätze in Frage kommen.
 
 \paragraph{d = 1}
@@ -121,17 +122,24 @@ Die $d=2$-Matrix besteht aus $n^2$ Matrizen, die die gleiche Größe wie eine $d
  
  Die untersuchte Matrix hat $n$ viele $d=2$-Matrizen auf der Hauptdiagonale  und $2(n-1)$ Einheitsmatrizen auf den zwei Nebendiagonalen, mit jeweils $n^2$ nicht-Null Einträge. Insgesamt macht das $2(n(\mathcal{O}(16n^2))+2n^2(n-1))=\mathcal{O}(36n^3)$ Speicherplätze.
 
-\section{Experimente}
+\section{Experiment}
+
+In \textit{experimente.py} wird die relative Anzahl der Nicht-Null-Einträge der Matrix $A^{(d)}$ für $d=1,2,3$ numerisch untersucht und anschließend graphisch dargestellt. Darüber hinaus wird die Gesamtanzahl der Einträge einer vollbesetzen Matrix der gleichen Größe wie $A^{(d)}$ in Abhängigkeit von $n$ geplottet. Diese ergibt sich zu $(n-1)^{2d}$, da $A^{(d)}\in\mathbb{R}^{(n-1)^d\times(n-1)^d}$ Das Ergebnis des Experiments ist in Abb.~\ref{im:nn_eintr} doppeltlogarithmisch dargestellt.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{Bilder/nn_eintraege}
+
+\caption{Durchgezogen: Nicht-Null-Einträge von $A^{(d)}$ für $d=1,2,3$ (relative Anzahl). Gestrichelt: Einträge einer vollbesetzten Matrix der gleichen Größe wie $A^{(d)}$.}
+\label{im:nn_eintr}
+\end{figure}
 
 
 
-\section{Analyse der Experimente}
-
+Man erkennt, dass die relative Anzahl der Nicht-Null-Einträge (und damit der Speicheraufwand des \textit{scipy.dok\_matrix}-Objektes für jedes untersuchte $d$ verschieden stark abfällt. Bezeichnet $a_{\text{nn},d}(n)$ die Anzahl der 
+Nicht-Null-Einträge von $A^{(d)}$, so ergibt sich durch eine graphische Analyse, dass $a_{\text{nn},d}\sim n^{-d}$ wie in Abschnitt \ref{sec:bedarf} vorhergesagt. Mit zunehmender Feinheit der Diskretisierung wird die Matrix deutlich dünner besetzt und die Speicherung als Sparse-Matrix immer sinnvoller. Man beachte dazu insbesondere die zunehmende Differenz zum Wert 1, der in Abb.~\ref{im:nn_eintr} durch eine gepunktete Linie eingetragen wurde. 
 
 
 \section{Zusammenfassung}
-
-
 
 
 \begin{thebibliography}{9}
