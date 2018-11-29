@@ -35,16 +35,22 @@ def main():
             n_arr = np.unique(np.logspace(np.log10(3), 1.3, 20, dtype=int))
         #print(n_arr)
         k=0
-        anz_n = np.zeros(len(n_arr))
+        anz_nn = np.zeros(len(n_arr),dtype=float)
         for dis in n_arr:
             sparse_obj_dis = sparse.Sparse(dim,dis)
-            #print(sparse_obj_dis.anz_n_rel())
-            anz_n[k] = sparse_obj_dis.anz_n_rel()
+            print(sparse_obj_dis.anz_n_rel())
+            anz_nn[k] = sparse_obj_dis.anz_nn_rel()
             k += 1
         #print(dim-1)    
         #print(ax)
-        ax.loglog(n_arr, anz_n, label=r"$d={}$".format(dim))
+        ax.loglog(n_arr, anz_nn, label=r"$d={}$".format(dim))
         #print(anz_n.min())
+        #print(n_arr)
+    #for j in np.arange(len(n_arr)):
+     #   n_arr[j] = float(n_arr[j])
+    n_arr_fl = n_arr.astype(float)
+    for i in [2,-2,-3,-4,-5]:
+        ax.plot(n_arr_fl, n_arr_fl**i, label="{}".format(i))
     ax.legend()
     plt.show()
 
