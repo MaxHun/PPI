@@ -5,6 +5,10 @@
 \contentsline {paragraph}{\nonumberline d = 1}{2}{section*.2}
 \contentsline {paragraph}{\nonumberline d = 2}{2}{section*.3}
 \contentsline {paragraph}{\nonumberline d = 3}{2}{section*.4}
-\contentsline {section}{\numberline {3}Experimente}{2}{section.3}
-\contentsline {section}{\numberline {4}Analyse der Experimente}{2}{section.4}
-\contentsline {section}{\numberline {5}Zusammenfassung}{2}{section.5}
+\contentsline {subsection}{\numberline {2.2}Lineares Gleichungssystem}{2}{subsection.2.2}
+\contentsline {paragraph}{\nonumberline Dsikretisierung}{3}{section*.5}
+\contentsline {paragraph}{\nonumberline Diskretisierung der Differentialgleichung}{3}{section*.6}
+\contentsline {paragraph}{\nonumberline Aufstellen des linearen Gleichungssystems}{4}{section*.7}
+\contentsline {section}{\numberline {3}Experimente}{4}{section.3}
+\contentsline {section}{\numberline {4}Analyse der Experimente}{4}{section.4}
+\contentsline {section}{\numberline {5}Zusammenfassung}{4}{section.5}
