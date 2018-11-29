@@ -1,9 +1,9 @@
 import numpy as np
 import sparse
 import scipy.sparse as sp
+import matplotlib
+matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
-
-
 
 def main():
     """
