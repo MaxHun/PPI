@@ -125,7 +125,7 @@ Die Gestalt dieser Matrizen $A^{(d)}$ ist in der Schnittstellendoke von \textit{
 \subsection{Speicherplatzbedarf}
 \label{sec:bedarf}
 Der wesentliche Unterschied zwischen vollbesetzten und \textit{sparse}-Matrizen  liegt in ihrem Speicherbedarf. Während eine vollbesetzte Matrix alle Einträge wie in einem Array speichert, werden nur die nicht-Null Einträge in einer \textit{sparse}-Matrix gespeichert. Also braucht ein \textit{numpy.matrix}-Objekt der Dimension $(n \times n)$ gerade $n^2$ \textit{float}-Speicherplätze (jeweils 64 bit). Ein \textit{scipy.sparse.dok\_matrix}-Objekt  ist ein Wörterbuch-Objekt, dessen Schlüssel die \textit{(Zeile, Spalte)}-Koordinaten und die Werte an diesen Stellen sind. 
-Also brauchen $n$ Nicht-Null Einträge $2n$ \textit{int}-Speicherplätze (für die zwei Schüssel-\textit{arrays}), jeweils \textit{24-bit}, und $n$ \textit{float}-Speicherplätze für den Matrixeintrag. Dagegen sind keine Null Einträge gespeichert, also enthält das Wörterbuch die Schlüssel mit den Koordinaten der Null-Einträge. Die Dimension der Matrix wird durch zwei \textit{int}-Objekte gespeichert, deren Größe hier vernachlässigt werden kann. Wir wenden nun die Speicherbedarfsanalyse auf eine Matrix wie in der Aufgabestellung mit Feinheit der Diskretisierung $n$ an. Wir approximieren dabei der Übersicht halber $2 \cdot 24 \approx 64$, um einen Wörterbuch-Eintrag als zwei \textit{float}-Einträge zu betrachten, damit nur \textit{float}-Speicherplätze berücksichtigt werden müssen.
+Also brauchen $n$ Nicht-Null Einträge $2n$ \textit{int}-Speicherplätze (für die zwei Schüssel-\textit{arrays}), jeweils 24 bit, und $n$ \textit{float}-Speicherplätze für den Matrixeintrag. Dagegen sind keine Null Einträge gespeichert, also enthält das Wörterbuch die Schlüssel mit den Koordinaten der Null-Einträge. Die Dimension der Matrix wird durch zwei \textit{int}-Objekte gespeichert, deren Größe hier vernachlässigt werden kann. Wir wenden nun die Speicherbedarfsanalyse auf eine Matrix wie in der Aufgabestellung mit Feinheit der Diskretisierung $n$ an. Wir approximieren dabei der Übersicht halber $2 \cdot 24 \approx 64$, um einen Wörterbuch-Eintrag als zwei \textit{float}-Einträge zu betrachten, damit nur \textit{float}-Speicherplätze berücksichtigt werden müssen.
 
 \paragraph{d = 1}
 In der ersten Dimension hat die vollbesetzte Matrix $n^2$ Einträge, also einen Speicherbedarf der Ordnung $\mathcal{O}(n^2)$.
@@ -177,6 +177,7 @@ x_m=
 \left(\frac{g(m)}{n}, \frac{g(\ulcorner\frac{m}{n}\urcorner)}{n}, \frac{\ulcorner\frac{m}{(n-1)^2+1}\urcorner}{n}\right) 
 & \text{für } d=3
 \end{cases}
+\label{eq:code}
 \end{align}
 wobei $\ulcorner \cdot \urcorner$ die Aufrundung bezeichnet. Nach dieser Rechenvorschrift wird jedem $m$ zwischen 1 und $(n-1)^d$ ein eindeutiges Punkt zugewiesen. Man sieht auch: für $x_m = (\frac{i}{n}, \frac{j}{n}, \frac{k}{n})$ gilt $x_{m\pm(n-1)} = (\frac{i}{n}, \frac{j\pm1}{n}, \frac{k}{n})$ und $x_{m\pm(n-1)^2} = (\frac{i}{n}, \frac{j}{n}, \frac{k\pm1}{n})$.
 
@@ -187,34 +188,42 @@ Die gefundene Umwandlung der Elemente von $P$ in einen Spaltenvektor soll nun ge
 \label{eq:diff}
 \end{align} 
 
-Daraus folgt mit \eqref{eq:rwp} unter Vernachlässigung von $\mathcal{O}(h^2)$:
+Daraus folgt mit \eqref{eq:rwp} unter Vernachlässigung von $\mathcal{O}(h^2)$ für $d=3$:
 \begin{align}
 f(x) = \frac{-u(x-e_1h)-u(x+e_1h)-u(x-e_2h)+u(x+e_2h)-u(x-e_3h)+u(x+e_3h)+2du(x)}{h^2}.
 \end{align}
-%Wenn wir $h$ wie im letzten Absatz auffassen, können wir die Formel bezüglich der Punkte in $P$ mit der Eigenschaft $x_m=(\frac{i}{n}, \frac{j}{n}, \frac{k}{n})$, $i, j, k \notin \{1, (n-1)\}$ (sei $P*$ die Menge dieser Punkte) und die darauf definierte Nummerierung darstellen:
-Bezeichne
+Die Fälle $d\in\{1,2\}$ lassen sich hieraus einfach ableiten, indem die \glqq überflüssigen\grqq Einhaitsvektoren durch $0$ ersetzt werden.
+%Wenn wir $h$ wie im letzten Absatz auffassen, können wir die Formel bezüglich der Punkte in $P$ mit der Eigenschaft $x_m=(\frac{i}{n}, \frac{j}{n}, \frac{k}{n})$, $i, j, k \notin \{1, (n-1)\}$ (sei $P^*$ die Menge dieser Punkte) und die darauf definierte Nummerierung darstellen:
+Es tragen also für jeden Punkt nur die nächsten Nachbarn im Abstand $h$ zum Wert von $u$ an dieser Stelle bei. Auf dem quadratischen ($d=2$) bzw. kubischen ($d=3$) Gitter sind die nächsten Nachbarn von $x_m$ aber nicht benachbart der oben etablierten Vektor-Kodierung \eqref{eq:code}. Dies führt dazu, dass $A^{(d)}$ für $d\neq 1$ nicht länger eine simple Tridiagonalgestalt hat. Um diese Form zu erhalten, wird zunähchst foldende Menge definiert:
 \begin{align}
-P^*
+P^*:=\lbrace x_m=(\frac{i}{n}, \frac{j}{n}, \frac{k}{n}), i, j, k \notin \lbrace 1, (n-1)\rbrace\rbrace.
 \end{align}
-
+Somit gilt für alle $x_m\in P^*$:
 \begin{align}
-f(x_m) = \frac{-\hat{u}(x_{m-1})-\hat{u}(x_{m+1})-\hat{u}(x_{m-(n-1)})+\hat{u}(x_{m+(n-1)})-\hat{u}(x_{m-(n-1)^2})+\hat{u}(x_{m+(n-1)^2})+2d\hat{u}(x)}{h^2}
+f(x_m) = \frac{-\hat{u}(x_{m-1})-\hat{u}(x_{m+1})-\hat{u}(x_{m-(n-1)})+\hat{u}(x_{m+(n-1)})-\hat{u}(x_{m-(n-1)^2})+\hat{u}(x_{m+(n-1)^2})+2d\hat{u}(x)}{h^2},
 \label{eq:diff2}
 \end{align}
-wobei $\hat{u}$ eine Approximation von $u$ ist (wir haben einen Fehler der Ordnung $\mathcal{O}(h^2)$ vernachlässigt), und die Terme $x_{m\pm(n-1)}$ und $x_{m\pm(n-1)^2}$ für $d=1$ und $x_{m\pm(n-1)^2}$ für $d=2$	verschwinden. Aus der Definition der gewählten Nummerierung sieht man, dass die Formel \eqref{eq:diff2} dem linearen Gleichungssystem $A_{P*}\hat{u}=b_{P*}$ entspricht, wobei $A_{P*}$ die Matrix aus Teil 1, aber ohne die Zeilen, die zu den $x_m \in P\setminus P*$ entsprechen, und  $b_{P*}$ - der Vektor, von $f(x_m)$, aber wieder ohne die $x_m \in P\setminus P*$.
+wobei $\hat{u}$ eine Approximation von $u$ ist (wir haben einen Fehler der Ordnung $\mathcal{O}(h^2)$ vernachlässigt), und die Terme $x_{m\pm(n-1)}$ und $x_{m\pm(n-1)^2}$ für $d=1$ und $x_{m\pm(n-1)^2}$ für $d=2$	verschwinden. Aus der Definition der gewählten Nummerierung sieht man, dass die Formel \eqref{eq:diff2} dem linearen Gleichungssystem $A_{P^*}\hat{u}=b_{P^*}$ entspricht, was im Wesentlichen \eqref{eq:lgs} entspricht, allerdings ohne die Zeilen, die den Punkten in $P\setminus P^*$ entsprechen.
 
 \paragraph{Aufstellen des linearen Gleichungssystems}
 
-Damit wir das lineare Gleichungssystem für alle $x_m$ aufstellen können, müssen die Randbedingungen $u_D \in \partial\Omega$ berücksichtigt werden, weil die Punkte $x \pm e_jh$ nicht immer in $P$ liegen. In den Matrizen aus Teil 1 werden diese Einträge nicht berücksichtigt, also damit wir das Gleichungssystem als $A\hat{u}=b$ schreiben können, müssen wir $b_P$ (der Vektor mit Einträgen $f(x_m)$ für $m \in P$) mit den Termen aus dem Rand $\partial\Omega$ vervollständigen. 
-Sei $b_i :=f(x_i)$. Wir erweitern nun diese Werte.  
+Damit wir das lineare Gleichungssystem für alle $x_m$ aufstellen können, müssen die Randbedingungen $u_D \in \partial\Omega$ berücksichtigt werden, weil die Punkte $x \pm e_jh$ nicht immer in $P$ liegen. In den Matrizen aus Teil 1 werden diese Einträge nicht berücksichtigt. Um zur Darstellung \eqref{eq:lgs} zu gelangen, müssen wir $b_P$ (der Vektor mit Einträgen $f(x_m)$ für $m \in P$) mit den Termen aus dem Rand $\partial\Omega$ vervollständigen. 
+Sei $b_i :=f(x_i)$. Wir erweitern nun diese Werte wie folgt:
 
-Für $m = k(n-1)+1$ mit ein $k \in \mathbb{N}\cup \{0\}$ setze man $b_m = b_m + \frac{u(x_m - e_ih)}{h^2}$. Für $m = k(n-1) +1$ mit ein $k \in \mathbb{N}$ setze man $b_m = b_m + \frac{u(x_m + e_ih)}{h^2}$. Man mache dies für $d\in \{1, 2, 3\}$.
+\begin{itemize}
 
-Für $m \in (k(n-1)^2+1, k(n-1)^2+n-1)$ mit ein $k \in \mathbb{N}\cup \{0\}$ setze man $b_m = b_m + \frac{u(x_m)-e_jh}{h^2}$. Für $m \in (k(n-1)^2-(n-1), k(n-1)^2-1)$ mit ein $k \in \mathbb{N}$ setze man $b_m = b_m + \frac{u(x_m)+e_jh}{h^2}$.  Man mache dies für $d\in \{2, 3\}$.
-
-Für $m\in (1, (n-1)^2)$ setze man $b_m = b_m + \frac{u(x_m-e_kh)}{h^2}$. Für $m\in ((n-1)^3-(n-2), (n-1)^3)$ setze man $b_m = b_m + \frac{u(x_m+e_kh)}{h^2}$.  Man mache dies für $d=3$.
-
-Nach diese Umformungen können wir das Modell zur Approximierung der partiellen Differentialgleichung als $A\hat{u}=b$ schreiben.
+\item \textbf{für $\boldsymbol{d\in \{1, 2, 3\} }$:}
+Für $m = k(n-1)+1$ mit ein $k \in \mathbb{N}\cup \{0\}$ setze man $b_m = b_m + \frac{u(x_m - e_ih)}{h^2}$. Für $m = k(n-1) +1$ mit ein $k \in \mathbb{N}$ setze man $b_m = b_m + \frac{u(x_m + e_ih)}{h^2}$. 
+\item \textbf{für $\boldsymbol{d\in \{2, 3\} }$:}
+Für $m \in (k(n-1)^2+1, k(n-1)^2+n-1)$ mit  $k \in \mathbb{N}\cup \{0\}$ setze  $b_m = b_m + \frac{u(x_m)-e_jh}{h^2}$. Für $m \in (k(n-1)^2-(n-1), k(n-1)^2-1)$ mit $k \in \mathbb{N}$ setze  $b_m = b_m + \frac{u(x_m)+e_jh}{h^2}$.
+\item \textbf{für $\boldsymbol{d=3 }$:}
+Für $m\in (1, (n-1)^2)$ setze man $b_m = b_m + \frac{u(x_m-e_kh)}{h^2}$. Für $m\in ((n-1)^3-(n-2), (n-1)^3)$ setze man $b_m = b_m + \frac{u(x_m+e_kh)}{h^2}$.  
+\end{itemize}
+Durch diese Umformungen geht die resultierende Matrix von $A_{P^*}$ zu $A^{(d)}$ über, also folgt
+\begin{align}
+A^{(d)}\hat{u}=b
+\end{align}
+mit den in der Schnittstellendokumentation beschriebenen $A^{(d)}$.
 
 \section{Experimente}
 
@@ -231,12 +240,34 @@ In \textit{experimente.py} wird die relative Anzahl der Nicht-Null-Einträge der
 
 Man erkennt, dass die relative Anzahl der Nicht-Null-Einträge (und damit der Speicheraufwand des \textit{scipy.dok\_matrix}-Objektes für jedes untersuchte $d$) verschieden stark abfällt. Bezeichnet $a_{\text{nn},d}(n)$ die Anzahl der 
 Nicht-Null-Einträge von $A^{(d)}$, so ergibt sich durch eine graphische Analyse, dass $a_{\text{nn},d}\sim n^{-d}$ wie in Abschnitt \ref{sec:bedarf} vorhergesagt. Mit zunehmender Feinheit der Diskretisierung wird die Matrix deutlich dünner besetzt und die Speicherung als Sparse-Matrix immer sinnvoller. Man beachte dazu insbesondere die zunehmende Differenz zum Wert 1, der in Abb.~\ref{im:nn_eintr} durch eine gepunktete Linie eingetragen wurde. 
-Um die Rechenzeit sinnvoll zu beschränken, kann $n$ nicht beliebig groß gewählt werden die Wahl des maximalen $n$ hängt dabei wegen $\dim(A^{(d)})=(n-1)^2$ von $d$ ab. Die Werte für $n$ wurden in \textit{experimente.py} so gewählt, dass die Rechenzeit einige Sekunden nicht übersteigt. Durch die Verwendung der sparse-Matrizen wäre ein die Untersuchung von größeren $n$ mit mehr Rechenzeit ebenfalls möglich, ohne einen \textit{Memory-Error} zu provozieren, worauf hier aber verzichtet wird.
+Um die Rechenzeit sinnvoll zu beschränken, kann $n$ nicht beliebig groß gewählt werden die Wahl des maximalen $n$ hängt dabei wegen $\dim(A^{(d)})=(n-1)^2$ von $d$ ab. Die Werte für $n$ wurden in \textit{experimente.py} so gewählt, dass die Rechenzeit einige Sekunden nicht übersteigt:
+\begin{figure}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+$\boldsymbol{d}$ & $\boldsymbol{\log_{10}(n_{max})}$\\
+\hline
+1 & 4\\
+\hline
+2 & 2\\
+\hline
+3 & 1,3\\
+\hline
+
+\end{tabular}
+\caption{Maximale untersuchte Werte für $n$ in Abhängigkeit von $d$}
+\end{figure}
+Durch die Verwendung der \textit{sparse}-Matrizen wäre ein die Untersuchung von größeren $n$ mit mehr Rechenzeit ebenfalls möglich, ohne einen \textit{MemoryError} zu provozieren, worauf hier aber verzichtet wird.
 
 \section{Zusammenfassung}
 
+In diesem Bericht wurden die zur numerischen Lösung der Poisson-Gleichung nötigen Matrizen $A^{(d)}$ untersucht. Der Speicherbedarf dieser Matrizen als \textit{sparse}-Matrix wurde analytisch und experimentell in Abhängigkeit von $d$ und $n$ ermittelt und dem einer gleichgroßen vollbesetzten Matrix gegenübergestellt. Dabei wurde deutlich, dass die $A^{(d)}$ für angemessen große $n$ sehr dünn besetzte Matrizen sind und sich daher eine Speicherung als \textit{sparse}-Matrizen lohnt. 
 
+Es wurde gezeigt, dass $A^{(d)}$ tatsächlich dem diskretisierten Laplace-Operator für $d$ Dimensionen entspricht und sich damit die Poisson-Gleichung als lineares Gleichhungssystem schreiben lässt. 
 
+\appendix
+\section{Anhang}
+\emph{An dieser Stelle}
 
 \begin{thebibliography}{9}
 \bibitem{wiki} Kein Autor, Aufgerufen am 22.11.2018, \textit{Sparse Matrix}. 
