@@ -1,0 +1,13 @@
+\babel@toc {ngerman}{}
+\contentsline {section}{\numberline {1}Einleitung}{1}{section.1}
+\contentsline {section}{\numberline {2}Theorie}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Speicherplatzbedarf}{2}{subsection.2.1}
+\contentsline {paragraph}{\nonumberline d = 1}{2}{section*.2}
+\contentsline {paragraph}{\nonumberline d = 2}{2}{section*.3}
+\contentsline {paragraph}{\nonumberline d = 3}{2}{section*.4}
+\contentsline {subsection}{\numberline {2.2}Lineares Gleichungssystem}{3}{subsection.2.2}
+\contentsline {paragraph}{\nonumberline Dsikretisierung}{3}{section*.5}
+\contentsline {paragraph}{\nonumberline Diskretisierung der Differentialgleichung}{4}{section*.6}
+\contentsline {paragraph}{\nonumberline Aufstellen des linearen Gleichungssystems}{5}{section*.7}
+\contentsline {section}{\numberline {3}Experimente}{5}{section.3}
+\contentsline {section}{\numberline {4}Zusammenfassung}{6}{section.4}

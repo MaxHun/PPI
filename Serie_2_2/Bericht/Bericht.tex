@@ -99,78 +99,104 @@
 
 \section{Einleitung}
 
-%TODO 
-Das analytische Lösen von partiellen Differentialgleichungen kann manchmal schwierig, und oft unmöglich sein.
+In diesem Bericht werden Matrizen betrachtet, die dem numerischen Lösen des Randwertproblems 
+\begin{align}
+\begin{split}
+-\Delta u&=f(x)\text{ in }\Omega=(0, 1)^d, d\in\{1,2,3\}\\
+u \vert _{\partial\Omega}&=u_D\text{ für ein gegebenes }u_D.
+\end{split}
+\label{eq:rwp}
+\end{align}
 
+Hierbei bezeichnet 
+\begin{align}
+\Delta :=\sum_{j=1}^{d}\frac{\partial^2}{\partial x_j^2}
+\end{align}
+
+den Laplace-Operator. Zur numerischen Lösung ist es notwendig, eine Diskretisierung von $\Omega$ durchzuführen, die es erlaubt \eqref{eq:rwp} in ein Problem der Form 
+\begin{align}
+A^{(d)}\hat{u}=b
+\label{eq:lgs}
+\end{align}
+mit $A^{(d)}\in\mathbb{R}^{(n-1)^d\times(n-1)^d}$, $\hat{u},b\in\mathbb{R}^{n-1}$ und der Diskretisierung $n\in\mathbb{N}$ zu überführen.
+Die Gestalt dieser Matrizen $A^{(d)}$ ist in der Schnittstellendoke von \textit{sparse.py} bereits beschrieben worden, weiter unten soll gezeigt werden, dass die dort definierten Matrizen tatsächlich dem diskretisierten Laplace-Operator entsprechen. Ebenso wird der Speicherplatzbedarf der verwendeten \textit{scipy.sparse.dok\_matrix}-Objekt analytisch und experimentell untersucht und dem von \glqq gewöhnlichen\grqq vollbesetzten Matrizen entgegen gehalten.
 \section{Theorie}
 
 \subsection{Speicherplatzbedarf}
 \label{sec:bedarf}
-Der wesentliche Unterschied zwischen vollbesetzten und \textit{sparse}-Matrizen  liegt in dem Speicherbedarf. Während eine vollbesetzte Matrix alle Einträge wie in einem Array speichert, werden nur die nicht-Null Einträge in einer \textit{sparse}-Matrix gespeichert. Also braucht eine $n \times n$ \textit{numpy.matrix} $n^2$ \textit{float}-Speicherplätze, jeweils \textit{64-bit}. Ein \textit{scipy.sparse.dok\_matrix}-Objekt  ist ein Wörterbuch-Objekt, dessen Schlüssel die \textit{(Zeile, Spalte)}-Koordinaten, und dessen Werte die Matrixeinträge sind. Also brauchen $n$ nicht-Null Einträge $2n$ \textit{int}Speicherplätze (für die zwei Schüssel-\textit{arrays}), jeweils \textit{24-bit}, und $n$ \textit{float}-Speicherplätze für den Matrixeintrag. Dagegen sind Keine Null Einträge gespeichert, also enthält das Wörterbuch die Schlüssel mit den Koordinaten der Null Einträge. Ein solches Objekt benutzt auch einen konstanten (also vernachlässigbaren) Speicherplatz für die Dimensionen der Matrix. Wir wenden nun die Speicherbedarfsanalyse auf eine Matrix wie in der Aufgabestellung mit Feinheit der Diskretisierung $n$ an. Wir approximieren dabei der Übersicht halber $2 \cdot 24 \approx 64$, um einen Wörterbuch-Eintrag als zwei \textit{float}-Einträge zu betrachten, damit nut \textit{float}-Speicherplätze in Frage kommen.
+Der wesentliche Unterschied zwischen vollbesetzten und \textit{sparse}-Matrizen  liegt in ihrem Speicherbedarf. Während eine vollbesetzte Matrix alle Einträge wie in einem Array speichert, werden nur die nicht-Null Einträge in einer \textit{sparse}-Matrix gespeichert. Also braucht ein \textit{numpy.matrix}-Objekt der Dimension $(n \times n)$ gerade $n^2$ \textit{float}-Speicherplätze (jeweils 64 bit). Ein \textit{scipy.sparse.dok\_matrix}-Objekt  ist ein Wörterbuch-Objekt, dessen Schlüssel die \textit{(Zeile, Spalte)}-Koordinaten und die Werte an diesen Stellen sind. 
+Also brauchen $n$ Nicht-Null Einträge $2n$ \textit{int}-Speicherplätze (für die zwei Schüssel-\textit{arrays}), jeweils \textit{24-bit}, und $n$ \textit{float}-Speicherplätze für den Matrixeintrag. Dagegen sind keine Null Einträge gespeichert, also enthält das Wörterbuch die Schlüssel mit den Koordinaten der Null-Einträge. Die Dimension der Matrix wird durch zwei \textit{int}-Objekte gespeichert, deren Größe hier vernachlässigt werden kann. Wir wenden nun die Speicherbedarfsanalyse auf eine Matrix wie in der Aufgabestellung mit Feinheit der Diskretisierung $n$ an. Wir approximieren dabei der Übersicht halber $2 \cdot 24 \approx 64$, um einen Wörterbuch-Eintrag als zwei \textit{float}-Einträge zu betrachten, damit nur \textit{float}-Speicherplätze berücksichtigt werden müssen.
 
 \paragraph{d = 1}
 In der ersten Dimension hat die vollbesetzte Matrix $n^2$ Einträge, also einen Speicherbedarf der Ordnung $\mathcal{O}(n^2)$.
 
-Die nicht-Null Einträge dieser Matrix stehen auf der drei zentralen Diagonalen. Also benötigt das \textit{scipy.sparse.dok\_matrix}-Objekt $2(n+2(n-1)) = \mathcal{O}(6n)$ Speicherplätze.
+Die Nicht-Null-Einträge dieser Matrix stehen auf den drei zentralen Diagonalen (Tridiagonalmatrix). Also benötigt das \textit{scipy.sparse.dok\_matrix}-Objekt $2(n+2(n-1)) = \mathcal{O}(n)$ Speicherplätze.
 
 \paragraph{d = 2}
 Die $d=2$-Matrix besteht aus $n^2$ Matrizen, die die gleiche Größe wie eine $d=1$-Matrix haben. Also ist der Speicherbedarf der \textit{numpy}-Matrix der Ordnung $\mathcal{O}(n^4)$.
 
- Diese Matrix hat $n$ viele $d=1$-Matrizen auf der Hauptdiagonale  und $2(n-1)$ Einheitsmatrizen auf den zwei Nebendiagonalen, mit jeweils $n$ nicht-Null Einträge. Insgesamt macht das $2(n(\mathcal{O}(6n))+2n(n-1))=\mathcal{O}(16n^2)$ Speicherplätze.
+ Diese Matrix hat $n$ viele $d=1$-Matrizen auf der Hauptdiagonale  und $2(n-1)$ Einheitsmatrizen auf den zwei Nebendiagonalen, mit jeweils $n$ Nicht-Null Einträgen. Insgesamt ergibt dies $2(n(\mathcal{O}(6n))+2n(n-1))=\mathcal{O}(n^2)$ Speicherplätze.
  
  \paragraph{d = 3}
  Die $d=3$-Matrix besteht aus $n^2$ Matrizen, die die gleiche Größe wie eine $d=2$-Matrix haben. Also ist der Speicherbedarf der \textit{numpy}-Matrix der Ordnung $\mathcal{O}(n^6)$.
  
- Die untersuchte Matrix hat $n$ viele $d=2$-Matrizen auf der Hauptdiagonale  und $2(n-1)$ Einheitsmatrizen auf den zwei Nebendiagonalen, mit jeweils $n^2$ nicht-Null Einträge. Insgesamt macht das $2(n(\mathcal{O}(16n^2))+2n^2(n-1))=\mathcal{O}(36n^3)$ Speicherplätze.
+ Die untersuchte Matrix hat $n$ viele $d=2$-Matrizen auf der Hauptdiagonale  und $2(n-1)$ Einheitsmatrizen auf den zwei Nebendiagonalen, mit jeweils $n^2$ nicht-Null Einträge. Insgesamt macht das $2(n(\mathcal{O}(16n^2))+2n^2(n-1))=\mathcal{O}(n^3)$ Speicherplätze.
 
 
 \subsection{Lineares Gleichungssystem}
 
-Die zentrale Problematik, zum Lösen von welchen die implementierte Python-Klasse dient, ist das Lösen der partiellen Differentialgleichung
+In diesem Abschnitt soll die Gestalt der Matrix $A^{(d)}$ herlgeleitet werden, mit deren Hilfe \eqref{eq:rwp} in \eqref{eq:lgs} überführt werden kann. Dazu muss $\Omega$ diskretisiert werden.
 
-\begin{align}
--\Delta u=f(x)
-\end{align}
-auf einem Gebiet $\Omega=(0, 1)^d$ für $d\in \{1, 2, 3\}$ für ein gegebenes $f$ und für Randbedingungen $u_D \in \partial\Omega$, wobei 
-\begin{align}
-\Delta u=\sum_{j=1}^{d}\frac{\partial^2 u}{\partial x_j^2}
-\end{align}
-
-Wir wollen $u$ approximieren, und dafür benutzen wir die aus der Serie 1 bekannte Abschätzung
-\begin{align}
-\frac{\partial^2 u}{\partial x_j^2}(x)=\frac{u(x-e_jh)+u(x+e_jh)-2u(x)}{h^2}+\mathcal{O}(h^2)
-\label{eq:diff}
-\end{align} 
-Da es unmöglich ist, dies numerisch für jeden Punkt in $\Omega$ zu berechnen, wählen wir nur eine endliche Menge von Punkten. Dafür machen wir eine Diskretisierung des Definitionsbereichs. 
 
 \paragraph{ Dsikretisierung}
 
 Wir Zerlegen den Definitionsbereich mithilfe eines uniformen Gitters mit Schrittweite $h = 1/n$. Die Schnittpunkte auf diesem Gitter sind dann die Punkte, auf den die Funktion $u$ zu approximieren ist. Sei $P$ die Menge dieser Punkte. Für $d=3$ hat jeder Punkt $x\in P$ die Gestalt $x = (\frac{i}{n}, \frac{j}{n}, \frac{k}{n})$ für natürliche Zahlen $i, j, k \leq n$. Entsprechend gilt für $d=2$ $x=(\frac{i}{n}, \frac{j}{n})$ und für $d=1$ $x=(\frac{i}{n})$.
-Damit wir mit diesen Punkten arbeiten können, ist es sehr günstig, sie durchzunummerieren, anstelle davon, mehrere Indizes zu haben. Für $d=1$ erfolgt dies ganz intuitiv - wir nummerieren die Punkte nach Position, also $x_i = (\frac{i}{n})$. Für die höheren Dimensionen wollen wir, dass die Nummerierung erstens in der $i$-Richtung, zweitens in der $j$-Richtung und letztens in der $k$-Richtung erfolgt. Dafür führen wir die folgende Funktion ein:
+Um diese $P$ als Spaltenvektor wie in \eqref{eq:lgs} darstellen zu können, muss zunächst eine Nummerierung aller Elemente von $P$ mit nur einem Index erfolgen. Für $d=1$ ist dies trivial: $x_i = (\frac{i}{n})$. 
+Für $d=2$ soll zur Nummerierung zeilenweise vorgegangen werden, so wie in Abb.~\ref{im:gitter_2d} angedeutet.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{Bilder/gitter_d2}
+\caption{Nummerierung der Gitterpunkte für $d=2$ (Quelle: Aufgabenstellung).}
+\label{im:gitter_2d}
+\end{figure}
+
+Im Falle $d=3$ wird das dann dreidimensionale Gitter ganz analog durchummeriert, indem zuerst die $k=1$-Ebene wie im Fall $d=2$ durchgegangen wird, dann die $k=2$-Ebene usw. Zur Formalisierung dessen wird die folgende Funktion eingeführt:
 \begin{align}
 g(m)=
 \begin{cases} 
-n-1 &m\mod{n-1} \\
-m\mod{n-1} & sonst \\
+n-1 &m\mod{n-1}=0 \\
+m\mod{n-1} & \text{sonst} \\
+\end{cases}.
+\end{align}
+Der $m$-te Eintrag von $x$ kodiert dann die folgenden Koordiaten :
+\begin{align}
+x_m=
+\begin{cases}
+\left(\frac{g(m)}{n},\frac{\ulcorner\frac{m}{n}\urcorner}{n} \right) 
+& \text{für } d=2\\ 
+\left(\frac{g(m)}{n}, \frac{g(\ulcorner\frac{m}{n}\urcorner)}{n}, \frac{\ulcorner\frac{m}{(n-1)^2+1}\urcorner}{n}\right) 
+& \text{für } d=3
 \end{cases}
 \end{align}
-Die Nummerierungen für $d=2$ und $d=3$ sehen also so aus: 
-\begin{align}
-x_m=(\frac{g(m)}{n},\frac{\ulcorner\frac{m}{n}\urcorner}{n} ) 
-\end{align}
-Beziehungsweise
-\begin{align}
-x_m=(\frac{g(m)}{n}, \frac{g(\ulcorner\frac{m}{n}\urcorner)}{n}, \frac{\ulcorner\frac{m}{(n-1)^2+1}\urcorner}{n}) 
-\end{align}
-wobei $\ulcorner \cdot \urcorner$ eine Rundung nach oben bezeichnet. Nach dieser Rechenvorschrift wird jedem $m$ zwischen 1 und $(n-1)^d$ ein eindeutiges Punkt zugewiesen. Man sieht auch: für $x_m = (\frac{i}{n}, \frac{j}{n}, \frac{k}{n})$ gilt $x_{m\pm(n-1)} = (\frac{i}{n}, \frac{j\pm1}{n}, \frac{k}{n})$ und $x_{m\pm(n-1)^2} = (\frac{i}{n}, \frac{j}{n}, \frac{k\pm1}{n})$
- Nun können wir die Formel \eqref{eq:diff} auf diesen Punkten anwenden.
+wobei $\ulcorner \cdot \urcorner$ die Aufrundung bezeichnet. Nach dieser Rechenvorschrift wird jedem $m$ zwischen 1 und $(n-1)^d$ ein eindeutiges Punkt zugewiesen. Man sieht auch: für $x_m = (\frac{i}{n}, \frac{j}{n}, \frac{k}{n})$ gilt $x_{m\pm(n-1)} = (\frac{i}{n}, \frac{j\pm1}{n}, \frac{k}{n})$ und $x_{m\pm(n-1)^2} = (\frac{i}{n}, \frac{j}{n}, \frac{k\pm1}{n})$.
 
 \paragraph{Diskretisierung der Differentialgleichung}
-Die Formel \eqref{eq:diff} lässt sich unter Vernachlässigung von $\mathcal{O}(h^2)$ so schreiben:
+Die gefundene Umwandlung der Elemente von $P$ in einen Spaltenvektor soll nun genutzt werden, um \eqref{eq:rwp} zu diskretiisieren. Dazu wird zunächst die folgende Formel aus Serie~1 rekapituliert, die direkt aus der Taylor-Entwicklung folgt: 
 \begin{align}
-f(x) = \frac{-u(x-e_1h)-u(x+e_1h)-u(x-e_2h)+u(x+e_2h)-u(x-e_3h)+u(x+e_3h)+2du(x)}{h^2}
+\frac{\partial^2 u}{\partial x_j^2}(x)=\frac{u(x-e_jh)+u(x+e_jh)-2u(x)}{h^2}+\mathcal{O}(h^2)
+\label{eq:diff}
+\end{align} 
+
+Daraus folgt mit \eqref{eq:rwp} unter Vernachlässigung von $\mathcal{O}(h^2)$:
+\begin{align}
+f(x) = \frac{-u(x-e_1h)-u(x+e_1h)-u(x-e_2h)+u(x+e_2h)-u(x-e_3h)+u(x+e_3h)+2du(x)}{h^2}.
 \end{align}
-Wenn wir $h$ wie im letzten Absatz auffassen, können wir die Formel bezüglich der Punkte in $P$ mit der Eigenschaft $x_m=(\frac{i}{n}, \frac{j}{n}, \frac{k}{n})$, $i, j, k \notin \{1, (n-1)\}$ (sei $P*$ die Menge dieser Punkte) und die darauf definierte Nummerierung darstellen:
+%Wenn wir $h$ wie im letzten Absatz auffassen, können wir die Formel bezüglich der Punkte in $P$ mit der Eigenschaft $x_m=(\frac{i}{n}, \frac{j}{n}, \frac{k}{n})$, $i, j, k \notin \{1, (n-1)\}$ (sei $P*$ die Menge dieser Punkte) und die darauf definierte Nummerierung darstellen:
+Bezeichne
+\begin{align}
+P^*
+\end{align}
+
 \begin{align}
 f(x_m) = \frac{-\hat{u}(x_{m-1})-\hat{u}(x_{m+1})-\hat{u}(x_{m-(n-1)})+\hat{u}(x_{m+(n-1)})-\hat{u}(x_{m-(n-1)^2})+\hat{u}(x_{m+(n-1)^2})+2d\hat{u}(x)}{h^2}
 \label{eq:diff2}
@@ -203,11 +229,13 @@ In \textit{experimente.py} wird die relative Anzahl der Nicht-Null-Einträge der
 
 
 
-Man erkennt, dass die relative Anzahl der Nicht-Null-Einträge (und damit der Speicheraufwand des \textit{scipy.dok\_matrix}-Objektes für jedes untersuchte $d$ verschieden stark abfällt. Bezeichnet $a_{\text{nn},d}(n)$ die Anzahl der 
+Man erkennt, dass die relative Anzahl der Nicht-Null-Einträge (und damit der Speicheraufwand des \textit{scipy.dok\_matrix}-Objektes für jedes untersuchte $d$) verschieden stark abfällt. Bezeichnet $a_{\text{nn},d}(n)$ die Anzahl der 
 Nicht-Null-Einträge von $A^{(d)}$, so ergibt sich durch eine graphische Analyse, dass $a_{\text{nn},d}\sim n^{-d}$ wie in Abschnitt \ref{sec:bedarf} vorhergesagt. Mit zunehmender Feinheit der Diskretisierung wird die Matrix deutlich dünner besetzt und die Speicherung als Sparse-Matrix immer sinnvoller. Man beachte dazu insbesondere die zunehmende Differenz zum Wert 1, der in Abb.~\ref{im:nn_eintr} durch eine gepunktete Linie eingetragen wurde. 
-
+Um die Rechenzeit sinnvoll zu beschränken, kann $n$ nicht beliebig groß gewählt werden die Wahl des maximalen $n$ hängt dabei wegen $\dim(A^{(d)})=(n-1)^2$ von $d$ ab. Die Werte für $n$ wurden in \textit{experimente.py} so gewählt, dass die Rechenzeit einige Sekunden nicht übersteigt. Durch die Verwendung der sparse-Matrizen wäre ein die Untersuchung von größeren $n$ mit mehr Rechenzeit ebenfalls möglich, ohne einen \textit{Memory-Error} zu provozieren, worauf hier aber verzichtet wird.
 
 \section{Zusammenfassung}
+
+
 
 
 \begin{thebibliography}{9}
