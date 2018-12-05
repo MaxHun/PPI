@@ -48,6 +48,7 @@
 %%% MATH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % amsmath provides commands for type-setting mathematical formulas
 \usepackage{amsmath}
+\numberwithin{equation}{section}
 % amssymb provides additional symbols
 \usepackage{amssymb}
 % HINT
@@ -107,19 +108,17 @@ u \vert _{\partial\Omega}&=u_D\text{ für ein gegebenes }u_D.
 \end{split}
 \label{eq:rwp}
 \end{align}
-
 Hierbei bezeichnet 
 \begin{align}
 \Delta :=\sum_{j=1}^{d}\frac{\partial^2}{\partial x_j^2}
 \end{align}
-
 den Laplace-Operator. Zur numerischen Lösung ist es notwendig, eine Diskretisierung von $\Omega$ durchzuführen, die es erlaubt \eqref{eq:rwp} in ein Problem der Form 
 \begin{align}
 A^{(d)}\hat{u}=b
 \label{eq:lgs}
 \end{align}
 mit $A^{(d)}\in\mathbb{R}^{(n-1)^d\times(n-1)^d}$, $\hat{u},b\in\mathbb{R}^{n-1}$ und der Diskretisierung $n\in\mathbb{N}$ zu überführen.
-Die Gestalt dieser Matrizen $A^{(d)}$ ist in der Schnittstellendoke von \textit{sparse.py} bereits beschrieben worden, weiter unten soll gezeigt werden, dass die dort definierten Matrizen tatsächlich dem diskretisierten Laplace-Operator entsprechen. Ebenso wird der Speicherplatzbedarf der verwendeten \textit{scipy.sparse.dok\_matrix}-Objekt analytisch und experimentell untersucht und dem von \glqq gewöhnlichen\grqq vollbesetzten Matrizen entgegen gehalten.
+Die Gestalt dieser Matrizen $A^{(d)}$ ist in der Schnittstellendoke von \textit{sparse.py} bereits beschrieben worden und wird hier im Anhang wiederholt; weiter unten soll gezeigt werden, dass die dort definierten Matrizen tatsächlich dem diskretisierten Laplace-Operator entsprechen. Ebenso wird der Speicherplatzbedarf der verwendeten \textit{scipy.sparse.dok\_matrix}-Objekt analytisch und experimentell untersucht und dem von \glqq gewöhnlichen\grqq vollbesetzten Matrizen entgegen gehalten.
 \section{Theorie}
 
 \subsection{Speicherplatzbedarf}
@@ -140,8 +139,13 @@ Die $d=2$-Matrix besteht aus $n^2$ Matrizen, die die gleiche Größe wie eine $d
  \paragraph{d = 3}
  Die $d=3$-Matrix besteht aus $n^2$ Matrizen, die die gleiche Größe wie eine $d=2$-Matrix haben. Also ist der Speicherbedarf der \textit{numpy}-Matrix der Ordnung $\mathcal{O}(n^6)$.
  
- Die untersuchte Matrix hat $n$ viele $d=2$-Matrizen auf der Hauptdiagonale  und $2(n-1)$ Einheitsmatrizen auf den zwei Nebendiagonalen, mit jeweils $n^2$ nicht-Null Einträge. Insgesamt macht das $2(n(\mathcal{O}(16n^2))+2n^2(n-1))=\mathcal{O}(n^3)$ Speicherplätze.
-
+ Die untersuchte Matrix hat $n$ viele $d=2$-Matrizen auf der Hauptdiagonale  und $2(n-1)$ Einheitsmatrizen auf den zwei Nebendiagonalen, mit jeweils $n^2$ nicht-Null Einträge. Insgesamt macht das $2(n(\mathcal{O}(16n^2))+2n^2(n-1))=\mathcal{O}(n^3)$ Speicherplätze. 
+Zusammenfassend ergibt sich also als Quotient der Speicherbedarfe:
+\begin{align}
+a_{\text{nn},d}:=\frac{\text{Speicherbedarf als \textit{sparse}-Matrix}}{\text{Speicherbedarf als vollbesetzte Matrix}}=\mathcal{O}(n^{-d})
+\label{eq:quot}
+\end{align}
+Die Zahl $a_{\text{nn},d}$ entspricht aus o.\,g. Gründen der relativen Anzahl von Nicht-Null-Einträgen der Matrix $A^{(d)}$ und wird in Abschnitt \ref{sec:experimente} experimentell untersucht.
 
 \subsection{Lineares Gleichungssystem}
 
@@ -223,10 +227,10 @@ Durch diese Umformungen geht die resultierende Matrix von $A_{P^*}$ zu $A^{(d)}$
 \begin{align}
 A^{(d)}\hat{u}=b
 \end{align}
-mit den in der Schnittstellendokumentation beschriebenen $A^{(d)}$.
+mit den in der Schnittstellendokumentation sowie in Abschnitt~\ref{sec:anhang} beschriebenen $A^{(d)}$.
 
 \section{Experimente}
-
+\label{sec:experimente}
 In \textit{experimente.py} wird die relative Anzahl der Nicht-Null-Einträge der Matrix $A^{(d)}$ für $d=1,2,3$ numerisch untersucht und anschließend graphisch dargestellt. Darüber hinaus wird die Gesamtanzahl der Einträge einer vollbesetzen Matrix der gleichen Größe wie $A^{(d)}$ in Abhängigkeit von $n$ geplottet. Diese ergibt sich zu $(n-1)^{2d}$, da $A^{(d)}\in\mathbb{R}^{(n-1)^d\times(n-1)^d}$ Das Ergebnis des Experiments ist in Abb.~\ref{im:nn_eintr} doppeltlogarithmisch dargestellt.
 
 \begin{figure}[H]
@@ -239,8 +243,8 @@ In \textit{experimente.py} wird die relative Anzahl der Nicht-Null-Einträge der
 
 
 Man erkennt, dass die relative Anzahl der Nicht-Null-Einträge (und damit der Speicheraufwand des \textit{scipy.dok\_matrix}-Objektes für jedes untersuchte $d$) verschieden stark abfällt. Bezeichnet $a_{\text{nn},d}(n)$ die Anzahl der 
-Nicht-Null-Einträge von $A^{(d)}$, so ergibt sich durch eine graphische Analyse, dass $a_{\text{nn},d}\sim n^{-d}$ wie in Abschnitt \ref{sec:bedarf} vorhergesagt. Mit zunehmender Feinheit der Diskretisierung wird die Matrix deutlich dünner besetzt und die Speicherung als Sparse-Matrix immer sinnvoller. Man beachte dazu insbesondere die zunehmende Differenz zum Wert 1, der in Abb.~\ref{im:nn_eintr} durch eine gepunktete Linie eingetragen wurde. 
-Um die Rechenzeit sinnvoll zu beschränken, kann $n$ nicht beliebig groß gewählt werden die Wahl des maximalen $n$ hängt dabei wegen $\dim(A^{(d)})=(n-1)^2$ von $d$ ab. Die Werte für $n$ wurden in \textit{experimente.py} so gewählt, dass die Rechenzeit einige Sekunden nicht übersteigt:
+Nicht-Null-Einträge von $A^{(d)}$, so ergibt sich durch eine graphische Analyse, dass $a_{\text{nn},d}\sim n^{-d}$ in Übereinstimmung mit \eqref{eq:quot}. Mit zunehmender Feinheit der Diskretisierung wird die Matrix deutlich dünner besetzt und die Speicherung als Sparse-Matrix immer sinnvoller. Man beachte dazu insbesondere die zunehmende Differenz zum Wert 1, der in Abb.~\ref{im:nn_eintr} durch eine gepunktete Linie eingetragen wurde. 
+Um die Rechenzeit sinnvoll zu beschränken, kann $n$ nicht beliebig groß gewählt werden die Wahl des maximalen $n$ hängt dabei wegen $\dim(A^{(d)})=(n-1)^2$ von $d$ ab. Die Werte für $n$ wurden in \textit{experimente.py} so gewählt, dass die Rechenzeit einige Sekunden nicht übersteigt (und jeweils auf den nächsten \textit{int}-Wert abgerundet):
 \begin{figure}[H]
 \centering
 \begin{tabular}{|c|c|}
@@ -265,9 +269,54 @@ In diesem Bericht wurden die zur numerischen Lösung der Poisson-Gleichung nöti
 
 Es wurde gezeigt, dass $A^{(d)}$ tatsächlich dem diskretisierten Laplace-Operator für $d$ Dimensionen entspricht und sich damit die Poisson-Gleichung als lineares Gleichhungssystem schreiben lässt. 
 
+\cleardoublepage
 \appendix
-\section{Anhang}
-\emph{An dieser Stelle}
+\section{Anhang}\label{sec:anhang}
+\emph{An dieser Stelle soll die Gestalt der Matrizen $A^{(d)}$ wiederholt werden. Diese Beschreibung befindet sich bereits in der Schnittstellendokumentation der Klasse \emph{sparse.Sparse} und wird hier lediglich zur besseren Übersicht erneut aufgeführt.}\newline
+\newline
+Zunächst definiert man für $d=1$:
+\begin{align}
+A^{(1)}:= 
+\begin{pmatrix}
+2 & -1 & 0 & \dots & 0\\
+-1 & 2 & -1 & \dots & 0\\
+\vdots & \ddots & \ddots & \ddots & \vdots\\
+0 & 0 & -1 & 2 & -1\\
+0 & 0 & \dots & -1 & 2
+\end{pmatrix}\in \mathbb{R}^{(n-1)\times(n-1)}.
+\label{eq:a_1_def}
+\end{align}
+Definiert man mit Hilfe der $(l\times l)$-Einheitsmatrix $I^l\in \mathbb{R}^{l\times l}$ die folgenden Matrizen:
+\begin{align}
+\mathcal{I}_d&:=I_{(n-1)^d}\in\mathbb{R}^{(n-1)^d\times(n-1)^d}\\
+\mathcal{A}_1(k)&:=
+\begin{pmatrix}
+2k & -1 & 0 & \dots & 0\\
+-1 & 2k & -1 & \dots & 0\\
+\vdots & \ddots & \ddots & \ddots & \vdots \\
+0 & 0 & -1 & 2k & -1\\
+0 & 0 & \dots & -1 & 2k\\
+\end{pmatrix} \in \mathbb{R}^{(n-1)\times(n-1)},
+\end{align}
+so lässt sich die folgende rekursive Matrixfolge definieren:
+\begin{align}
+\mathcal{A}_l(k):=
+\begin{pmatrix}
+\mathcal{A}_{l-1}(k) & -\mathcal{I}_{l-1} & 0 & 0 & \dots & 0\\
+-\mathcal{I}_{l-1} & \mathcal{A}_{l-1}(k) & -\mathcal{I}_{l-1} & 0 & \dots & 0\\
+0 & \ddots & \ddots & \ddots & \ddots & \vdots \\
+\vdots & \ddots & \ddots & \ddots & \ddots & \vdots \\
+0 & \dots & 0 & -\mathcal{I}_{l-1} & \mathcal{A}_{l-1}(k) & -\mathcal{I}_{l-1} \\
+0 & \dots & 0 & 0 & -\mathcal{I}_{l-1} & \mathcal{A}_{l-1}(k)
+\end{pmatrix} \in \mathbb{R}^{(n-1)^l\times(n-1)^l}.
+\end{align}
+Die Matrizen $A^{(d)}$ ergeben sich für den Fall $l=k=d$:
+
+\begin{align}
+A^{(1)}&=\mathcal{A}_1(1)\text{~~~~~(in Übereinstimmung mit \eqref{eq:a_1_def})}\\
+A^{(2)}&:=\mathcal{A}_2(2)\\
+A^{(3)}&:=\mathcal{A}_3(3).
+\end{align}
 
 \begin{thebibliography}{9}
 \bibitem{wiki} Kein Autor, Aufgerufen am 22.11.2018, \textit{Sparse Matrix}. 
