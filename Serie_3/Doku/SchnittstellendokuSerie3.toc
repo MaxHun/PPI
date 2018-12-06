@@ -1,0 +1,4 @@
+\select@language {ngerman}
+\contentsline {section}{\numberline {1}Einleitung}{1}{section.1}
+\contentsline {subsection}{\numberline {1.1}Laplace Gleichung}{1}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Hilbert-Matrizen}{2}{subsection.1.2}
