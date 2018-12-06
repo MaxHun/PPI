@@ -209,19 +209,28 @@ class Sparse(object):
 
         return 1 - len(nn_arr)/matr_dim
 
-    def kond_a_d_zs(self)
+    def kond_a_d_zs(self):
         """
-        Gibt die Kondition der Matrix A^(d)bezueglich der Zeilensummennorm zurueck.
+        Gibt die Kondition der Matrix A^(d) bezueglich der Zeilensummennorm zurueck.
         """
-        norm_A = lina.norm(self.matr)
-        norm_A_inv = lina.norm(self.return_mat_d_inv())
-        return norm_A * norm_A_inv
+        norm_matr = sp_lina.norm(self.matr)
+        norm_matr_inv = sp_lina.norm(self.return_mat_d_inv())
+        return norm_matr * norm_matr_inv
 
-    #def 
+    def l_u_zerl(self):
+        """
+        Errechnet die L-U-Zerlegung von A^(d).
+        """
+        zerl = sp_lina.splu(self.matr)
+        matr_dim = self.matr.get_shape()[0]
+        P = csc_matrix(((matr_dim, matr_dim))
+        P[zerl.perm_r, np.arange(matr_dim)] = 1 # Hier weitermachen mit https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.sparse.linalg.SuperLU.html
 
+
+        return sp_lina.splu(self.matr)
 
 if __name__ == "__main__":
     TEST = Sparse(2, 5)
     A = TEST.return_mat_d_csc()
-    print(A.todense(), A.get_shape())
-    print(TEST.anz_n_rel(), TEST.anz_n_abs(), TEST.anz_nn_abs())
+    print(A.todense(), TEST.l_u_zerl().P.A)# TEST.kond_a_d_zs())
+    #print(TEST.anz_n_rel(), TEST.anz_n_abs(), TEST.anz_nn_abs())
