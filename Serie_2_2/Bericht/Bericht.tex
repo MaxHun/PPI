@@ -211,19 +211,56 @@ wobei $\hat{u}$ eine Approximation von $u$ ist (wir haben einen Fehler der Ordnu
 
 \paragraph{Aufstellen des linearen Gleichungssystems}
 
-Damit wir das lineare Gleichungssystem für alle $x_m$ aufstellen können, müssen die Randbedingungen $u_D \in \partial\Omega$ berücksichtigt werden, weil die Punkte $x \pm e_jh$ nicht immer in $P$ liegen. In den Matrizen aus Teil 1 werden diese Einträge nicht berücksichtigt. Um zur Darstellung \eqref{eq:lgs} zu gelangen, müssen wir $b_P$ (der Vektor mit Einträgen $f(x_m)$ für $m \in P$) mit den Termen aus dem Rand $\partial\Omega$ vervollständigen. 
-Sei $b_i :=f(x_i)$. Wir erweitern nun diese Werte wie folgt:
+Damit wir das lineare Gleichungssystem für alle $x_m$ aufstellen können, müssen die Randbedingungen $u_D \in \partial\Omega$ berücksichtigt werden, weil die Punkte $x \pm e_ih$ nicht immer in $P$ liegen. In den Matrizen aus Teil 1 werden diese Einträge nicht berücksichtigt. Um zur Darstellung \eqref{eq:lgs} zu gelangen, müssen wir $f_P$ (der Vektor mit Einträgen $f(x_m)$ für $m \in P$) mit den Termen aus dem Rand $\partial\Omega$ vervollständigen. 
+Seien für $k \in \{1, \dotsb, (n-1)^d\}$  $f_k :=f(x_k)$. Wir erzeugen nun den Vektor $b \in \mathbb{R}^{(n-1)^d}$ (mit Einträgen $b_m$), indem wir Randwerte zum Vektor $f_P$ wie folgt addieren:
 
-\begin{itemize}
+Wir können die Einträge $x_m$ in drei Arte von Blöcken zusammenfassen. Die $d=1$ Blöcke bestehen jeweils aus $n-1$ Einträgen (so hat zum Beispiel der erste $d=1$-Block die Gestalt $\{x_1, \dotsb, x_{n-1}\}$). Die $d=2$-Blöcke bestehen aus $n-1$ vielen $d=1$-Blöcken, enthalten also $(n-1)^2$ Elemente. Schließlich haben wir höchstens einen $d=3$-Block. Dieser besteht aus $n-1$ vielen $d=2$-Blöcken und enthält also $(n-1)^3$ Elemente. Wir können auch alle einzelne Elemente als $d=0$-Blöcke betrachten.
 
+Nun zu den Randbedingungen. Die generelle Idee ist, in jedem Block der Ordnung $l$, zu den ersten und letzten Blöcke der Ordnung $l-1$ die Randbedingungen zu addieren. 
+Zum Beispiel haben wir im Fall $d=1$ nur einen $d=1$-Block. Wir addieren also $u(0)$ zu $f_1$ und $u(1)$ zu $f_{n-1}$, da $f_1$ und $f_{n-1}$ der erste bzw. letzte $d=0$-Block in unserem $d=1$-Block sind. Die anderen Einträge in $f_P$ lassen wir unverändert. Der resultierende Vektor $b$ hat also die Gestalt
+
+\begin{align}
+b=
+\begin{pmatrix}
+f_1 + u(0) \\
+f_2	\\
+\vdots	\\
+f_{n-2}	\\
+f_{n-1}+u(1)
+\end{pmatrix}
+\label{vkt:1}
+\end{align}
+
+
+Im Fall $b=2$ wenden wir das Verfahren auf alle $d=1$-Blöcke und auf den einzelnen $d=2$-Block an. Für $k\in \mathbb{N}$, $k \in [2, n-2]$ haben also die Werte in den $k$-ten Blöcken von $b$ die gleiche Gestalt wie in \ref{vkt:1}. Die Wahl der Randwerte wird dazu unten gesondert behandelt. Für den ersten Block (also für $k=1$) sind die Werte von $b$ wie folgt:
+
+\begin{align}
+b_1=
+\begin{pmatrix}
+f_1 + u(0,\frac{1}{n}) + u(\frac{1}{n}, 0)  \\
+f_2	+ u(\frac{2}{n}, 0)\\
+\vdots	\\
+f_{n-2}	+ u(\frac{n-2}{n}, 0)\\
+f_{n-1}+u(0, 1) + u(\frac{n-1}{n}, 0)
+\end{pmatrix}
+\end{align}
+\label{vkt:1}
+
+Der letzte Block hat eine analoge Gestalt.
+
+Im Fall $d=3$ wenden wir das gleiche Verfahren auf die $(n-1)^2$ vielen $d=1$-Blöcke, die $(n-1)$ vielen $d=2$-Blöcke und auf den einzelnen $d=3$-Block genau so wie oben an. Zu den ersten und letzten $(n-1)^2$ Einträgen muss man also bis zu drei zusätzliche Randbedingungen addieren. 
+
+Nun betrachten wir die eigentlichen Randwerte, die zu den Einträgen von $f_P$ addiert werden sollen. Sei also $f_m$ für ein $m \in [1, (n-1)^d]$ gegeben. Dann muss man zum Ausrechnen von $b_m$ die folgenden Werte zu $f_m$ addieren:
+ 
+ \begin{itemize}
 \item \textbf{für $\boldsymbol{d\in \{1, 2, 3\} }$:}
-Für $m = k(n-1)+1$ mit ein $k \in \mathbb{N}\cup \{0\}$ setze man $b_m = b_m + \frac{u(x_m - e_ih)}{h^2}$. Für $m = k(n-1) +1$ mit ein $k \in \mathbb{N}$ setze man $b_m = b_m + \frac{u(x_m + e_ih)}{h^2}$. 
+Für $m = k(n-1)+1$ mit einem $k \in \mathbb{N}\cup \{0\}$ addiere man $\frac{u(x_m - e_1h)}{h^2}$. Für $m = k(n-1)$ mit einem $k \in \mathbb{N}$ addiere man $\frac{u(x_m + e_1h)}{h^2}$. Hier addiert man die Werte bezüglich den $d=1$ Blöcken.
 \item \textbf{für $\boldsymbol{d\in \{2, 3\} }$:}
-Für $m \in (k(n-1)^2+1, k(n-1)^2+n-1)$ mit  $k \in \mathbb{N}\cup \{0\}$ setze  $b_m = b_m + \frac{u(x_m)-e_jh}{h^2}$. Für $m \in (k(n-1)^2-(n-1), k(n-1)^2-1)$ mit $k \in \mathbb{N}$ setze  $b_m = b_m + \frac{u(x_m)+e_jh}{h^2}$.
+Für $m \in [k(n-1)^2+1, k(n-1)^2+n-1]$ mit  $k \in \mathbb{N}\cup \{0\}$ addiere $\frac{u(x_m-e_2h)}{h^2}$. Für $m \in [k(n-1)^2-(n-1), k(n-1)^2-1]$ mit $k \in \mathbb{N}$ addiere $\frac{u(x_m+e_2h)}{h^2}$. Hier addiert man die Werte bezüglich den $d=2$ Blöcken.
 \item \textbf{für $\boldsymbol{d=3 }$:}
-Für $m\in (1, (n-1)^2)$ setze man $b_m = b_m + \frac{u(x_m-e_kh)}{h^2}$. Für $m\in ((n-1)^3-(n-2), (n-1)^3)$ setze man $b_m = b_m + \frac{u(x_m+e_kh)}{h^2}$.  
+Für $m\in [1, (n-1)^2]$ addiere man $\frac{u(x_m-e_3h)}{h^2}$. Für $m\in [(n-1)^3-(n-1)^2+1, (n-1)^3]$ addiere man $\frac{u(x_m+e_3h)}{h^2}$.  Hier addiert man die Werte bezüglich des $d=3$ Blocks.
 \end{itemize}
-Durch diese Umformungen geht die resultierende Matrix von $A_{P^*}$ zu $A^{(d)}$ über, also folgt
+Für alle andere $m$ ist nichts zu addieren (sie liegen nicht neben dem Rand), also $b_m = f_m$. Nach diesen Additionen sind alle durch die $A^{(d)}$ Matrix vernachlässigten Randwerte im Vektor $b$ inbegriffen. Wir können also das Gleichungssystem wie folgt schreiben:
 \begin{align}
 A^{(d)}\hat{u}=b
 \end{align}
