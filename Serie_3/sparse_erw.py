@@ -23,7 +23,7 @@ class Sparse(object):
         matr (scipy.dok_matrix-Objekt):
             A^(d) mit Diskretisierung dis.
     """
-    def __init__(self, dim, dis):
+    def __init__(self, dim, dis, r_s=None, ex_lsg=None):
         """
         Initialisiert ein neues Sparse-Objekt.
 
@@ -32,13 +32,19 @@ class Sparse(object):
             dim (int):
                 Raumdimension des zu untersuchenden Gebietes.
             dis (int):
-                bestimmt die Feinheit der Diskretisierung.
+                Bestimmt die Feinheit der Diskretisierung.
+            r_s (np.ndarray oder None (Standard)):
+                Rechte Seite des zu loesenden Gleichungssystems.
+            ex_lsg (function oder None (Standard)):
+                Exakte Loesung des zu loesenden Gliechungssystems.
 
         Return: -
         """
         self.dim = dim
         self.dis = dis
         self.matr = self.constr_mat_l_k(dim, dim, dis)
+        self.r_s = r_s
+        self.ex_lsg = ex_lsg
 
     def constr_mat_l_k(self, k, dim, dis):
         """
@@ -213,8 +219,8 @@ class Sparse(object):
         """
         Gibt die Kondition der Matrix A^(d) bezueglich der Zeilensummennorm zurueck.
         """
-        norm_matr = sp_lina.norm(self.matr)
-        norm_matr_inv = sp_lina.norm(self.return_mat_d_inv())
+        norm_matr = sp_lina.norm(self.matr, ord=inf)
+        norm_matr_inv = sp_lina.norm(self.return_mat_d_inv(), ord=inf)
         return norm_matr * norm_matr_inv
 
     def l_u_zerl(self):
@@ -223,16 +229,118 @@ class Sparse(object):
         """
         zerl = sp_lina.splu(self.matr)
         matr_dim = self.matr.get_shape()[0]
-        Pr = sp.csc_matrix((matr_dim, matr_dim))
-        Pr[zerl.perm_r, np.arange(matr_dim)] = 1 
-        Pc = sp.csc_matrix((matr_dim, matr_dim))
-        Pc[zerl.perm_r, np.arange(matr_dim)] = 1
-        print(Pr.todense())
-        print(Pc.todense())
-        return sp_lina.splu(self.matr)
+        pr_matr = sp.csc_matrix((matr_dim, matr_dim))
+        pr_matr[zerl.perm_r, np.arange(matr_dim)] = 1
+        pc_matr = sp.csc_matrix((matr_dim, matr_dim))
+        pc_matr[zerl.perm_r, np.arange(matr_dim)] = 1
+        l_matr = zerl.L.A
+        u_matr = zerl.U.A
+        return [zerl,[pr_matr, pc_matr, l_matr, u_matr]]
+
+    def lgs_lsg(self, r_s=None):
+        """
+        Loest das Gleichungssystem Ax=r_s für eine vorgebene rechte Seite unter Ausnutzung der
+        Dreieckszerlegung.
+        """
+        if r_s is None and self.r_s is not None:
+            r_s = self.r_s
+        elif r_s is  None and self.r_s is  None:
+            print("Bitte uebergeben Sie eine gueltige rechte Seite!")
+            return True
+        lsg = self.l_u_zerl()[0].solve(r_s) #TODO: Ueberdenken
+        return lsg
+
+    def anz_nn_lu_abs(self):
+        """
+        Gibt die Anzahl von Eintraegen von L bzw. U zurueck, die ungleich 0 sind.
+
+        Input: -
+
+        Return:
+            (int)-Tupel:
+                Anzahl von Nicht-Nulleintraegen von L und U.
+        """
+
+        # Array mit Indizes aller Nichtnull-Eintraege der Matrizen:
+
+        nn_arr_l = self.l_u_zerl()[1][2].nonzero()[0]
+        nn_arr_u = self.l_u_zerl()[1][3].nonzero()[0]
+
+        return len(nn_arr_l), len(nn_arr_u)
+
+    def anz_n_lu_abs(self):
+        """
+        Gibt die Anzahl von Eintraegen von L bzw. U zurueck, die gleich 0 sind.
+
+        Input: -
+
+        Return:
+            (int)-Tupel:
+                Anzahl von Nulleintraegen von L und U.
+        """
+
+        # Array mit Indizes aller Nichtnull-Eintraege der Matrizen:
+
+        nn_arr_l = self.l_u_zerl()[1][2].nonzero()[0]
+        nn_arr_u = self.l_u_zerl()[1][3].nonzero()[0]
+
+        # Dimension (Groesse) von A, L und U:
+
+        matr_dim = self.matr.get_shape()[0]**2
+
+        return matr_dim - len(nn_arr_l), matr_dim - len(nn_arr_u)
+
+    def anz_nn_lu_rel(self):
+        """
+        Gibt die relative Anzahl von Eintraegen von L bzw. U zurueck, die ungleich 0 sind.
+
+        Input: -
+
+        Return:
+            (int)-Tupel:
+                Relative Anzahl von Nulleintraegen von L und U.
+        """
+
+        # Array mit Indizes aller Nichtnull-Eintraege der Matrizen:
+
+        nn_arr_l = self.l_u_zerl()[1][2].nonzero()[0]
+        nn_arr_u = self.l_u_zerl()[1][3].nonzero()[0]
+
+        # Dimension (Groesse) von A, L und U:
+
+        matr_dim = self.matr.get_shape()[0]**2
+
+        return len(nn_arr_l)/matr_dim, len(nn_arr_u)/matr_dim
+
+    def anz_n_lu_rel(self):
+        """
+        Gibt die relative Anzahl von Eintraegen von L bzw. U zurueck, die gleich 0 sind.
+
+        Input: -
+
+        Return:
+            (int)-Tupel:
+                Relative Anzahl von Nulleintraegen von L und U.
+        """
+
+        # Array mit Indizes aller Nichtnull-Eintraege von A^(d):
+
+        nn_arr_l = self.l_u_zerl()[1][2].nonzero()[0]
+        nn_arr_u = self.l_u_zerl()[1][3].nonzero()[0]
+
+        # Dimension (Groesse) von A, L und U:
+
+        matr_dim = self.matr.get_shape()[0]**2
+
+        return 1 - len(nn_arr_l)/matr_dim, 1 - len(nn_arr_u)/matr_dim
+
+
+
+
 
 if __name__ == "__main__":
     TEST = Sparse(2, 5)
     A = TEST.return_mat_d_csc()
-    print(A.todense(), TEST.l_u_zerl().L.A)# TEST.kond_a_d_zs())
+    print(A.todense(), TEST.l_u_zerl()[1][1].todense())
+    print(TEST.anz_nn_lu_abs())
     #print(TEST.anz_n_rel(), TEST.anz_n_abs(), TEST.anz_nn_abs())
