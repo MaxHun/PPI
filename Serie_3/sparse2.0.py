@@ -223,14 +223,16 @@ class Sparse(object):
         """
         zerl = sp_lina.splu(self.matr)
         matr_dim = self.matr.get_shape()[0]
-        P = csc_matrix(((matr_dim, matr_dim))
-        P[zerl.perm_r, np.arange(matr_dim)] = 1 # Hier weitermachen mit https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.sparse.linalg.SuperLU.html
-
-
+        Pr = sp.csc_matrix((matr_dim, matr_dim))
+        Pr[zerl.perm_r, np.arange(matr_dim)] = 1 
+        Pc = sp.csc_matrix((matr_dim, matr_dim))
+        Pc[zerl.perm_r, np.arange(matr_dim)] = 1
+        print(Pr.todense())
+        print(Pc.todense())
         return sp_lina.splu(self.matr)
 
 if __name__ == "__main__":
     TEST = Sparse(2, 5)
     A = TEST.return_mat_d_csc()
-    print(A.todense(), TEST.l_u_zerl().P.A)# TEST.kond_a_d_zs())
+    print(A.todense(), TEST.l_u_zerl().L.A)# TEST.kond_a_d_zs())
     #print(TEST.anz_n_rel(), TEST.anz_n_abs(), TEST.anz_nn_abs())
