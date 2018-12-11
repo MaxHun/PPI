@@ -219,8 +219,8 @@ class Sparse(object):
         """
         Gibt die Kondition der Matrix A^(d) bezueglich der Zeilensummennorm zurueck.
         """
-        norm_matr = sp_lina.norm(self.matr, ord=inf)
-        norm_matr_inv = sp_lina.norm(self.return_mat_d_inv(), ord=inf)
+        norm_matr = sp_lina.norm(self.matr, ord=np.inf)
+        norm_matr_inv = sp_lina.norm(self.return_mat_d_inv(), ord=np.inf)
         return norm_matr * norm_matr_inv
 
     def l_u_zerl(self):

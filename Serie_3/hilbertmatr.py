@@ -43,8 +43,8 @@ class Hilbert(object):
         """
         Gibt die Kondition der Matrix bezueglich der Zeilensummennorm zurueck.
         """
-        norm_matr = lina.norm(self.hil_matr, ord=inf)
-        norm_matr_inv = lina.norm(self.return_hil_matr(inv=True), ord=inf)
+        norm_matr = lina.norm(self.hil_matr, ord=np.inf)
+        norm_matr_inv = lina.norm(self.return_hil_matr(inv=True), ord=np.inf)
         return norm_matr * norm_matr_inv
 
     def l_u_zerl(self):
@@ -70,9 +70,9 @@ class Hilbert(object):
         return lsg
 
 if __name__ == "__main__":
-    TEST_OBJ = Hilbert(2)
+    TEST_OBJ = Hilbert(6)
 
     INVERSE = False
 
-    print(TEST_OBJ.return_hil_matr(inv=INVERSE), TEST_OBJ.lgs_lsg(r_s=np.zeros(2))
+    print(TEST_OBJ.return_hil_matr(inv=INVERSE), TEST_OBJ.lgs_lsg(r_s=np.zeros(6))
           , TEST_OBJ.kond_hil_zs())
