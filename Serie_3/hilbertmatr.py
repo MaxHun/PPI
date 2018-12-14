@@ -1,6 +1,6 @@
 """
-sparse.py stellt die Klasse Sparse zur Verfuegung, mit der die Matrix A^(d) fuer d=1,2,3
-bestimmt und analysiert werden kann.
+hilbertmatr.py stellt die Klasse Hilbert zur Verfuegung, mit der die Hilbertmatrix bestimmt und 
+analysiert werden kann.
 """
 import numpy as np
 from scipy import linalg as lina
@@ -17,12 +17,12 @@ class Hilbert(object):
     """
     def __init__(self, dim, r_s=None):
         """
-        Initialisiert ein neues Sparse-Objekt.
+        Initialisiert ein neues Hilbert-Objekt.
 
         Input:
 
             dim (int):
-                Dimension der Hilbertmatrix
+                Dimension der Hilbertmatrix.
 
         Return: -
         """
@@ -34,6 +34,15 @@ class Hilbert(object):
     def return_hil_matr(self, inv=False):
         """
         Gibt die Hilbertmatrix oder ihr Inverses zurueck.
+
+        Input:
+
+            inv (bool, Standard: False)
+                Gibt ann, ob Hilbertmatrix (False) oder ihr Inverses (True) ausgegeben wird.
+
+        Return:
+            (numpy.ndarray):
+                Hilbertmatrix oder ihr Inverses, falls inv == True.
         """
         if not inv:
             return self.hil_matr
@@ -42,6 +51,12 @@ class Hilbert(object):
     def kond_hil_zs(self):
         """
         Gibt die Kondition der Matrix bezueglich der Zeilensummennorm zurueck.
+
+        Input: -
+
+        Return:
+            (float):
+                Kondition der Hilbertmatrix.
         """
         norm_matr = lina.norm(self.hil_matr, ord=np.inf)
         norm_matr_inv = lina.norm(self.return_hil_matr(inv=True), ord=np.inf)
@@ -49,7 +64,13 @@ class Hilbert(object):
 
     def l_u_zerl(self):
         """
-        Errechnet die L-U-Zerlegung von A^(d).
+        Errechnet die L-U-Zerlegung von A^(d)=P*L*U.
+
+        Input: -
+
+        Return:
+            (Tripel aus numpy.ndarrays):
+                Die Matrizen P, L, U.
         """
         return lina.lu(self.hil_matr)
 
@@ -58,15 +79,21 @@ class Hilbert(object):
         Loest das Gleichungssystem Ax=r_s fuer eine vorgebene rechte Seite unter Ausnutzung der
         Dreieckszerlegung.
         """
-        if r_s is None and self.r_s is not None:
-            r_s = self.r_s
-        elif r_s is  None and self.r_s is  None:
-            print("Bitte uebergeben Sie eine gueltige rechte Seite!")
+        if r_s is  None:
+            raise ValueError("Bitte uebergeben Sie eine gueltige rechte Seite!")
             return True
+
         p_matr, l_matr, u_matr = self.l_u_zerl()
         r_s_tr = p_matr.transpose()*r_s
-        zw_erg = lina.solve(l_matr, r_s_tr) #TODO nochmal nachdenken
-        lsg = lina.solve(u_matr, zw_erg)
+
+        # Rueckwaertseinsetzen fuer Zwischenergebnis:
+
+        zw_erg = lina.solve_triangular(l_matr, r_s_tr, lower=True)
+
+        # Vorwaertseinsetzen fuehrt auf Loesung:
+
+        lsg = lina.solve_triangular(u_matr, zw_erg, lower=False)
+
         return lsg
 
 if __name__ == "__main__":

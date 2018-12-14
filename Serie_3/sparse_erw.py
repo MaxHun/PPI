@@ -5,7 +5,7 @@ bestimmt und analysiert werden kann.
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import linalg as sp_lina
-from scipy import linalg as lina
+
 
 class Sparse(object):
     """
@@ -126,12 +126,24 @@ class Sparse(object):
     def return_mat_d_inv(self):
         """
         Gibt die numerisch berechnete Inverse von A^(d) zurueck.
+
+        Input: -
+
+        Return:
+            (scipy.sparse.dok_matrix-Objekt):
+                Inverse von A^(d).
         """
         return sp_lina.inv(self.matr)
 
     def return_mat_d_csc(self):
         """
         Gibt A^(d) als scipy.sparse.csc_matrix-Objekt zurueck.
+
+        Input: -
+
+        Return:
+            (scipy.sparse.csc_matrix-Objekt)
+                Die Matrix A^(d)
         """
         return self.matr.tocsc()
 
@@ -218,6 +230,12 @@ class Sparse(object):
     def kond_a_d_zs(self):
         """
         Gibt die Kondition der Matrix A^(d) bezueglich der Zeilensummennorm zurueck.
+
+        Input: -
+
+        Return:
+            (float):
+                Kondition von A^(d) bzgl. Zeilennorm.
         """
         norm_matr = sp_lina.norm(self.matr, ord=np.inf)
         norm_matr_inv = sp_lina.norm(self.return_mat_d_inv(), ord=np.inf)
@@ -225,29 +243,62 @@ class Sparse(object):
 
     def l_u_zerl(self):
         """
-        Errechnet die L-U-Zerlegung von A^(d).
+        Errechnet die L-U-Zerlegung von A^(d)=P_r^T*L*U*P_c^T
+
+        Input: -
+
+        Return:
+            (list):
+                Nullter Eintrag: das mit der Zerlegung korrespondierende scipy.SuperLU-Objekt.
+                Erster Eintrag: Tripel aus den Matrizen P_r, P_c, L, U.
         """
         zerl = sp_lina.splu(self.matr)
         matr_dim = self.matr.get_shape()[0]
         pr_matr = sp.csc_matrix((matr_dim, matr_dim))
         pr_matr[zerl.perm_r, np.arange(matr_dim)] = 1
         pc_matr = sp.csc_matrix((matr_dim, matr_dim))
-        pc_matr[zerl.perm_r, np.arange(matr_dim)] = 1
+        pc_matr[np.arange(matr_dim), zerl.perm_c] = 1
         l_matr = zerl.L.A
         u_matr = zerl.U.A
-        return [zerl,[pr_matr, pc_matr, l_matr, u_matr]]
+        return [zerl, [pr_matr, pc_matr, l_matr, u_matr]]
 
     def lgs_lsg(self, r_s=None):
         """
         Loest das Gleichungssystem Ax=r_s für eine vorgebene rechte Seite unter Ausnutzung der
         Dreieckszerlegung.
+
+        Input:
+
+            r_s (numpy.ndarray):
+                rechte Seite b des zu loesenden Gleichungssystems A^(d)*x=b.
+
+       Return:
+           (numpy.ndarray):
+               Loesungsvektor.
         """
         if r_s is None and self.r_s is not None:
             r_s = self.r_s
         elif r_s is  None and self.r_s is  None:
             print("Bitte uebergeben Sie eine gueltige rechte Seite!")
             return True
-        lsg = self.l_u_zerl()[0].solve(r_s) #TODO: Ueberdenken
+        pr_matr, pc_matr, l_matr, u_matr = self.l_u_zerl()[1]
+
+        # Berechnen der permutierten rechten Seite:
+
+        r_s_perm = pr_matr*r_s
+
+        # Berechne z:
+
+        zw_erg1 = sp_lina.spsolve_triangular(l_matr, r_s_perm, lower=True)
+
+        # Berechne permutierte Loesung:
+
+        zw_erg2 = sp_lina.spsolve_triangular(u_matr, zw_erg1, lower=False)
+
+        # Berechne Loesung durch Permutation:
+
+        lsg = pc_matr*zw_erg2
+
         return lsg
 
     def anz_nn_lu_abs(self):
@@ -257,7 +308,7 @@ class Sparse(object):
         Input: -
 
         Return:
-            (int)-Tupel:
+            (int-Tupel):
                 Anzahl von Nicht-Nulleintraegen von L und U.
         """
 
@@ -275,7 +326,7 @@ class Sparse(object):
         Input: -
 
         Return:
-            (int)-Tupel:
+            (int-Tupel):
                 Anzahl von Nulleintraegen von L und U.
         """
 
@@ -297,7 +348,7 @@ class Sparse(object):
         Input: -
 
         Return:
-            (int)-Tupel:
+            (int-Tupel):
                 Relative Anzahl von Nulleintraegen von L und U.
         """
 
@@ -319,7 +370,7 @@ class Sparse(object):
         Input: -
 
         Return:
-            (int)-Tupel:
+            (int-Tupel):
                 Relative Anzahl von Nulleintraegen von L und U.
         """
 
@@ -339,8 +390,10 @@ class Sparse(object):
 
 
 if __name__ == "__main__":
-    TEST = Sparse(2, 5)
+    # Moeglichkeit zu Testen der Klasse:
+    TEST = Sparse(2, 4)
     A = TEST.return_mat_d_csc()
-    print(A.todense(), TEST.l_u_zerl()[1][1].todense())
-    print(TEST.anz_nn_lu_abs())
+    # print(A.todense(),"\n", TEST.l_u_zerl()[1][2], "\n", TEST.l_u_zerl()[1][2]
+    # , np.sum(TEST.anz_nn_lu_abs()))
+    # print(TEST.anz_nn_lu_abs())
     #print(TEST.anz_n_rel(), TEST.anz_n_abs(), TEST.anz_nn_abs())
