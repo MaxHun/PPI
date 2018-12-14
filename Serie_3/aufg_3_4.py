@@ -11,33 +11,22 @@ def plot_kond(plotber, m_max, matr_type):
     Plottet die Kondition der Bandmatrizen bzw. der Hilbert-Matrix in Abhaengigkeit von der
     Matrixgroesse m.
     """
-    m_arr = 1+np.arange(m_max)
+    m_arr = 1 + np.arange(m_max)
     kond_hil_arr = np.zeros(m_max)
     print(len(m_arr), len(kond_hil_arr))
-    kond_a_matr = np.zeros([3,m_max])
+    kond_a_matr = np.zeros([3, m_max])
     #kond_a_2 = np.zeros(m_max+1)
     #kond_a_3 = np.zeros(m_max+1)
     #print(m_arr)
-    print("m_arr",m_arr)
+    print("m_arr", m_arr)
 
-    ############################################
-    #for m_wert in m_arr[:-1]:
-    #    #print((m_arr)[:-1])
-    #    hil_matr = Hilbert(m_wert)
-    #    kond_hil_arr[m_wert] = hil_matr.kond_hil_zs()
-    #    for dim in [1,2,3]:
-    #       #print(int(m_wert**(1/dim)+1)+3)
-    #
-    #       a_matr = Sparse(dim, int(m_wert**(1/dim)+1)+3)
-    #       kond_a_matr[dim-1][m_wert] = a_matr.kond_a_d_zs()
-    ############################################
 
     if matr_type == "hil":
         kond_hil_arr = np.zeros(m_max)
         for m_wert in m_arr[:-1]:
             hil_matr = Hilbert(m_wert)
             kond_hil_arr[m_wert] = hil_matr.kond_hil_zs()
-        plotber.semilogy(m_arr, kond_hil_arr)
+        plotber.semilogy(m_arr, kond_hil_arr, "o", markerfacecolor="None")
     elif matr_type == "a":
         #kond_a_matr = np.zeros([3,m_max])
         for dim in [1,2,3]:
@@ -55,16 +44,18 @@ def plot_kond(plotber, m_max, matr_type):
                 i += 1
             plotber.semilogy(m_arr_a, kond_a_matr, "o", markerfacecolor="None")
     else:
-        raise ValueError("Bitte uebergeben Sie einen gueltigen Matrixtyp (\"hil\" fuer Hilbert-Matrizen und" +
-              " \"a\" fuer die Bandmatrizen)!")
+        raise ValueError("Bitte uebergeben Sie einen gueltigen Matrixtyp (\"hil\" " +
+                         "fuer Hilbert-Matrizen und" +
+                         " \"a\" fuer die Bandmatrizen)!")
 
 def plot_nn(plotber, m_max):
+
     for dim in [1,2,3]:
-        1==1
+        
        #####Hier weiter 
 
 if __name__ == "__main__":
     fig, ax_1 = plt.subplots(1,1)
-    plot_kond(ax_1,125, "a")
+    plot_kond(ax_1,125, "hil")
     TEST = Hilbert(0)
     plt.show()
