@@ -214,37 +214,37 @@ if __name__ == "__main__":
 
     # Erstellen von Subplots:
 
-    ax_12 = plt.subplots(2, 2, figsize=(20, 10), sharex=True)[1]
-    ax_1 = ax_12[0][0]
-    ax_2 = ax_12[1][0]
-    ax_3 = plt.subplot(122)
+    AX_12 = plt.subplots(2, 2, figsize=(20, 10), sharex=True)[1]
+    AX_1 = AX_12[0][0]
+    AX_2 = AX_12[1][0]
+    AX_3 = plt.subplot(122)
 
     # Plotbefehle:
 
-    plot_kond(ax_1, 125, "a")
-    plot_kond(ax_2, 125, "hil")
-    plot_nn(ax_3, 125)
-    x_arr = np.logspace(0, np.log10(125))
-    ax_3.plot(x_arr, 2*x_arr**2, "--", label=r"$2\cdot n^2$")
+    plot_kond(AX_1, 125, "a")
+    plot_kond(AX_2, 125, "hil")
+    plot_nn(AX_3, 125)
+    X_ARR = np.logspace(0, np.log10(125))
+    AX_3.plot(X_ARR, 2*X_ARR**2, "--", label=r"$2\cdot n^2$")
 
     # Beschriftung:
 
-    ax_1.set_title(r"Kondition der verschiedenen Matrizen")
-    ax_1.set_ylabel(r"$\kappa$")
-    ax_2.set_xlabel(r"Matrixgroesse $m$")
-    ax_2.set_ylabel(r"$\kappa$")
-    ax_3.set_title(r"Nichtnulleintraege der Bandmatrizen $A^{(d)}$")
-    ax_3.set_ylabel(r"Nichtnulleintraege")
-    ax_3.set_xlabel(r"Matrixgroesse $m$")
+    AX_1.set_title(r"Kondition der verschiedenen Matrizen")
+    AX_1.set_ylabel(r"$\kappa$")
+    AX_2.set_xlabel(r"Matrixgroesse $m$")
+    AX_2.set_ylabel(r"$\kappa$")
+    AX_3.set_title(r"Nichtnulleintraege der Bandmatrizen $A^{(d)}$")
+    AX_3.set_ylabel(r"Nichtnulleintraege")
+    AX_3.set_xlabel(r"Matrixgroesse $m$")
 
     # Anpassung des Layouts und Legende:
 
     plt.subplots_adjust(hspace=0)
-    ax_1.tick_params(right=True, left=True, top=True, bottom=True, direction='in', which='both')
-    ax_2.tick_params(right=True, left=True, top=True, bottom=True, direction='in', which='both')
-    ax_3.tick_params(right=True, left=True, top=True, bottom=True, direction='in', which='both')
-    ax_1.legend()
-    ax_2.legend()
-    ax_3.legend()
+    AX_1.tick_params(right=True, left=True, top=True, bottom=True, direction='in', which='both')
+    AX_2.tick_params(right=True, left=True, top=True, bottom=True, direction='in', which='both')
+    AX_3.tick_params(right=True, left=True, top=True, bottom=True, direction='in', which='both')
+    AX_1.legend()
+    AX_2.legend()
+    AX_3.legend()
 
     plt.show()
