@@ -1,6 +1,7 @@
 """
 Dieses Modul löst die Aufgaben 3.2 und 3.3, indem es die Differentialgleichung löst und
 das Verhalten der Lösungen grafisch aufstellt.
+Autoren Arsen Hnatiuk und Max Huneshagen
 """
 from plot_disc_fct import plot_disc_fct
 from mpl_toolkits.mplot3d import Axes3D
