@@ -5,6 +5,7 @@ bestimmt und analysiert werden kann.
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import linalg as sp_lina
+from scipy import linalg as lina
 
 
 class Sparse(object):
@@ -260,6 +261,7 @@ class Sparse(object):
         pc_matr[np.arange(matr_dim), zerl.perm_c] = 1
         l_matr = zerl.L.A
         u_matr = zerl.U.A
+        #print( "JHFHGFKHGFKHGTFKHTF", lina.norm(self.matr-(pr_matr.T * (l_matr * u_matr) * pc_matr.T).A))
         return [zerl, [pr_matr, pc_matr, l_matr, u_matr]]
 
     def lgs_lsg(self, r_s=None):
@@ -300,7 +302,8 @@ class Sparse(object):
         lsg = pc_matr*zw_erg2
 
         return lsg
-
+        #return self.l_u_zerl()[0].solve(r_s)
+    
     def anz_nn_lu_abs(self):
         """
         Gibt die Anzahl von Eintraegen von L bzw. U zurueck, die ungleich 0 sind.

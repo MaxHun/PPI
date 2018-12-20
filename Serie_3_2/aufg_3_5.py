@@ -61,7 +61,7 @@ def fntn1(wert):
     """
     Beispielfunktion der Dimension 1
     Input:
-        wert (array von float):
+        wert (float):
             Werte, auf dem die Funktion ausgewertet wird.
     Return:
         (float):
@@ -98,13 +98,13 @@ def ulsg1(wert):
     """
     Exakte Lösung der Dimension 1
     Input:
-        wert (array von float):
+        wert (float):
             Werte, auf dem die Funktion ausgewertet wird.
     Return:
         (float):
             Wert der Funktion
     """
-    return wert[0]*(1-wert[0])
+    return wert*(1-wert)
 
 def ulsg2(wert):
     """
@@ -169,7 +169,27 @@ def loesg(numb, dims, fkt, ulsg):
         arrf[i] = np.abs(arrex[i]-lsg[i])
 
     #Grafische Ausgabe
-    if dims == 2:
+    for i in [7, 11]
+        
+        #Erstellung des Vektors b
+        arra = gitter(numb, dims)
+        arrb = np.zeros((numb-1)**dims)
+        for i in range((numb-1)**dims):
+            arrb[i] = fkt(arra[i])
+
+        #Erstellung und Lösen der Bandmatrix
+        mata = Sparse(dims, numb)
+        lsg = mata.lgs_lsg(arrb)
+
+        #Erstellung des Vektors der exakten Lösung
+        arrex = np.zeros((numb-1)**dims)
+        for i in range((numb-1)**dims):
+            arrex[i] = ulsg(arra[i])
+
+        #Erstellung des Vektors des Fehlers in der berechneten Lösung
+        arrf = np.zeros((numb-1)**dims)
+        for i in range((numb-1)**dims):
+            arrf[i] = np.abs(arrex[i]-lsg[i])
 
         #Plot der berechneten Lösung
         plot_disc_fct(lsg, numb, "Berechnete Lösung mit Feinheit der Diskretisierung "+str(numb))
@@ -191,8 +211,11 @@ def loesg(numb, dims, fkt, ulsg):
 
         #Plot des Fehlers
         plot_disc_fct(arrf, numb, "Fehler bezüglich der Referenzlösung mit"
-                      +" Feinheit der Diskretisierung "+str(numb))
-        plt.show()
+                    +" Feinheit der Diskretisierung "+str(numb))
+    plt.show()
+        
+    
+
     return np.amax(arrf)
 
 def main():
@@ -200,7 +223,7 @@ def main():
     In dieser Funktion werden alle Lösungen der Aufgabe dem Nutzer ausgegeben
     """
     dims = 2
-    numb = 50
+    numb = 5
     fntn = [fntn1, fntn2, fntn3]
     ulsg = [ulsg1, ulsg2, ulsg3]
     maxfl = loesg(numb, dims, fntn[dims-1], ulsg[dims-1])
