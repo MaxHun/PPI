@@ -23,7 +23,7 @@ class Sparse(object):
         matr (scipy.dok_matrix-Objekt):
             A^(d) mit Diskretisierung dis.
     """
-    def __init__(self, dim, dis, r_s=None, ex_lsg=None):
+    def __init__(self, dim, dis):
         """
         Initialisiert ein neues Sparse-Objekt.
 
@@ -43,8 +43,6 @@ class Sparse(object):
         self.dim = dim
         self.dis = dis
         self.matr = self.constr_mat_l_k(dim, dim, dis)
-        self.r_s = r_s
-        self.ex_lsg = ex_lsg
 
     def constr_mat_l_k(self, k, dim, dis):
         """
@@ -133,7 +131,7 @@ class Sparse(object):
             (scipy.sparse.dok_matrix-Objekt):
                 Inverse von A^(d).
         """
-        return sp_lina.inv(self.matr)
+        return sp_lina.inv(self.return_mat_d_csc())
 
     def return_mat_d_csc(self):
         """
@@ -252,7 +250,7 @@ class Sparse(object):
                 Nullter Eintrag: das mit der Zerlegung korrespondierende scipy.SuperLU-Objekt.
                 Erster Eintrag: Tripel aus den Matrizen P_r, P_c, L, U.
         """
-        zerl = sp_lina.splu(self.matr)
+        zerl = sp_lina.splu(self.return_mat_d_csc())
         matr_dim = self.matr.get_shape()[0]
         pr_matr = sp.csc_matrix((matr_dim, matr_dim))
         pr_matr[zerl.perm_r, np.arange(matr_dim)] = 1
@@ -262,9 +260,9 @@ class Sparse(object):
         u_matr = zerl.U.A
         return [zerl, [pr_matr, pc_matr, l_matr, u_matr]]
 
-    def lgs_lsg(self, r_s=None):
+    def lgs_lsg(self, r_s):
         """
-        Loest das Gleichungssystem Ax=r_s für eine vorgebene rechte Seite unter Ausnutzung der
+        Loest das Gleichungssystem Ax=r_s fuer eine vorgebene rechte Seite unter Ausnutzung der
         Dreieckszerlegung.
 
         Input:
@@ -276,11 +274,10 @@ class Sparse(object):
            (numpy.ndarray):
                Loesungsvektor.
         """
-        if r_s is None and self.r_s is not None:
-            r_s = self.r_s
-        elif r_s is  None and self.r_s is  None:
-            print("Bitte uebergeben Sie eine gueltige rechte Seite!")
-            return True
+        ### Umwandlung der rechten Seite in das csc-Format:
+
+        ## r_s = sp.csr_matrix(r_s)
+
         pr_matr, pc_matr, l_matr, u_matr = self.l_u_zerl()[1]
 
         # Berechnen der permutierten rechten Seite:

@@ -1,5 +1,5 @@
 """
-hilbertmatr.py stellt die Klasse Hilbert zur Verfuegung, mit der die Hilbertmatrix bestimmt und 
+hilbertmatr.py stellt die Klasse Hilbert zur Verfuegung, mit der die Hilbertmatrix bestimmt und
 analysiert werden kann.
 """
 import numpy as np
