@@ -34,7 +34,7 @@ def plot_kond_hil(plotber, m_max):
         hil_matr = Hilbert(m_wert)
         kond_hil_arr[m_wert-1] = hil_matr.kond_hil_zs()
     plotber.semilogy(m_arr, kond_hil_arr, "o", markerfacecolor="None",
-                     label="$H_m$", color="violet")
+                     label="Kondition von $H_m$", color="violet")
 
 def ex_lsg_hil_ev(ind, dim):
     """
@@ -75,28 +75,6 @@ def ev(ind, dim):
     ev_arr[ind-1] = 1
 
     return ev_arr
-
-def main():
-    """
-    Hauptprogramm, es werden Sachen gemacht
-    """ #TODO ergaenzen
-
-    log2_m_max = 10
-
-    m_arr = 2**np.arange(log2_m_max + 1)
-
-    max_norm = np.zeros(len(m_arr))
-    for m_ind, m_wert in enumerate(m_arr):
-        hil = Hilbert(m_wert)
-        # Matrix, deren Spalten aus exakter Loesung bestehen:
-        ex_lsg_matr = hil.return_hil_matr(inv=True)
-        norm_ind_arr = np.zeros(m_wert)
-        for lis_ind, ind in enumerate(1 + np.arange(m_wert)):
-            norm_ind_arr[lis_ind] = np.amax(np.abs(hil.lgs_lsg(ev(ind,m_wert)) - ex_lsg_matr[:, ind-1]))#], ord=np.inf)
-        max_norm[m_ind] = np.amax(norm_ind_arr)
-    plt.figure()
-    plt.semilogy(m_arr, max_norm,"o", markerfacecolor="None")
-    plt.show()
 
 
 
@@ -156,6 +134,33 @@ def plot_fehl(plotber, r_s_arr, ex_lsg_arr, matr_type, dim=1):
         raise ValueError("Bitte uebergeben Sie einen gueltigen Matrixtyp (\"hil\" " +
                          "fuer Hilbert-Matrizen und" +
                          " \"a\" fuer die Bandmatrizen)!")
+
+def main():
+    """
+    Hauptprogramm, es werden Sachen gemacht
+    """ #TODO ergaenzen
+
+    log2_m_max = 7
+    m_arr = 2**np.arange(log2_m_max + 1)
+
+    max_norm = np.zeros(len(m_arr))
+    for m_ind, m_wert in enumerate(m_arr):
+        hil = Hilbert(m_wert)
+        # Matrix, deren Spalten aus exakter Loesung bestehen:
+        ex_lsg_matr = hil.return_hil_matr(inv=True)
+        norm_ind_arr = np.zeros(m_wert)
+        for lis_ind, ind in enumerate(1 + np.arange(m_wert)):
+            norm_ind_arr[lis_ind] = np.amax(np.abs(hil.lgs_lsg(ev(ind,m_wert)) - ex_lsg_matr[:, ind-1]))#], ord=np.inf)
+        max_norm[m_ind] = np.amax(norm_ind_arr)
+    plt.figure(figsize=(20,20))
+    ax_1 = plt.subplot(111)
+    plt.loglog(m_arr, max_norm,"x", markerfacecolor="None", basex=2, 
+               label=r"$\max_{i=1,\dots,m}|| \tilde{x}^{(i)}-x^{(i)}||_\infty$")
+    plot_kond_hil(ax_1, 130)
+    plt.xlabel(r"$m$")
+    plt.ylabel("Fehler bzw. Kondition")    
+    plt.legend()
+    plt.show()
 
 
 if __name__ == "__main__":
