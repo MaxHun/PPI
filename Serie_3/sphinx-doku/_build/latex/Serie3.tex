@@ -55,7 +55,7 @@
 
 
 \title{Serie 3 Documentation}
-\date{16.12.2018}
+\date{01.01.2019}
 \release{}
 \author{Arsen Hnatiuk, Max Huneshagen}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -71,13 +71,13 @@
 
 
 \chapter{Die Sparse-Klasse}
-\label{\detokenize{index:welcome-to-serie-3-s-documentation}}\label{\detokenize{index:module-sparse_erw}}\label{\detokenize{index:die-sparse-klasse}}\index{sparse\_erw (Modul)}
+\label{\detokenize{index:welcome-to-serie-3-s-documentation}}\label{\detokenize{index:die-sparse-klasse}}\label{\detokenize{index:module-sparse_erw}}\index{sparse\_erw (Modul)}
 sparse.py stellt die Klasse Sparse zur Verfuegung, mit der die Matrix A\textasciicircum{}(d) fuer d=1,2,3
 bestimmt und analysiert werden kann.
 \index{Sparse (Klasse in sparse\_erw)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse}}\pysiglinewithargsret{\sphinxbfcode{class }\sphinxcode{sparse\_erw.}\sphinxbfcode{Sparse}}{\emph{dim}, \emph{dis}, \emph{r\_s=None}, \emph{ex\_lsg=None}}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse}}\pysiglinewithargsret{\sphinxbfcode{class }\sphinxcode{sparse\_erw.}\sphinxbfcode{Sparse}}{\emph{dim}, \emph{dis}}{}
 Diese Klasse erlaubt das Erstellen der Matrizen A\textasciicircum{}(d) fuer d in {[}1,2,3{]}. Diese Matrizen werden
 z. B. fuer die Berechnung der DGL u‘‚(x)=-f(x) verwendet. Es handelt sich bei diesen Matrizen
 um sehr duenn besetzte Block-Band-Matrizen, was die Verwendung von sog. sparse-Matrizen
@@ -312,9 +312,9 @@ Erster Eintrag: Tripel aus den Matrizen P\_r, P\_c, L, U.
 \index{lgs\_lsg() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.lgs_lsg}}\pysiglinewithargsret{\sphinxbfcode{lgs\_lsg}}{\emph{r\_s=None}}{}~\begin{quote}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.lgs_lsg}}\pysiglinewithargsret{\sphinxbfcode{lgs\_lsg}}{\emph{r\_s}}{}~\begin{quote}
 
-Loest das Gleichungssystem Ax=r\_s für eine vorgebene rechte Seite unter Ausnutzung der
+Loest das Gleichungssystem Ax=r\_s fuer eine vorgebene rechte Seite unter Ausnutzung der
 Dreieckszerlegung.
 
 Input:
@@ -394,11 +394,114 @@ Inverse von A\textasciicircum{}(d).
 
 \end{fulllineitems}
 
+\phantomsection\label{\detokenize{index:module-hilbertmatr}}\index{hilbertmatr (Modul)}
+hilbertmatr.py stellt die Klasse Hilbert zur Verfuegung, mit der die Hilbertmatrix bestimmt und
+analysiert werden kann.
+\index{Hilbert (Klasse in hilbertmatr)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert}}\pysiglinewithargsret{\sphinxbfcode{class }\sphinxcode{hilbertmatr.}\sphinxbfcode{Hilbert}}{\emph{dim}, \emph{r\_s=None}}{}
+Diese Klasse stellt Hilbert-Matrizen zur Verfuegung.
+
+Attribute:
+\begin{quote}
+\begin{description}
+\item[{dim (int):}] \leavevmode
+Dimension der Matrix.
+
+\end{description}
+\end{quote}
+\index{kond\_hil\_zs() (Methode von hilbertmatr.Hilbert)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.kond_hil_zs}}\pysiglinewithargsret{\sphinxbfcode{kond\_hil\_zs}}{}{}
+Gibt die Kondition der Matrix bezueglich der Zeilensummennorm zurueck.
+
+Input: -
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Kondition der Hilbertmatrix.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{l\_u\_zerl() (Methode von hilbertmatr.Hilbert)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.l_u_zerl}}\pysiglinewithargsret{\sphinxbfcode{l\_u\_zerl}}{}{}
+Errechnet die L-U-Zerlegung von A\textasciicircum{}(d)=P*L*U.
+
+Input: -
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(Tripel aus numpy.ndarrays):}] \leavevmode
+Die Matrizen P, L, U.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{lgs\_lsg() (Methode von hilbertmatr.Hilbert)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.lgs_lsg}}\pysiglinewithargsret{\sphinxbfcode{lgs\_lsg}}{\emph{r\_s=None}}{}
+Loest das Gleichungssystem Ax=r\_s fuer eine vorgebene rechte Seite unter Ausnutzung der
+Dreieckszerlegung.
+
+Input: -
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(numpy.ndarray)}] \leavevmode
+rechte Seite des Gleichungssystems Ax=r\_s.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{return\_hil\_matr() (Methode von hilbertmatr.Hilbert)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.return_hil_matr}}\pysiglinewithargsret{\sphinxbfcode{return\_hil\_matr}}{\emph{inv=False}}{}
+Gibt die Hilbertmatrix oder ihr Inverses zurueck.
+
+Input:
+\begin{quote}
+\begin{description}
+\item[{inv (bool, Standard: False)}] \leavevmode
+Gibt ann, ob Hilbertmatrix (False) oder ihr Inverses (True) ausgegeben wird.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(numpy.ndarray):}] \leavevmode
+Hilbertmatrix oder ihr Inverses, falls inv == True.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 
 
 \renewcommand{\indexname}{Python-Modulindex}
 \begin{sphinxtheindex}
 \def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+\bigletter{h}
+\item {\sphinxstyleindexentry{hilbertmatr}}\sphinxstyleindexpageref{index:\detokenize{module-hilbertmatr}}
+\indexspace
 \bigletter{s}
 \item {\sphinxstyleindexentry{sparse\_erw}}\sphinxstyleindexpageref{index:\detokenize{module-sparse_erw}}
 \end{sphinxtheindex}

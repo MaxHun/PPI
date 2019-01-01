@@ -15,9 +15,3 @@
 \indexentry{return\_mat\_d() (Methode von sparse\_erw.Sparse)|hyperpage}{3}
 \indexentry{return\_mat\_d\_csc() (Methode von sparse\_erw.Sparse)|hyperpage}{3}
 \indexentry{return\_mat\_d\_inv() (Methode von sparse\_erw.Sparse)|hyperpage}{3}
-\indexentry{hilbertmatr (Modul)|hyperpage}{3}
-\indexentry{Hilbert (Klasse in hilbertmatr)|hyperpage}{3}
-\indexentry{kond\_hil\_zs() (Methode von hilbertmatr.Hilbert)|hyperpage}{3}
-\indexentry{l\_u\_zerl() (Methode von hilbertmatr.Hilbert)|hyperpage}{4}
-\indexentry{lgs\_lsg() (Methode von hilbertmatr.Hilbert)|hyperpage}{4}
-\indexentry{return\_hil\_matr() (Methode von hilbertmatr.Hilbert)|hyperpage}{4}

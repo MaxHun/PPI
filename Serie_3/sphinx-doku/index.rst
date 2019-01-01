@@ -15,5 +15,9 @@ Welcome to Serie 3's documentation!
 Die Sparse-Klasse
 =================
 
+
 .. automodule:: sparse_erw
+    :members:
+
+.. automodule:: hilbertmatr
     :members:

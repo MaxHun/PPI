@@ -16,25 +16,16 @@
   \item constr\_mat\_l\_k() (Methode von sparse\_erw.Sparse), \hyperpage{2}
 
   \indexspace
-  \bigletter H
-  \item Hilbert (Klasse in hilbertmatr), \hyperpage{3}
-  \item hilbertmatr (Modul), \hyperpage{3}
-
-  \indexspace
   \bigletter K
   \item kond\_a\_d\_zs() (Methode von sparse\_erw.Sparse), \hyperpage{2}
-  \item kond\_hil\_zs() (Methode von hilbertmatr.Hilbert), \hyperpage{3}
 
   \indexspace
   \bigletter L
-  \item l\_u\_zerl() (Methode von hilbertmatr.Hilbert), \hyperpage{4}
   \item l\_u\_zerl() (Methode von sparse\_erw.Sparse), \hyperpage{3}
-  \item lgs\_lsg() (Methode von hilbertmatr.Hilbert), \hyperpage{4}
   \item lgs\_lsg() (Methode von sparse\_erw.Sparse), \hyperpage{3}
 
   \indexspace
   \bigletter R
-  \item return\_hil\_matr() (Methode von hilbertmatr.Hilbert), \hyperpage{4}
   \item return\_mat\_d() (Methode von sparse\_erw.Sparse), \hyperpage{3}
   \item return\_mat\_d\_csc() (Methode von sparse\_erw.Sparse), \hyperpage{3}
   \item return\_mat\_d\_inv() (Methode von sparse\_erw.Sparse), \hyperpage{3}
