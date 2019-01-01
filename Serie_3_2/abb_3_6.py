@@ -13,6 +13,19 @@ from scipy import linalg as lina
 #from scipy.sparse import linalg as sp_lina
 #import scipy.sparse as sp
 
+from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
+                               AutoMinorLocator)
+matplotlib.rcParams.update({'font.size': 33})
+plt.rc('text', usetex=True)
+#plt.rc('font', family='Open Sans')
+matplotlib.rcParams['text.latex.preamble'] = [
+    r'\usepackage{amsmath}',
+    r'\usepackage{amssymb}',r"\usepackage{nicefrac}"]
+
+groess=15
+lw=4
+
+
 def plot_kond_hil(plotber, m_max):
     """
     Plottet die Kondition der Hilbert-Matrix in Abhaengigkeit von der
@@ -32,8 +45,8 @@ def plot_kond_hil(plotber, m_max):
     for m_wert in m_arr:
         hil_matr = Hilbert(m_wert)
         kond_hil_arr[m_wert-1] = hil_matr.kond_hil_zs()
-    plotber.semilogy(m_arr, kond_hil_arr, "o", markerfacecolor="None",
-                     label="Kondition von $H_m$", color="violet")
+    plotber.semilogy(m_arr, kond_hil_arr, "-", markerfacecolor="None", markersize=groess,
+                     lw=lw,label="Kondition von $H_m$", color="violet")
 
 def ex_lsg_hil_ev(ind, dim):
     """
@@ -110,7 +123,7 @@ def plot_fehl(plotber, r_s_arr, ex_lsg_arr, matr_type, dim=1):
             hil_matr = Hilbert(len(r_s))
             lsg = hil_matr.lgs_lsg(r_s)
             fehl_hil_arr[ind] = lina.norm(lsg - ex_lsg_arr[ind], ord=np.inf)
-        plotber.loglog(m_arr, fehl_hil_arr, "o", markerfacecolor="None")
+        plotber.loglog(m_arr, fehl_hil_arr, "o", markerfacecolor="None", markersize=groess)
 
 
     elif matr_type == "a":
@@ -158,12 +171,21 @@ def main():
             max_norm[m_ind] = np.amax(norm_ind_arr)
     plt.figure(figsize=(20, 20))
     ax_1 = plt.subplot(111)
-    plt.loglog(m_arr, max_norm, "x", markerfacecolor="None", basex=2,
-               label=r"$\max_{i=1,\dots,m}|| \tilde{x}^{(i)}-x^{(i)}||_\infty$")
+    
     plot_kond_hil(ax_1, 130)
+    plt.loglog(m_arr, max_norm, "x", markerfacecolor="None", basex=2, markersize=groess,
+               label=r"$\max\limits_{i=1,\dots,m}|| \tilde{x}^{(i)}-x^{(i)}||_\infty$",
+               markeredgewidth=lw)
     plt.xlabel(r"Matrixgroesse $m$")
     plt.ylabel("Fehler bzw. Kondition")
+    plt.subplots_adjust(top=0.98, left=0.08, right=0.99, bottom=0.07)
+    ax_1.tick_params(left=True,right=True,bottom=True,top=True,which='major',length=10)
+    ax_1.tick_params(right=True, direction='in',which='both')    
+    ax_1.tick_params(left=True,right=True,bottom=True,top=True,which='minor',length=5)
+    #ax_1.set_ylim(1e-5,1e+206)
+    #print(ax_1.get_ylim()[1])
     plt.legend()
+    plt.savefig("Bericht/Bilder/hil_kond_fehl.png", dpi=300)
     plt.show()
 
 

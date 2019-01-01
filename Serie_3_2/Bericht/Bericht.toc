@@ -1,0 +1,7 @@
+\babel@toc {ngerman}{}
+\contentsline {section}{\numberline {1}Einleitung}{1}{section.1}
+\contentsline {subsection}{\numberline {1.1}Laplace Gleichung}{1}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Hilbert-Matrizen}{2}{subsection.1.2}
+\contentsline {section}{\numberline {2}Theorie}{3}{section.2}
+\contentsline {section}{\numberline {3}Experimente}{3}{section.3}
+\contentsline {section}{\numberline {4}Zusammenfassung}{3}{section.4}
