@@ -91,7 +91,7 @@ def loesg(numb, dims, fkt, ulsg=fntn):
     arra = gitter(numb, dims)
     arrb = np.zeros((numb-1)**dims)
     for i in range((numb-1)**dims):
-        arrb[i] = fkt(arra[i])
+        arrb[i] = fkt(arra[i])/(numb**2)
 
     # Erstellung und Lösen der Bandmatrix
     mata = Sparse(dims, numb)
