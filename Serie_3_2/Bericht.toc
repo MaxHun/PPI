@@ -1,0 +1,11 @@
+\babel@toc {ngerman}{}
+\contentsline {section}{\numberline {1}Einleitung}{1}{section.1}
+\contentsline {section}{\numberline {2}Theorie}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Laplace-Gleichung}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Hilbert-Matrizen}{3}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Fehlerabsch\IeC {\"a}tzung mit Hilfe der Kondition}{3}{subsection.2.3}
+\contentsline {section}{\numberline {3}Experimente}{4}{section.3}
+\contentsline {subsection}{\numberline {3.1}Numerische L\IeC {\"o}sung}{4}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Sparsity und Kondition}{7}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Kondition der Fehlermatrix und Fehler beim L\IeC {\"o}sen des korrespondierenden GS}{9}{subsection.3.3}
+\contentsline {section}{\numberline {4}Zusammenfassung}{10}{section.4}
