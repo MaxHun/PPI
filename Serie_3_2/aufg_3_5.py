@@ -164,7 +164,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = fkt(arra[i])/(k**2)
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -189,7 +189,7 @@ def loesg(dims, fkt, ulsg):
 
     #Plotten von dem Konvergenzverfahren, Dimension 2
     if dims == 2:
-        arrn = np.arange(5, 105, 5)
+        arrn = np.arange(5, 65, 5)
         arrfa = np.zeros(len(arrn))
         refe = 0
         for k in arrn:
@@ -197,7 +197,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = fkt(arra[i])/(k**2)
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -230,7 +230,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = fkt(arra[i])/(k**2)
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -263,7 +263,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = fkt(arra[i])/(k**2)
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -310,7 +310,7 @@ def main():
     """
     In dieser Funktion werden alle Lösungen der Aufgabe dem Nutzer ausgegeben
     """
-    dims = 3
+    dims = 2
     fntn = [fntn1, fntn2, fntn3]
     ulsg = [ulsg1, ulsg2, ulsg3]
     maxfl = loesg(dims, fntn[dims-1], ulsg[dims-1])
