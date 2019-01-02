@@ -160,7 +160,14 @@ Wenn wir die Spaltensummennorm $\|\cdot \|_{\infty}$ benutzen, ist die hohe Kond
 \end{align}
 Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Schon für $i=j=1$ gilt $b_{ij} = m^2$, also die Norm von dieser Matrix wächst mindestens quadratisch. Folglich ist die Kondition $\kappa(H_m)\gg1$ für $m>1$.
 
-<<<<<<< HEAD
+\subsection{Fehlerabschätzung mit Hilfe der Kondition}
+
+Nach Bemerkung~4.4 des Skriptes \textit{Numerische Lineare Algebra} entspricht die Kondition $\kappa(A)$ einer Matrix $A$ der relativen Kondition des linearen Gleichungssystems $f(x)=b \iff Ax=b$. Nach Lemma~3.3 gilt für die Kondition von $f$:
+\begin{align}
+\lsem f(x+w)-f(x)\rsem &\leq \kappa(f;x)\lsem w\rsem + o(\lsem w \rsem)\text{,   } (\lsem w \rsem \rightarrow 0)\\
+&\stackrel{.}{=} \kappa(f;x)\lsem w\rsem
+\end{align}
+
 
 \section{Experimente}
 
@@ -240,7 +247,7 @@ Diese Divergenz der numerischen Lösung von der exakten Lösung lässt sich in a
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{Bericht/Bilder/sparsekon}
-	\caption{Die Kondition der betrachteten Matrizen und die Sparsity der LU Zerlegung}
+	\caption{Die Kondition der betrachteten Matrizen und die Sparsity der $L$-$U$-Zerlegung}
 	\label{fig:sparsekon}
 \end{figure}
 
@@ -249,21 +256,12 @@ Die \textit{sparsity} der LU Zerlegung der Bandmatrizen lässt sich mittels der 
 Figur \ref{fig:sparsekon} zeigt auch, dass die Kondition der Bandmatrix in jeder Dimension proportional zur Feinheit der Diskretisierung wächst. Dies stimmt mit dem in der numerischen linearen Algebra berechneten Ergebnis überein. Die Spektralkondition einer eindimensionalen Bandmatrix der Feinheit 
 
 
-\subsection{3.6}
+%\subsection{3.6}
+%
+%Gemäß Aufgabe~3.6 der Aufgabenstellung wurde die Kondition der Hilbertmatrix $H_m$ in Abhängigkeit der Matrixgröße $m$ untersucht und graphisch dargestellt. Ebenso wurde das Gleichungssystem 
+%=======
 
-Gemäß Aufgabe~3.6 der Aufgabenstellung wurde die Kondition der Hilbertmatrix $H_m$ in Abhängigkeit der Matrixgröße $m$ untersucht und graphisch dargestellt. Ebenso wurde das Gleichungssystem 
-=======
-\section{Theorie}
-
-\subsection{Fehlerabschätzung mit Hilfe der Kondition}
-
-Nach Bemerkung~4.4 des Skriptes \textit{Numerische Lineare Algebra} entspricht die Kondition $\kappa(A)$ einer Matrix $A$ der relativen Kondition des linearen Gleichungssystems $f(x)=b \iff Ax=b$. Nach Lemma~3.3 gilt für die Kondition von $f$:
-\begin{align}
-\lsem f(x+w)-f(x)\rsem &\leq \kappa(f;x)\lsem w\rsem + o(\lsem w \rsem)\text{,   } (\lsem w \rsem \rightarrow 0)\\
-&\stackrel{.}{=} \kappa(f;x)\lsem w\rsem
-\end{align}
-
-\section{Experimente}
+\subsection{Kondition der Fehlermatrix und Fehler beim Lösen des korrespondierenden GS}
 
 Gemäß Aufgabe~3.6 der Aufgabenstellung wurde die Kondition der Hilbertmatrix $H_m$ in Abhängigkeit der Matrixgröße $m$ experimentell untersucht und graphisch dargestellt. Ebenso wurde das Gleichungssystem 
 \begin{align}
@@ -271,7 +269,6 @@ H_mx^{(i)}=e_i
 \label{eq:hil_lgs}
 \end{align}
 für $m=2^k$, $k=0,1,2,\dots$ numerisch unter Ausnutzung der $L$-$U$-Zerlegung (s.~Schnittstellendoku) gelöst. Die aus den numerischen Verfahren gewonnene Lösung $\tilde{x}^{(i)}$ wurde mit der exakten Lösung $x^{(i)}$ verglichen. Letztere ergibt sich aus \eqref{eq:hil_lgs} als die $i$-te Spalte der inversen Hilbert-Matrix:
->>>>>>> f1a94ebf311269b8c67070ec269a586f14f907c6
 \begin{align}
 x^{(i)}=H_m^{-1}e_i\equiv(\text{$i$-te Spalte von }H_m^{-1}).
 \end{align}
@@ -290,6 +287,11 @@ dargestellt.
 \end{figure}
 
 Man erkennt ein starkes Ansteigen der Kondition von $H_m$ mit $m$. $\kappa(H_m)(m)$ ist in der logarithmischen Darstellung im betrachteten Bereich monoton wachsend und konvex, wächst also schneller als jede endliche Potenz von $m$. Der Wert von $\max\|\tilde{x}^{(i)}-x^{(i)}\|_\infty$ ist für die betrachteten $m$ durch $\kappa(H_m)$ beschränkt.
+
+
+
+
+
 
 \section{Zusammenfassung}
 
