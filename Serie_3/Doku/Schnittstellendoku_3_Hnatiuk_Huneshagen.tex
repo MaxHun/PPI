@@ -144,7 +144,7 @@
 
 
 \title{Serie 3 Schnittstellendokumentation}
-\date{16.12.2018}
+\date{1.~Korrektur, Abgabe: \today}
 \release{}
 \author{Arsen Hnatiuk, Max Huneshagen}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -237,7 +237,7 @@ bestimmt und analysiert werden kann.
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:sparse_erw.Sparse}}\pysiglinewithargsret{\sphinxbfcode{class }\sphinxcode{sparse\_erw.}\sphinxbfcode{Sparse}}{\emph{dim}, \emph{dis}, \emph{r\_s=None}, \emph{ex\_lsg=None}}{}
 Diese Klasse erlaubt das Erstellen der Matrizen $A^{(d)}$ für $d \in \{1,2,3\}$. Diese Matrizen werden
-z. B. fuer die Berechnung der DGL $u''(x)=-f(x)$ verwendet. Es handelt sich bei diesen Matrizen
+z. B. für die Berechnung der DGL $u''(x)=-f(x)$ verwendet. Es handelt sich bei diesen Matrizen
 um sehr dünn besetzte Block-Band-Matrizen, was die Verwendung von sog. sparse-Matrizen
 in der numerischen Umsetzung nahelegt.
 
@@ -666,19 +666,19 @@ rechte Seite des Gleichungssystems $H_mx=r\_s$.
 \index{return\_hil\_matr() (Methode von hilbertmatr.Hilbert)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.return_hil_matr}}\pysiglinewithargsret{\sphinxbfcode{return\_hil\_matr}}{\emph{inv=False}}{}
+\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.return_hil_matr}}\pysiglinewithargsret{\sphinxbfcode{return\_hil\_matr}}{\emph{inv=\texttt{False}}}{}
 Gibt die Hilbertmatrix oder ihr Inverses zurück.
 \begin{description}
-\item [{Input:}] 
+\item [{Input:}] \leavevmode
 
 
-\begin{quote}
+
 \begin{description}
 \item[{inv (bool, Standard: False)}] \leavevmode
-Gibt an, ob Hilbertmatrix (False) oder ihr Inverses (True) ausgegeben wird.
+Gibt an, ob Hilbertmatrix (\texttt{False}) oder ihr Inverses (\texttt{True}) ausgegeben wird.
 \end{description}
 
-\end{quote}\end{description}
+\end{description}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(numpy.ndarray):}] \leavevmode
@@ -696,14 +696,258 @@ Hilbertmatrix oder ihr Inverses, falls \texttt{inv == True}.
 
 
 
-\chapter{Die Skripte \textit{aufg\_3\_2u3\_main.py} und \textit{aufg\_3\_4\_main.py}}
+\chapter{Die verwendeten Skripte}
 
-Die Aufgaben 3.2 bis 3.4 der Aufgabenstellungen werden in den Skripten \textit{aufg\_3\_2u3\_main.py} und \textit{aufg\_3\_4\_main.py} bearbeitet. Für Aufgabe~3.2 wurde die numerische Näherung der Laplace-Gleichung \eqref{eq:glc} auf dem $d$-dimensionalen Einheitswürfel bestimmt. Das Ergebnis wird beim Ausführen von \textit{aufg\_3\_2u3\_main.py} graphisch dargestellt. Zusätzlich kann die numerische Lösung mit einer bekannten exakten lösung verglichen werden.
+\section{Das Skript \textit{aufg\_3\_2u3\_main.py}}
 
-Mit Skript \textit{aufg\_3\_4\_main.py} werden die Band- und Hilbertmatrix bezüglich ihrer Kondition untersucht. Die graphische Darstellung zeigt, dass für ein festes $m$ gilt, dass $\kappa(A^{(1)})>\kappa(A^{(2)})>\kappa(A^{(3)})$. Die Kondition der Hilbertmatrix ist indes um viele Größenordnungen größer als die der betrachteten Bandmatrizen und wächst exponentiell mit $m$ (Gerade im einfach logarithmischen Plot). Des Weiteren wurde die Anzahl der Nichtnulleinträge der Bandmatrizen und ihrer L-U-Zerlegung untersucht. Dabei ist zu erkennen, dass die Matrizen $L$ und $U$ relativ dicht besetzt sind und wenig Nulleinträge haben im Vergleichh zur Ausgangsmatrix $A^{(d)}$, was die Verwendung der L-U-Zerlegung bei sehr großen $m$ hier sehr unpraktikabel macht. \textit{aufg\_3\_4\_main.py}  enthält ebenfalls die Funktionen \textit{plot\_fehl} und \textit{plot\_res}, die den Fehler $|\lvert x-x^\star|\rvert_\infty$ mit einer bekannten Referenzlösung $x^\star$ bzw. das Residuum $|\lvert Mx-b|\rvert_\infty$ mit $M\in \{A^{(1)},A^{(1)},A^{(1)}, H_m\}$ gegen $m$ plotten. Diese werden in zukünftigen Aufgaben benötigt.
+\phantomsection\label{\detokenize{index:module-aufg_3_2u3_main}}\index{aufg\_3\_2u3\_main (Modul)}
+Das Modul \textit{aufg\_3\_2u3\_main.py} löst die Aufgaben 3.2 und 3.3, indem es die Differentialgleichung löst und
+das Verhalten der Lösungen graphisch darstellt. Zusätzlich kann die numerische Lösung mit einer bekannten exakten Lösung verglichen werden.
+\index{fntn() (im Modul aufg\_3\_2u3\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_2u3_main.fntn}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{fntn}}{\emph{wert}}{}
+Beliebige Beispielfunktion. Diese Funktion steht in keiner Beziehung zu einer Lösung der DGL, sie dient lediglich dem Testen der Funktionalität der entwickelten Methoden.
+\begin{description}
+\item [{Input:}] \leavevmode
+
+\begin{description}
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
+\end{description}
+
+\end{description}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Werte der Funktion an den übergebenen Stellen.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{gitter() (im Modul aufg\_3\_2u3\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_2u3_main.gitter}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{gitter}}{\emph{numb}, \emph{dims}}{}
+Funktion, die für eine gegebene Dimension und Schrittweite eine Menge von Punkten erzeugt, auf
+der die Differentialgleichung zu lösen ist.
+\begin{description}
+\item [{Input:}] \leavevmode
+
+\begin{description}
+\item[{numb (int):}] \leavevmode
+Feinheit der Diskretisierung
+
+\item[{dims (int):}] \leavevmode
+Dimension der Diskretisierung
+
+\end{description}
+\end{description}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{arra (ndarray):}] \leavevmode
+Array mit den Punkten auf dem Diskretisierungsgitter
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{loesg() (im Modul aufg\_3\_2u3\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_2u3_main.loesg}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{loesg}}{\emph{numb}, \emph{dims}, \emph{fkt}, \emph{ulsg=\textless{}function fntn\textgreater{}}}{}
+Diese Methode dient zur Lösung der Differentialgleichung und zum Vergleichen der exakten
+und approximierten Lösungen.
+\begin{description}
+\item [{Input:}] \leavevmode
+\begin{description}
+\item[{numb (int):}] \leavevmode
+Feinheit der Diskretisierung.
+
+\item[{dims (int):}] \leavevmode
+Dimension der Diskretisierung.
+
+\item[{fkt (function):}] \leavevmode
+Die gegebene Funktion $f$ aus der Aufgabestellung.
+
+\item[{ulsg (function):}] \leavevmode
+Die exakte Lösung der Differentialgleichung.
+
+\end{description}\end{description}
+
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Der absolute Fehler in der approximierten Lösung der Differentialgleichung.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{modo() (im Modul aufg\_3\_2u3\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_2u3_main.modo}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{modo}}{\emph{m\_nb}, \emph{numb}}{}
+Funktion, die die modifizierte Modolo-Methode aus dem Bericht zu Serie 2 implementiert
+\begin{description}
+\item [{Input:}] \leavevmode
+\begin{description}
+\item[{m\_nb (int):}] \leavevmode
+Zahl, für die wir den Wert der modifizierten Modolo Methode berechnen wollen
+
+\item[{numb (int):}] \leavevmode
+Feinheit der Diskretisierung
+
+\end{description}\end{description}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(int):}] \leavevmode
+Ausgabe der modifizierten Modolo Methode
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+
+
+\section{Das Skript \textit{aufg\_3\_4\_main.py}}
+
+\phantomsection\label{\detokenize{index:module-aufg_3_4_main}}\index{aufg\_3\_4\_main (Modul)}
+Dieses Skript stellt die Lösung zu Aufgabe 3.4 dar, bei der es vor allem um die Analyse
+der beiden zuvor bahndelten Matrizentypen und deren Fehleranfälligkeit geht.
 
 ~\\
 \emph{Bemerkung:} Da in der Aufgabenstellung explizit angegeben wurde, in welche Arten von sparse-Matrizentypen die Matrix $A^{(d)}$ umgewandelt werden kann und sich darunter nicht der Typ \textit{lil\_matrix} befand, wurde das \textit{SparseEfficiencyWarning} beim Ausführen von \textit{aufg\_3\_4\_main.py} ignoriert, weil es sich nur durch die Umwandlung in eine \textit{lil\_matrix} direkt umgehen lässt. Das Aufkommen eines weiteren \textit{SparseEfficiencyWarning} könnte durch die Umwandlung von $b$ in ein \textit{csc\_matrix}-Objekt verhindert werdenn (s.~doppelt auskommentierter Teil im Quellcode), da $b$ aber i.\,A. dicht besetzt ist, wird darauf verzichtet.
+
+\index{plot\_fehl() (im Modul aufg\_3\_4\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_fehl}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_fehl}}{\emph{plotber}, \emph{r\_s\_arr}, \emph{ex\_lsg\_arr}, \emph{matr\_type}, \emph{dim=1}}{}
+Plottet den Fehler der numerischen Lösung im Vergleich zur exakten Lösung.
+\begin{description}
+\item[{Input:}] \leavevmode\begin{description}
+\item[{plotber (axis-Objekt):}] \leavevmode
+Plotbereich, in den geplottet werden soll
+
+\item[{r\_s\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
+Liste aus rechten Seiten.
+
+\item[{ex\_lsg\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
+Liste aus entsprechenden exakten Lösungen.
+
+\item[{matr\_type (string):}] \leavevmode
+Bestimmt die Matrixart, die untersucht wird.
+Möglichkeiten: Hilbertmatrix (\texttt{hil}) oder
+Bandmatrix (\texttt{a}) für $d\in\{1,2,3\}$.
+
+\item[{dim (int, Standard: 1):}] \leavevmode
+Wird nur für die Bandmatrizen benötigt und gibt deren Dimension an.
+
+\end{description}
+
+\end{description}
+\begin{description}
+\item [{Return:}] -
+\end{description}
+\end{fulllineitems}
+
+\index{plot\_kond() (im Modul aufg\_3\_4\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_kond}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_kond}}{\emph{plotber}, \emph{m\_max}, \emph{matr\_type}}{}
+Plottet die Kondition der Bandmatrizen bzw. der Hilbert-Matrix in Abhängigkeit von der
+Matrixgröße $m$.
+
+\begin{description}
+\item[{Input:}] \leavevmode
+
+\begin{description}
+\item[{plotber (axis-Objekt):}] \leavevmode
+Plotbereich, in den geplottet werden soll
+
+\item[{m\_max (int):}] \leavevmode
+Maximale Matrixgröße.
+
+\item[{matr\_type (string):}] \leavevmode
+Bestimmt die Matrixart, die untersucht wird.
+Möglichkeiten: Hilbertmatrix (\texttt{hil}) oder
+Bandmatrix (\texttt{a}) für $d\in\{1,2,3\}$.
+
+\end{description}
+\end{description}
+\begin{description}
+\item [{Return:}] -
+\end{description}
+\end{fulllineitems}
+
+\index{plot\_nn() (im Modul aufg\_3\_4\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_nn}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_nn}}{\emph{plotber}, \emph{m\_max}}{}
+Plottet die (absolute) Anzahl der Nichtnulleinträge der Koeffizientenmatrix $A^{(d)}$
+
+Input:
+\begin{quote}
+\begin{description}
+\item[{plotber (axis-Objekt):}] \leavevmode
+Plotbereich, in den geplottet werden soll
+
+\item[{m\_max (int):}] \leavevmode
+Maximale Matrixgröße.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item [{Return:}] -
+\end{description}
+\end{fulllineitems}
+
+\index{plot\_res() (im Modul aufg\_3\_4\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_res}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_res}}{\emph{plotber}, \emph{r\_s\_arr}, \emph{matr\_type}, \emph{dim=1}}{}
+Plottet das  Residuum.
+\begin{description}
+\item[{Input:}] \leavevmode\begin{description}
+\item[{plotber (axis-Objekt):}] \leavevmode
+Plotbereich, in den geplottet werden soll
+
+\item[{r\_s\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
+Liste aus rechten Seiten.
+
+\item[{matr\_type (string):}] \leavevmode
+Bestimmt die Matrixart, die untersucht wird.
+Möglichkeiten: Hilbertmatrix (\texttt{hil}) oder
+Bandmatrix (\texttt{a}) für $d\in\{1,2,3\}$.
+
+\item[{dim (int, Standard: 1):}] \leavevmode
+Wird nur für die Bandmatrizen benötigt und gibt deren Dimension an.
+
+\end{description}
+
+\end{description}
+\begin{description}
+\item [{Return:}] -
+\end{description}
+\end{fulllineitems}
+
+
+
+
+
+
+Die graphische Darstellung zeigt, dass für ein festes $m$ gilt, dass $\kappa(A^{(1)})>\kappa(A^{(2)})>\kappa(A^{(3)})$. Die Kondition der Hilbertmatrix ist indes um viele Größenordnungen größer als die der betrachteten Bandmatrizen und wächst exponentiell mit $m$ (Gerade im einfach logarithmischen Plot). Des Weiteren wurde die Anzahl der Nichtnulleinträge der Bandmatrizen und ihrer L-U-Zerlegung untersucht. Dabei ist zu erkennen, dass die Matrizen $L$ und $U$ relativ dicht besetzt sind und wenig Nulleinträge haben im Vergleichh zur Ausgangsmatrix $A^{(d)}$, was die Verwendung der L-U-Zerlegung bei sehr großen $m$ hier sehr unpraktikabel macht. \textit{aufg\_3\_4\_main.py}  enthält ebenfalls die Funktionen \textit{plot\_fehl} und \textit{plot\_res}, die den Fehler $|\lvert x-x^\star|\rvert_\infty$ mit einer bekannten Referenzlösung $x^\star$ bzw. das Residuum $|\lvert Mx-b|\rvert_\infty$ mit $M\in \{A^{(1)},A^{(2)},A^{(3)}, H_m\}$ gegen $m$ plotten. Diese werden in zukünftigen Aufgaben benötigt.
+
+
 
 
 

@@ -5,4 +5,6 @@
 \contentsline {chapter}{\numberline {2}Die verwendeten Klassen}{4}{chapter.2}
 \contentsline {section}{\numberline {2.1}Die erweiterte Sparse-Klasse}{4}{section.2.1}
 \contentsline {section}{\numberline {2.2}Die Hilbert-Klasse}{7}{section.2.2}
-\contentsline {chapter}{\numberline {3}Die Skripte \textit {aufg\_3\_2u3\_main.py} und \textit {aufg\_3\_4\_main.py}}{9}{chapter.3}
+\contentsline {chapter}{\numberline {3}Die verwendeten Skripte}{9}{chapter.3}
+\contentsline {section}{\numberline {3.1}Das Skript \textit {aufg\_3\_2u3\_main.py}}{9}{section.3.1}
+\contentsline {section}{\numberline {3.2}Das Skript \textit {aufg\_3\_4\_main.py}}{10}{section.3.2}

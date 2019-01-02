@@ -107,7 +107,7 @@ def loesg(numb, dims, fkt, ulsg=fntn):
     for i in range((numb-1)**dims):
         arrf[i] = np.abs(arrex[i]-lsg[i])
 
-    # Grafische Ausgabe
+    # Graphische Ausgabe:
     if dims == 2:
 
         # Plot der berechneten Lösung
@@ -131,11 +131,10 @@ def loesg(numb, dims, fkt, ulsg=fntn):
         # Plot des Fehlers
         plot_disc_fct(arrf, numb, "Fehler bezüglich der Referenzlösung mit"
                       +" Feinheit der Diskretisierung "+str(numb))
+        print("Der maximale Fehler ist "+str(np.amax(arrf)))
         plt.show()
-    return np.amax(arrf)
 
 if __name__ == "__main__":
-    maxfl = loesg(15, 2, fntn)
-    print("Der maximale Fehler ist "+str(maxfl))
+    loesg(15, 2, fntn)
 
 
