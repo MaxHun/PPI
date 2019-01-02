@@ -7,4 +7,7 @@
 \contentsline {subsection}{\numberline {3.1}Numerische L\IeC {\"o}sung}{3}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Sparsity und Kondition}{4}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}3.6}{9}{subsection.3.3}
-\contentsline {section}{\numberline {4}Zusammenfassung}{9}{section.4}
+\contentsline {section}{\numberline {4}Theorie}{9}{section.4}
+\contentsline {subsection}{\numberline {4.1}Fehlerabsch\IeC {\"a}tzung mit Hilfe der Kondition}{9}{subsection.4.1}
+\contentsline {section}{\numberline {5}Experimente}{9}{section.5}
+\contentsline {section}{\numberline {6}Zusammenfassung}{10}{section.6}

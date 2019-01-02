@@ -6,4 +6,7 @@
 \BOOKMARK [2][-]{subsection.3.1}{Numerische L\366sung}{section.3}% 6
 \BOOKMARK [2][-]{subsection.3.2}{Sparsity und Kondition}{section.3}% 7
 \BOOKMARK [2][-]{subsection.3.3}{3.6}{section.3}% 8
-\BOOKMARK [1][-]{section.4}{Zusammenfassung}{}% 9
+\BOOKMARK [1][-]{section.4}{Theorie}{}% 9
+\BOOKMARK [2][-]{subsection.4.1}{Fehlerabsch\344tzung mit Hilfe der Kondition}{section.4}% 10
+\BOOKMARK [1][-]{section.5}{Experimente}{}% 11
+\BOOKMARK [1][-]{section.6}{Zusammenfassung}{}% 12
