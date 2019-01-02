@@ -164,7 +164,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = k**2*fkt(arra[i])
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -197,7 +197,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = k**2*fkt(arra[i])
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -230,7 +230,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = k**2*fkt(arra[i])
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -263,7 +263,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = k**2*fkt(arra[i])
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
