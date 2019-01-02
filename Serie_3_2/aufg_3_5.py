@@ -11,7 +11,7 @@ from matplotlib import cm
 import numpy as np
 from sparse_erw import Sparse
 
-matplotlib.rcParams.update({'font.size': 18})
+matplotlib.rcParams.update({'font.size': 20})
 plt.rc('text', usetex=True)
 matplotlib.rcParams['text.latex.preamble'] = [
     r'\usepackage{amsmath}',
@@ -156,7 +156,7 @@ def loesg(dims, fkt, ulsg):
     """
     #Plotten von dem Konvergenzverfahren, Dimension 1
     if dims == 1:
-        arrn = np.arange(4, 804, 20)
+        arrn = np.arange(4, 1004, 20)
         arrfa = np.zeros(len(arrn))
         refe = 0
         for k in arrn:
@@ -183,13 +183,13 @@ def loesg(dims, fkt, ulsg):
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
         plt.plot(arrn, arrfa)
-        plt.title("Konvergenzverfahren der numerischen Loesung in Dimension 1")
+        plt.title("Konvergenzverhalten der numerischen Loesung in Dimension 1")
         plt.xlabel("Feinheit der Diskretisierung")
         plt.ylabel("Absoluter Fehler")
 
     #Plotten von dem Konvergenzverfahren, Dimension 2
     if dims == 2:
-        arrn = np.arange(5, 65, 5)
+        arrn = np.arange(5, 95, 5)
         arrfa = np.zeros(len(arrn))
         refe = 0
         for k in arrn:
@@ -216,7 +216,7 @@ def loesg(dims, fkt, ulsg):
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
         plt.plot(arrn, arrfa)
-        plt.title("Konvergenzverfahren der numerischen Loesung in Dimension 2")
+        plt.title("Konvergenzverhalten der numerischen Loesung in Dimension 2")
         plt.xlabel("Feinheit der Diskretisierung")
         plt.ylabel("Absoluter Fehler")
 
@@ -249,7 +249,7 @@ def loesg(dims, fkt, ulsg):
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
         plt.plot(arrn, arrfa)
-        plt.title("Konvergenzverfahren der numerischen Loesung in Dimension 3")
+        plt.title("Konvergenzverhalten der numerischen Loesung in Dimension 3")
         plt.xlabel("Feinheit der Diskretisierung")
         plt.ylabel("Absoluter Fehler")
 
@@ -310,7 +310,7 @@ def main():
     """
     In dieser Funktion werden alle Lösungen der Aufgabe dem Nutzer ausgegeben
     """
-    dims = 2
+    dims = 3
     fntn = [fntn1, fntn2, fntn3]
     ulsg = [ulsg1, ulsg2, ulsg3]
     maxfl = loesg(dims, fntn[dims-1], ulsg[dims-1])
