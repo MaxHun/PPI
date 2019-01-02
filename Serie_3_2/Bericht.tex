@@ -84,7 +84,7 @@
 	
 	\noindent \textbf{#1:}\,}
 
-
+\usepackage{MnSymbol}
 \begin{document}
 
 % generating the title page
@@ -151,7 +151,11 @@ Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Scho
 
 \subsection{Fehlerabschätzung mit Hilfe der Kondition}
 
-Nach Bemerkung~4.4 des Skriptes \textit{Numerische Lineare Algebra} entspricht die Kondition $\kappa(A)$ einer Matrix $A$ der relativen Kondition des linearen Gleichungssystems $f(x)=b \iff Ax=b$. 
+Nach Bemerkung~4.4 des Skriptes \textit{Numerische Lineare Algebra} entspricht die Kondition $\kappa(A)$ einer Matrix $A$ der relativen Kondition des linearen Gleichungssystems $f(x)=b \iff Ax=b$. Nach Lemma~3.3 gilt für die Kondition von $f$:
+\begin{align}
+\lsem f(x+w)-f(x)\rsem &\leq \kappa(f;x)\lsem w\rsem + o(\lsem w \rsem)\text{,   } (\lsem w \rsem \rightarrow 0)\\
+&\stackrel{.}{=} \kappa(f;x)\lsem w\rsem
+\end{align}
 
 \section{Experimente}
 
