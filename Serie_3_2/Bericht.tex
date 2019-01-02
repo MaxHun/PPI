@@ -149,14 +149,36 @@ Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Scho
 
 \section{Theorie}
 
+\subsection{Fehlerabschätzung mit Hilfe der Kondition}
+
+Nach Bemerkung~4.4 des Skriptes \textit{Numerische Lineare Algebra} entspricht die Kondition $\kappa(A)$ einer Matrix $A$ der relativen Kondition des linearen Gleichungssystems $f(x)=b \iff Ax=b$. 
 
 \section{Experimente}
 
-Gemäß Aufgabe~3.6 der Aufgabenstellung wurde die Kondition der Hilbertmatrix $H_m$ in Abhängigkeit der Matrixgröße $m$ untersucht und graphisch dargestellt. Ebenso wurde das Gleichungssystem 
+Gemäß Aufgabe~3.6 der Aufgabenstellung wurde die Kondition der Hilbertmatrix $H_m$ in Abhängigkeit der Matrixgröße $m$ experimentell untersucht und graphisch dargestellt. Ebenso wurde das Gleichungssystem 
 \begin{align}
-h
+H_mx^{(i)}=e_i
+\label{eq:hil_lgs}
 \end{align}
-%TODO hier weiter
+für $m=2^k$, $k=0,1,2,\dots$ numerisch unter Ausnutzung der $L$-$U$-Zerlegung (s.~Schnittstellendoku) gelöst. Die aus den numerischen Verfahren gewonnene Lösung $\tilde{x}^{(i)}$ wurde mit der exakten Lösung $x^{(i)}$ verglichen. Letztere ergibt sich aus \eqref{eq:hil_lgs} als die $i$-te Spalte der inversen Hilbert-Matrix:
+\begin{align}
+x^{(i)}=H_m^{-1}e_i\equiv(\text{$i$-te Spalte von }H_m^{-1}).
+\end{align}
+Die beiden Vektoren wurden anhand der Größe
+\begin{align*}
+\max\limits_{i=1,\dots,m}\|\tilde{x}^{(i)}-x^{(i)}\|_\infty
+\end{align*}
+verglichen. Das Ergebnis ist in Abb.~\ref{fig:hil_kond_fehl}
+dargestellt.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.8\textwidth]{Bericht/Bilder/hil_kond_fehl}
+\label{fig:hil_kond_fehl}
+\caption{Fehler der numerischen Lösung von \eqref{eq:hil_lgs} und Kondition von $H_m$ in Abhängigkeit von der Matrixgröße $m$.}
+\end{figure}
+
+Man erkennt ein starkes Ansteigen der Kondition von $H_m$ mit $m$. $\kappa(H_m)(m)$ ist in der logarithmischen Darstellung im betrachteten Bereich monoton wachsend und konvex, wächst also schneller als jede endliche Potenz von $m$. Der Wert von $\max\|\tilde{x}^{(i)}-x^{(i)}\|_\infty$ ist für die betrachteten $m$ durch $\kappa(H_m)$ beschränkt.
 
 \section{Zusammenfassung}
 

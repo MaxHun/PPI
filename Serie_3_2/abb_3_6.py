@@ -15,7 +15,7 @@ from scipy import linalg as lina
 
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
-matplotlib.rcParams.update({'font.size': 33})
+matplotlib.rcParams.update({'font.size': 50})
 plt.rc('text', usetex=True)
 #plt.rc('font', family='Open Sans')
 matplotlib.rcParams['text.latex.preamble'] = [
@@ -178,7 +178,7 @@ def main():
                markeredgewidth=lw)
     plt.xlabel(r"Matrixgroesse $m$")
     plt.ylabel("Fehler bzw. Kondition")
-    plt.subplots_adjust(top=0.98, left=0.08, right=0.99, bottom=0.07)
+    plt.subplots_adjust(top=0.98, left=0.108, right=0.99, bottom=0.086)
     ax_1.tick_params(left=True,right=True,bottom=True,top=True,which='major',length=10)
     ax_1.tick_params(right=True, direction='in',which='both')    
     ax_1.tick_params(left=True,right=True,bottom=True,top=True,which='minor',length=5)
