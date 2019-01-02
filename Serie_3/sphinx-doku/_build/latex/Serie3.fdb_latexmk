@@ -1,10 +1,10 @@
 # Fdb version 3
-["makeindex Serie3.idx"] 1546358238 "Serie3.idx" "Serie3.ind" "Serie3" 1546360239
-  "Serie3.idx" 1546360239 1646 130f4c92851cbf06ddd19393c7e0b57c ""
+["makeindex Serie3.idx"] 1546444180 "Serie3.idx" "Serie3.ind" "Serie3" 1546444181
+  "Serie3.idx" 1546444181 2270 1a60d18399798baaf5c2a1a269909650 ""
   (generated)
   "Serie3.ind"
   "Serie3.ilg"
-["pdflatex"] 1546360238 "Serie3.tex" "Serie3.pdf" "Serie3" 1546360239
+["pdflatex"] 1546444180 "Serie3.tex" "Serie3.pdf" "Serie3" 1546444181
   "/etc/texmf/web2c/texmf.cnf" 1527248855 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1480098666 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
@@ -142,20 +142,20 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1520210507 32485 c64754543d8ac501bea6e75e209ea521 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1527249009 2700761 ac0584cc9514ab21918550a6948c4ee2 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1541267347 4126977 574bdde9bc107d5eb3a624ac0b1f888b ""
-  "Serie3.aux" 1546360239 3244 fbd6f79563dfb232a981683a90f75e2e ""
-  "Serie3.ind" 1546358239 1880 f436a0d620074071d8a53f274337a85b "makeindex Serie3.idx"
-  "Serie3.out" 1546360239 406 eabcb2d2b57adfcf4fa3fc75fb0a275b ""
-  "Serie3.tex" 1546360237 15365 416f32878d9bd7f81733dd90b28f2452 ""
-  "Serie3.toc" 1546360239 216 0a7b90101de68c3c7e234952c3d56847 ""
+  "Serie3.aux" 1546444181 4058 92f9b9ed7974ee232c8c55f35560e22c ""
+  "Serie3.ind" 1546444180 2594 f07171b114189dac27825faee84d5292 "makeindex Serie3.idx"
+  "Serie3.out" 1546444181 406 ad1f4684a60c09da0ae4b840dde09f7f ""
+  "Serie3.tex" 1546444179 22651 685b8baed512d09e392942db9142cf3f ""
+  "Serie3.toc" 1546444181 216 402567ba64a11894164407eff612f36c ""
   "footnotehyper-sphinx.sty" 1517759638 8841 e18cbb7bca599a223414f9b8a156abee ""
   "sphinx.sty" 1517759638 64257 27389b3f9c27254b2f20d236bdb2ebcf ""
-  "sphinxhighlight.sty" 1546360237 8137 38a433148fcb7611515a989ff1750dd5 ""
+  "sphinxhighlight.sty" 1546444179 8137 38a433148fcb7611515a989ff1750dd5 ""
   "sphinxmanual.cls" 1516805694 3589 0b0aac49c6f36925cf5f9d524a75a978 ""
   "sphinxmulticell.sty" 1516805694 14618 0defbdc8536ad2e67f1eac6a1431bc55 ""
   (generated)
-  "Serie3.toc"
-  "Serie3.log"
-  "Serie3.out"
-  "Serie3.aux"
-  "Serie3.idx"
   "Serie3.pdf"
+  "Serie3.aux"
+  "Serie3.out"
+  "Serie3.log"
+  "Serie3.toc"
+  "Serie3.idx"

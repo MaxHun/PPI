@@ -55,7 +55,7 @@
 
 
 \title{Serie 3 Documentation}
-\date{01.01.2019}
+\date{02.01.2019}
 \release{}
 \author{Arsen Hnatiuk, Max Huneshagen}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -71,7 +71,7 @@
 
 
 \chapter{Die Sparse-Klasse}
-\label{\detokenize{index:welcome-to-serie-3-s-documentation}}\label{\detokenize{index:die-sparse-klasse}}\label{\detokenize{index:module-sparse_erw}}\index{sparse\_erw (Modul)}
+\label{\detokenize{index:module-sparse_erw}}\label{\detokenize{index:die-sparse-klasse}}\label{\detokenize{index:welcome-to-serie-3-s-documentation}}\index{sparse\_erw (Modul)}
 sparse.py stellt die Klasse Sparse zur Verfuegung, mit der die Matrix A\textasciicircum{}(d) fuer d=1,2,3
 bestimmt und analysiert werden kann.
 \index{Sparse (Klasse in sparse\_erw)}
@@ -494,11 +494,237 @@ Hilbertmatrix oder ihr Inverses, falls inv == True.
 
 \end{fulllineitems}
 
+\phantomsection\label{\detokenize{index:module-aufg_3_4_main}}\index{aufg\_3\_4\_main (Modul)}
+Dieses Skript stellt die Loesung zu Aufgabe 3.4 dar, bei der es vor allem um die Analyse
+der beiden zuvor bahndelten Matrizentypen und deren Fehleranfaelligkeit geht.
+\index{plot\_fehl() (im Modul aufg\_3\_4\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_fehl}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_fehl}}{\emph{plotber}, \emph{r\_s\_arr}, \emph{ex\_lsg\_arr}, \emph{matr\_type}, \emph{dim=1}}{}
+Plottet den Fehler der numerischen Loesung im Vergleich zur exakten Loesung.
+\begin{description}
+\item[{Input:}] \leavevmode\begin{description}
+\item[{plotber (axis-Objekt):}] \leavevmode
+Plotbereich, in den geplottet werden soll
+
+\item[{r\_s\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
+Liste aus rechten Seiten.
+
+\item[{ex\_lsg\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
+Liste aus entsprechenden exakten Loesungen.
+
+\item[{matr\_type (string):}] \leavevmode
+Bestimmt die Matrixart, die untersucht wird.
+Moeglichkeiten: Hilbertmatrix („hil“) oder
+Bandmatrix fuer d=1,2,3 („a“).
+
+\item[{dim (int, Standard: 1):}] \leavevmode
+Wird nur fuer die Bandmatrizen benoetigt und gibt deren Dimension an.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{plot\_kond() (im Modul aufg\_3\_4\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_kond}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_kond}}{\emph{plotber}, \emph{m\_max}, \emph{matr\_type}}{}
+Plottet die Kondition der Bandmatrizen bzw. der Hilbert-Matrix in Abhaengigkeit von der
+Matrixgroesse m.
+
+Input:
+\begin{quote}
+\begin{description}
+\item[{plotber (axis-Objekt):}] \leavevmode
+Plotbereich, in den geplottet werden soll
+
+\item[{m\_max (int):}] \leavevmode
+Maximale Matrixgroesse.
+
+\item[{matr\_type (string):}] \leavevmode
+Bestimmt die Matrixart, die untersucht wird.
+Moeglichkeiten: Hilbertmatrix („hil“) oder
+Bandmatrix fuer d=1,2,3 („a“).
+
+\end{description}
+\end{quote}
+
+\end{fulllineitems}
+
+\index{plot\_nn() (im Modul aufg\_3\_4\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_nn}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_nn}}{\emph{plotber}, \emph{m\_max}}{}
+Plottet die (absolute) Anzahl der Nichtnulleintraege der Koeffizientenmatrix A\textasciicircum{}(d)
+
+Input:
+\begin{quote}
+\begin{description}
+\item[{plotber (axis-Objekt):}] \leavevmode
+Plotbereich, in den geplottet werden soll
+
+\item[{m\_max (int):}] \leavevmode
+Maximale Matrixgroesse.
+
+\end{description}
+\end{quote}
+
+\end{fulllineitems}
+
+\index{plot\_res() (im Modul aufg\_3\_4\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_res}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_res}}{\emph{plotber}, \emph{r\_s\_arr}, \emph{matr\_type}, \emph{dim=1}}{}
+Plottet das  Resiuduum.
+\begin{description}
+\item[{Input:}] \leavevmode\begin{description}
+\item[{plotber (axis-Objekt):}] \leavevmode
+Plotbereich, in den geplottet werden soll
+
+\item[{r\_s\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
+Liste aus rechten Seiten.
+
+\item[{matr\_type (string):}] \leavevmode
+Bestimmt die Matrixart, die untersucht wird.
+Moeglichkeiten: Hilbertmatrix („hil“) oder
+Bandmatrix fuer d=1,2,3 („a“).
+
+\item[{dim (int, Standard: 1):}] \leavevmode
+Wird nur fuer die Bandmatrizen benoetigt und gibt deren Dimension an.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\phantomsection\label{\detokenize{index:module-aufg_3_2u3_main}}\index{aufg\_3\_2u3\_main (Modul)}
+Dieses Modul löst die Aufgaben 3.2 und 3.3, indem es die Differentialgleichung löst und
+das Verhalten der Lösungen grafisch aufstellt.
+\index{fntn() (im Modul aufg\_3\_2u3\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_2u3_main.fntn}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{fntn}}{\emph{wert}}{}
+Beispielfunktion
+Input:
+\begin{quote}
+\begin{description}
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{gitter() (im Modul aufg\_3\_2u3\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_2u3_main.gitter}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{gitter}}{\emph{numb}, \emph{dims}}{}
+Funktion, die für eine gegebene Dimension und Schrittweite eine Menge von Punkten erzeugt, auf
+der die Differentialgleichung zu loesen ist.
+Input:
+\begin{quote}
+\begin{description}
+\item[{numb (int):}] \leavevmode
+Feinheit der Diskretisierung
+
+\item[{dims (int):}] \leavevmode
+Dimension der Diskretisierung
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{arra (ndarray):}] \leavevmode
+Array mit den Punkten auf dem Diskretisierungsgitter
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{loesg() (im Modul aufg\_3\_2u3\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_2u3_main.loesg}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{loesg}}{\emph{numb}, \emph{dims}, \emph{fkt}, \emph{ulsg=\textless{}function fntn\textgreater{}}}{}
+Diese Methode dient zur Lösung der Differentialgleichung und zum Vergleichen der exakten
+und approximierten Lösungen.
+Input:
+\begin{quote}
+\begin{description}
+\item[{numb (int):}] \leavevmode
+Feinheit der Diskretisierung.
+
+\item[{dims (int):}] \leavevmode
+Dimension der Diskretisierung.
+
+\item[{fkt (Funktion):}] \leavevmode
+Die gegebene Funktion f aus der Aufgabestellung.
+
+\item[{ulsg (Funktion):}] \leavevmode
+Die exakte Lösung der Differentialgleichung.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Der absolute Fehler in der approximierten Lösung der Differentialgleichung.
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{modo() (im Modul aufg\_3\_2u3\_main)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_3_2u3_main.modo}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{modo}}{\emph{m\_nb}, \emph{numb}}{}
+Funktion, die die modifizierte Modolo-Methode aus dem Bericht zu Serie 2 implementiert
+Input:
+\begin{quote}
+\begin{description}
+\item[{m\_nb (int):}] \leavevmode
+Zahl, für die wir den Wert der modifizierten Modolo Methode berechnen wollen
+
+\item[{numb (int):}] \leavevmode
+Feinheit der Diskretisierung
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(int):}] \leavevmode
+Ausgabe der modifizierten Modolo Methode
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
 
 
 \renewcommand{\indexname}{Python-Modulindex}
 \begin{sphinxtheindex}
 \def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+\bigletter{a}
+\item {\sphinxstyleindexentry{aufg\_3\_2u3\_main}}\sphinxstyleindexpageref{index:\detokenize{module-aufg_3_2u3_main}}
+\item {\sphinxstyleindexentry{aufg\_3\_4\_main}}\sphinxstyleindexpageref{index:\detokenize{module-aufg_3_4_main}}
+\indexspace
 \bigletter{h}
 \item {\sphinxstyleindexentry{hilbertmatr}}\sphinxstyleindexpageref{index:\detokenize{module-hilbertmatr}}
 \indexspace

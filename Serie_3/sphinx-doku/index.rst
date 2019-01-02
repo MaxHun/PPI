@@ -21,3 +21,9 @@ Die Sparse-Klasse
 
 .. automodule:: hilbertmatr
     :members:
+
+.. automodule:: aufg_3_4_main
+    :members:
+
+.. automodule:: aufg_3_2u3_main
+    :members:

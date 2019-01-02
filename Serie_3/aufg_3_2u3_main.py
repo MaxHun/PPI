@@ -27,8 +27,8 @@ def modo(m_nb, numb):
 
 def gitter(numb, dims):
     """
-    Funktion, die für eine gegebene Dimension und Schritweite eine Menge von Punkten erzeugt, auf
-    der die Differentialgleichung zu lösen ist.
+    Funktion, die für eine gegebene Dimension und Schrittweite eine Menge von Punkten erzeugt, auf
+    der die Differentialgleichung zu loesen ist.
     Input:
         numb (int):
             Feinheit der Diskretisierung

@@ -1,4 +1,4 @@
 \babel@toc {ngerman}{}
 \contentsline {chapter}{\numberline {1}Die Sparse-Klasse}{1}{chapter.1}
-\contentsline {chapter}{Python-Modulindex}{5}{section*.25}
-\contentsline {chapter}{Stichwortverzeichnis}{7}{section*.26}
+\contentsline {chapter}{Python-Modulindex}{7}{section*.35}
+\contentsline {chapter}{Stichwortverzeichnis}{9}{section*.36}
