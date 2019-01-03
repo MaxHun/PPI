@@ -160,7 +160,7 @@ Wenn wir die Spaltensummennorm $\|\cdot \|_{\infty}$ benutzen, ist die hohe Kond
 \begin{align}
 	\|H_m\|_{\infty}=\sum_{i=1}^{m}\frac{1}{i}
 \end{align}
-Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Schon für $i=j=1$ gilt $b_{ij} = m^2$, also die Norm von dieser Matrix wächst mindestens quadratisch. Folglich ist die Kondition $\kappa(H_m)\gg1$ für $m>1$.
+Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Schon für $i=j=1$ ist $b_{ij} = m^2$, also wächst die Norm von dieser Matrix mindestens quadratisch. Folglich ist die Kondition $\kappa(H_m)\gg1$ für $m>1$.
 
 \subsection{Fehlerabschätzung mit Hilfe der Kondition}
 
@@ -175,7 +175,7 @@ $\lsem w \rsem$ ist im konkreten Fall $\|\cdot\|=\|\cdot\|_\infty$ durch die Mas
 
 \subsection{Numerische Lösung}
 
-In dieser Aufgabe ist die Laplace-Gleichung mit der exakten Lösung $u(x)=\prod_{j=1}^{d}x_j(1-x_j)$ auf dem Bereich $[0, 1]^d$ numerisch zu lösen, wobei $d$ die Dimension des Systems ist. Offensichtlich ist $u$ auf dem Rand von $[0, 1]^d$ die Nullabbildung, also sind alle Randdaten Null. Der Vektor $b$ aus \ref{eq:glc} besteht also nach Serie 2 nur aus der zweiten Ableitung $f$ von $u$ ausgewertet auf den Punkten der in Serie 2 definierten Diskretisierung von $[0, 1]^d$. Es gilt für $d=1, 2, 3$ entsprechend:
+In dieser Aufgabe ist die Laplace-Gleichung mit der exakten Lösung $u(x)=\prod_{j=1}^{d}x_j(1-x_j)$ auf dem Bereich $[0, 1]^d$ numerisch zu lösen, wobei $d$ die Dimension des Systems ist. Offensichtlich ist $u$ auf dem Rand von $[0, 1]^d$ die Nullabbildung, also sind alle Randdaten Null. Der Vektor $b$ aus \ref{eq:glc} besteht also nach Serie 2 nur aus der zweiten Ableitung $f$ von $u$ ausgewertet auf den Punkten der in Serie 2 definierten Diskretisierung von $[0, 1]^d$. Seien $f_1, f_2, f_3$ die für $d=1, 2, 3$ entsprechende zweite Ableitungen von $u$. Es gilt dann:
 
 \begin{align}
 f_1(x)&=2 \\
@@ -253,7 +253,7 @@ Im Allgemeinen verhalten sich die numerischen Lösungen sehr ähnlich in allen D
 	\label{fig:sparsekon}
 \end{figure}
 
-Die \textit{sparsity} der $L$-$U$-Zerlegung der Bandmatrizen lässt sich mittels der Implementierung aus Teil 1 Berechnen. In \ref{fig:sparsekon} sieht man, dass die Anzahl von nicht-null Einträgen in jeder Dimension bei der $L$-$U$-Zerlegung höher ist, als bei der ursprünglichen Bandmatrix. Dies stimmt mit der Theorie überein, weil wir wissen, dass dies für den eindimensionalen Fall gelten muss. Im mehrdimensionalen Fall sind die bzgl. des eindimensionalen Falls zusätzliche Einträge in der Bandmatrix genau die 1-Einträge auf bestimmten Nebendiagonalen. Aus der Formel der Matrixmultiplikation folgt, dass es für jeden solchen Eintrag mindestens einen zusätzlichen nicht-null Eintrag in der L und/oder U Matrix gibt. Folglich muss es in jeder Dimension mehr nicht-null Einträgen in der $L$-$U$-Zerlegung geben, als in der Bandmatrix.
+Die \textit{sparsity} der $L$-$U$-Zerlegung der Bandmatrizen lässt sich mittels der Implementierung aus Teil 1 Berechnen. In \ref{fig:sparsekon} sieht man, dass die Anzahl von nicht-null Einträgen in jeder Dimension bei der $L$-$U$-Zerlegung höher ist, als bei der ursprünglichen Bandmatrix. Dies stimmt mit der Theorie überein, weil wir wissen, dass dies für den eindimensionalen Fall gelten muss. Im mehrdimensionalen Fall sind die bzgl. des eindimensionalen Falls zusätzliche Einträge in der Bandmatrix genau die 1-Einträge auf bestimmten Nebendiagonalen. Aus der Formel der Matrixmultiplikation folgt, dass es für jeden solchen Eintrag mindestens einen zusätzlichen nicht-null Eintrag in der L und/oder U Matrix gibt. Folglich muss es in jeder Dimension mehr nicht-null Einträge in der $L$-$U$-Zerlegung geben, als in der Bandmatrix.
 
 Figur \ref{fig:sparsekon} zeigt auch, dass die Kondition der Bandmatrix in jeder Dimension proportional zur Feinheit der Diskretisierung wächst. Dies stimmt mit dem in der numerischen linearen Algebra berechneten Ergebnis überein. Die Spektralkondition einer eindimensionalen Bandmatrix $A$ der Feinheit $h$ ist gegeben durch \cite{aufg6.2}:
 \begin{align}
@@ -295,19 +295,19 @@ dargestellt.
 Man erkennt ein starkes Ansteigen der Kondition von $H_m$ mit $m$. $\kappa(H_m)(m)$ ist in der logarithmischen Darstellung im betrachteten Bereich monoton wachsend und konvex, wächst also schneller als jede endliche Potenz von $m$. Der Wert von $\max\|\tilde{x}^{(i)}-x^{(i)}\|_\infty$ ist für die betrachteten $m$ durch $\kappa(H_m)$ beschränkt.
 
 
-
-
-
-
 \section{Zusammenfassung}
 
+In dieser Serie wurde ein Programm entwickelt, das numerisch Laplace-Differentialgleichungen in 1, 2 und 3 Dimensionen lösen kann. Des Weiteren wurde die Genauigkeit von diesem Lösungsverefahren untersucht und herausgefunden, dass dieses in allen Dimensionen sehr präzis ist, jedoch weniger so je größer die Feinheit der Diskretisierung. Dies liegt unter anderen daran, dass die Kondition von Bandmatrizen mit wachsender Feinheit stark zunimmt.
 
+Es wurden auch Methoden geschrieben, die Eigenschaften von Hilbert- und Bandmatrizen berechnen. So konnten wir zum Beispiel das Verhalter der Kondition von diesen Matrizen untersuchen. Es hat sich insbesondere herausgestellt, dass das oben erwähnte Lösungsverfahren seht ineffizient für Gleichungssysteme mit Hilbert-Matrizen ist, weil diese eine sehr große Kondition haben.
+
+Letztlich wurde eine Methode zur $L$-$U$-Zerlegung von Matrizen implementiert und seine Auswirkung auf die \textit{Sparcity} der zerlegten Matrix untersucht: diese ist für Bandmatrizen steigend.
 
 
 \begin{thebibliography}{9}
 \bibitem{nla} Axel~Kröner: Vorlesungsskript \textit{Numerische Lineare Algebra}, WS 2018/19. 
 \url{https://moodle.hu-berlin.de/pluginfile.php/2445740/mod_resource/content/25/Skriptum_NLA.pdf} (passwortgeschützt)
-\bibitem{aufg6.2} G. Allaire, S. M. Kaber; Springer Science+Business Media; 2008 \textit{Numerical Linear Algebra}
+\bibitem{aufg6.2} G. Allaire, S. M. Kaber; Springer Science+Business Media; 2008: \textit{Numerical Linear Algebra}
 \url{https://moodle.hu-berlin.de/pluginfile.php/2517254/mod_resource/content/16/Uebungsblatt_06_A2_Loesung.pdf}
 \end{thebibliography}
 
