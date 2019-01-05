@@ -12,6 +12,12 @@ matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
 from scipy import linalg as lina
 
+matplotlib.rcParams.update({'font.size': 20})
+plt.rc('text', usetex=True)
+matplotlib.rcParams['text.latex.preamble'] = [
+    r'\usepackage{amsmath}',
+    r'\usepackage{amssymb}', r"\usepackage{nicefrac}"]
+
 def plot_kond(plotber, m_max, matr_type):
     """
     Plottet die Kondition der Bandmatrizen bzw. der Hilbert-Matrix in Abhaengigkeit von der
@@ -246,5 +252,8 @@ if __name__ == "__main__":
     AX_1.legend()
     AX_2.legend()
     AX_3.legend()
+    AX_1.legend(loc=2, prop={'size':13})
+    AX_2.legend(loc=2, prop={'size':13})
+    AX_3.legend(loc=2, prop={'size':13})
 
     plt.show()
