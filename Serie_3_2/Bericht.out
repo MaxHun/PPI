@@ -4,7 +4,7 @@
 \BOOKMARK [2][-]{subsection.2.2}{Hilbert-Matrizen}{section.2}% 4
 \BOOKMARK [2][-]{subsection.2.3}{Fehlerabsch\344tzung mit Hilfe der Kondition}{section.2}% 5
 \BOOKMARK [1][-]{section.3}{Experimente}{}% 6
-\BOOKMARK [2][-]{subsection.3.1}{Numerische L\366sung}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.1}{Numerische L\366sung der Laplace-Gleichung}{section.3}% 7
 \BOOKMARK [2][-]{subsection.3.2}{Sparsity und Kondition}{section.3}% 8
 \BOOKMARK [2][-]{subsection.3.3}{Kondition der Fehlermatrix und Fehler beim L\366sen des korrespondierenden GS}{section.3}% 9
 \BOOKMARK [1][-]{section.4}{Zusammenfassung}{}% 10

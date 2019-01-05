@@ -105,12 +105,12 @@ Die in dieser Serie implementierten Programme ermöglichen die numerische Lösun
 A^{(d)}\hat{u} = b
 \label{eq:glc}
 \end{align}
-wobei $A^{(d)}$ eine Bandmatrix der Dimension $d$ und $\hat{u}$ eine Approximation der Lösung $u$ der Laplace-Gleichung ist. $b$ ist der Vektor der Randbedingungen und der Werte der in der Laplace-Gleichung gegebenen Funktion $f$ auf den in Serie 2 ausgewählten Punkten. Die Lösung wird durch $L$-$U$-Zerlegung der Bandmatrix und durch Rückwärtssubstitution gewonnen.
+wobei $A^{(d)}$ eine Bandmatrix der Dimension $d$ und $\hat{u}$ eine Approximation der Lösung $u$ der Laplace-Gleichung ist. $b$ ist der Vektor der Randbedingungen und der Werte der in der Laplace-Gleichung gegebenen Funktion $f$ auf den in Serie~2 ausgewählten Punkten. Die Lösung wird durch $L$-$U$-Zerlegung der Bandmatrix und durch Rückwärtssubstitution gewonnen.
 
-Die Programme erlauben auch eine Untersuchung der Eigenschaften von Band- und Hilbertmatrizen, wie zum Beispiel die Berechnung der Kondition.
+Die Programme erlauben auch eine Untersuchung der Eigenschaften von Band- und Hilbertmatrizen wie die Berechnung der Kondition.
 
 \section{Theorie}
-
+\label{sec:theo}
 \subsection{Laplace-Gleichung}
 Die Lösung des Systems \ref{eq:glc} erfolgt durch die $L$-$U$-Zerlegung der $A^{(d)}$ Matrix. Wir können also $TA^{(d)}=LU$ für eine Permutationsmatrix $P$, eine unipotente untere Dreiecksmatrix $L$ und eine invertierbare obere Dreiecksmatrix $U$ schreiben. Dann lässt sich die Gleichung \ref{eq:glc} so darstellen:
 \begin{align}
@@ -122,30 +122,31 @@ Man gewinnt die Werte von $\hat{u}$, indem man mittels Rückwärtssubstitution d
 	T^tLz=b
 	\label{eq:lu1}
 \end{align}
-für ein $z\in \mathbb{R}^{(n-1)^d}$ löst. Dies ist möglich, weil $L$ eine Dreiecksmatrix mit Einsen auf der Hauptdiagonale ist. Die Werte von $\hat{u}$ rechnet man durch Rückwärtssubstitution in der Gleichung \eqref{eq:lu2} aus. Dies ist möglich, weil alle Hauptdiagonaleinträge von $R$ nach Numerische Lineare Algebra ungleich $0$ sind (dies sind die sogenannten Pivotelemente).
+für ein $z\in \mathbb{R}^{(n-1)^d}$ löst. Dies ist möglich, weil $L$ eine Dreiecksmatrix mit Einsen auf der Hauptdiagonale ist. Die Werte von $\hat{u}$ rechnet man durch Rückwärtssubstitution in der Gleichung \eqref{eq:lu2} aus. Dies ist möglich, weil alle Hauptdiagonaleinträge von $R$ nach Lemma~5.3 aus~\cite{nla} ungleich $0$ sind (dies sind die sogenannten Pivotelemente):
 \begin{align}
-	R\hat{u}=z
+	R\hat{u}=z.
 	\label{eq:lu2}
 \end{align}
 Wenn man die Gleichungen \eqref{eq:lu1} und \eqref{eq:lu2} zusammensetzt, so erhält man \eqref{eq:lu}.
 
-Aus der numerischen linearen Algebra wissen wir, dass die $L$-$U$-Zerlegung einer Bandmatrix der ersten Dimension und Feinheit $n$ eine höhere Anzahl von nicht-null Einträgen besitzt, als die Bandmatrix selbst. Und zwar, während nur die Hauptdiagonale und die zwei Nebendiagonalen (also $n+2(n-1)$-viele Einträge) der Bandmatrix besetzt sind, sind jeweils die Hauptdiagonale und eine Nebendiagonale von der L und U Matrizen besetzt (also $2n+2(n-1)$-viele Einträge).
+Aus der Numerischen Linearen Algebra ist bekannt, dass die $L$-$U$-Zerlegung einer Bandmatrix der Dimension 1 und Feinheit $n$ eine höhere Anzahl von nicht-Null-Einträgen besitzt, als die Bandmatrix selbst; 
+während bei der Bandmatrix nur die Hauptdiagonale und die zwei Nebendiagonalen (also $n+2(n-1)$ viele Einträge) besetzt sind, sind es bei $l$ und $U$ jeweils die Hauptdiagonale und eine Nebendiagonale (also $2n+2(n-1)$ viele Einträge).
 
 Es gibt zwei Fehlerquellen für die numerische Lösung $\hat{u}$. Einerseits ist die Approximation der zweiten Ableitung von $u$ durch den Differentialquotienten aus Serie 1 nicht exakt und hat einen absoluten Fehler der Ordnung $\mathcal{O}(\frac{1}{n^2})$, wobei $n$ die Feinheit der Diskretisierung des Definitionesbereichs ist. Andererseits ist die Berechnung der Lösung mittels $L$-$U$-Zerlegung und Rückwärtssubstitution auf einem Rechner auch fehlerhaft. Nach der numerischen linearen Algebra lässt sich der absolute Rundungsfehler der Lösung für eine Bandmatrix $A$ wie folgt abschätzen \cite{nla}:
 \begin{align}
-\|u-\hat{u}\|_{\infty}\le \epsilon_{mach}&(1+\mathcal{O}(\epsilon_{mach}))(n+2)c_g\kappa(A)\|\hat{u}\|_{\infty} \\
-\text{wobei } c_g&=1+3\sum_{k=1}^{n-1}\frac{\|M^{(k)}\|_{\infty}}{\|A\|_{\infty}}
+\|u-\hat{u}\|_{\infty}\le \epsilon_{mach}&(1+\mathcal{O}(\epsilon_{mach}))(n+2)c_g\kappa(A)\|\hat{u}\|_{\infty}, \\
+\text{wobei } c_g&=1+3\sum_{k=1}^{n-1}\frac{\|M^{(k)}\|_{\infty}}{\|A\|_{\infty}}.
 \label{eq:rundfeh}
 \end{align}
 In diesem Fall ist $M^{(k)}$ eine im Laufe der $L$-$U$-Zerlegung durch Streichen von geeigneten Zeilen und Spalten von bestimmten Zwischenergebnis-Matrizen gewonnene Matrix.
 
 \subsection{Hilbert-Matrizen}
-Unsere Programme ermöglichen auch die Arbeit mit Hilbert-Matrizen. Diese dienen als Beispiel schlecht konditionierter Matrizen und sind wie folgt definiert:
+Die entwickelten Skripte ermöglichen auch die Arbeit mit Hilbert-Matrizen (s.~auch Schnittstellendokumentation). Diese dienen als Beispiel schlecht konditionierter Matrizen und sind wie folgt definiert:
 \begin{align}
 	H_m &:= (a_{ij})_{1\le i, j \le m} \in \mathbb{R}^{m\times m}, 	\\
 	a_{ij} &:= \frac{1}{i+j-1} \label{eq:hb1}
 \end{align}
-Das Inverse einer Hilbert-Matrix ist wie folgt definiert:
+Das Inverse einer Hilbert-Matrix $H_m^{-1}$ ist wie folgt definiert:
 \begin{align}
 	H_m^{-1}& := (b_{ij})_{1\le i, j \le m} \in \mathbb{R}^{m\times m},	\\
 	b_{ij} := \frac{(-1)^{i+j}}{i+j-1}\cdot &\frac{(m+i-1)!}{(i-1)!^2(m-i)!}\cdot \frac{(m+j-1)!}{(j-1)!^2(m-j)!}
@@ -156,33 +157,42 @@ Aus der numerischen linearen Algebra wissen wir, dass für die Kondition $\kappa
 	\kappa(A)=\|A\|\cdot \|A^{-1}\|
 	\label{eq:kond}
 \end{align}
-Wenn wir die Spaltensummennorm $\|\cdot \|_{\infty}$ benutzen, ist die hohe Kondition einer Hilbert-Matrix leicht zu sehen. Aus \ref{eq:hb1}  sieht man, dass die erste Spalte von $H_m$ die höchste Spaltensumme hat, und es gilt
+Wenn wir die Zeilensummennorm $\|\cdot \|_{\infty}$ benutzen, ist die hohe Kondition einer Hilbert-Matrix leicht zu sehen. Aus \ref{eq:hb1}  sieht man, dass die erste Spalte von $H_m$ die höchste Spaltensumme hat, und es gilt
 \begin{align}
 	\|H_m\|_{\infty}=\sum_{i=1}^{m}\frac{1}{i}
 \end{align}
-Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Schon für $i=j=1$ ist $b_{ij} = m^2$, also wächst die Norm von dieser Matrix mindestens quadratisch. Folglich ist die Kondition $\kappa(H_m)\gg1$ für $m>1$.
+Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Schon für $i=j=1$ ist $b_{ij} = m^2$, also wächst die Norm dieser Matrix mindestens quadratisch. Folglich ist die Kondition $\kappa(H_m)\gg1$ für $m>1$.
 
 \subsection{Fehlerabschätzung mit Hilfe der Kondition}
-
-Nach Bemerkung~4.4 des Skriptes \textit{Numerische Lineare Algebra} entspricht die Kondition $\kappa(A)$ einer Matrix $A$ der relativen Kondition des linearen Gleichungssystems $f(x)=b \iff Ax=b$. Nach Lemma~3.3 gilt für die Kondition von $f$:
+\label{sec:theo:absch}
+Nach Bemerkung~4.4 aus \textit{Numerische Lineare Algebra} entspricht die Kondition $\kappa(A)$ einer Matrix $A$ der relativen Kondition des linearen Gleichungssystems $f(x)=b \iff Ax=b$. Nach Lemma~3.3 gilt für die Kondition von $f$:
 \begin{align}
 \lsem f(x+w)-f(x)\rsem &\leq \kappa(f;x)\lsem w\rsem + o(\lsem w \rsem)\text{,   } (\lsem w \rsem \rightarrow 0)\\
 &\stackrel{.}{=} \kappa(f;x)\lsem w\rsem
 \end{align}
-$\lsem w \rsem$ ist im konkreten Fall $\|\cdot\|=\|\cdot\|_\infty$ durch die Maschinengenauigkeit $\epsilon_{mach}$ beschränkt. Also gilt %TODO hier noch weiter machen und darauf unten verweisen.
+Für die relative Kondition muss $\kappa(f;x)$ nun noch durch $\lsem w \rsem$ geteilt werden und es ergibt sich:
+\begin{align}
+\lsem f(x+w)-f(x)\rsem &\stackrel{.}{\leq} \kappa_{rel}(f;x)\\
+\iff  \lsem A (x+w)-Ax\rsem  &\stackrel{.}{\leq} \kappa(A).\label{eq:beschr}
+\end{align}
+
 
 \section{Experimente}
 
-\subsection{Numerische Lösung}
+\subsection{Numerische Lösung der Laplace-Gleichung}
 
-In dieser Aufgabe ist die Laplace-Gleichung mit der exakten Lösung $u(x)=\prod_{j=1}^{d}x_j(1-x_j)$ auf dem Bereich $[0, 1]^d$ numerisch zu lösen, wobei $d$ die Dimension des Systems ist. Offensichtlich ist $u$ auf dem Rand von $[0, 1]^d$ die Nullabbildung, also sind alle Randdaten Null. Der Vektor $b$ aus \ref{eq:glc} besteht also nach Serie 2 nur aus der zweiten Ableitung $f$ von $u$ ausgewertet auf den Punkten der in Serie 2 definierten Diskretisierung von $[0, 1]^d$. Seien $f_1, f_2, f_3$ die für $d=1, 2, 3$ entsprechende zweite Ableitungen von $u$. Es gilt dann:
+In dieser Aufgabe ist die Laplace-Gleichung mit der exakten Lösung 
+\begin{align}
+u(x)=\prod_{j=1}^{d}x_j(1-x_j) 
+\end{align}
+auf dem Bereich $[0, 1]^d$ numerisch zu lösen, wobei $d$ die Dimension des Systems ist. Offensichtlich ist $u$ auf dem Rand von $[0, 1]^d$ die Nullabbildung, also sind alle Randdaten Null. Der Vektor $b$ aus \ref{eq:glc} besteht also nach Serie 2 nur aus der zweiten Ableitung $f$ von $u$ ausgewertet auf den Punkten der in Serie 2 definierten Diskretisierung von $[0, 1]^d$. Seien $f_1, f_2, f_3$ die für $d=1, 2, 3$ entsprechende zweite Ableitungen von $u$. Es gilt dann:
 
 \begin{align}
 f_1(x)&=2 \\
-f_2(x) = 2(x_1(1-x_1)&+x_2(1-x_2)) \\
-f_3(x)= 2(x_1(1-x_1)x_2(1-x_2)+x_1(1-x_1)&x_3(1-x_3)+x_2(1-x_2)x_3(1-x_3))
+f_2(x) &= 2(x_1(1-x_1)+x_2(1-x_2)) \\
+f_3(x)&= 2(x_1(1-x_1)x_2(1-x_2)+x_1(1-x_1)x_3(1-x_3)+x_2(1-x_2)x_3(1-x_3))
 \end{align}
-Mit der bekannten Funktion $f$ lässt sich das System mittels der Implementierung aus Teil 1 lösen. Zu einer gegebenen Dimension und Feinheit der Diskretisierung erstellt das Programm den Vektor $b$ und löst das Gleichungssystem. Da die exakte Lösung auch bekannt ist, lässt sich diese mit der numerischen Lösung vergleichen.
+Mit der bekannten Funktion $f$ lässt sich das System mittels der Implementierung aus Teil~1 lösen. Zu einer gegebenen Dimension und Feinheit der Diskretisierung erstellt das Programm den Vektor $b$ und löst das Gleichungssystem. Da die exakte Lösung auch bekannt ist, lässt sich diese mit der numerischen Lösung vergleichen, s.~Abb.~\ref{fig:referenz}, \ref{fig:3dlos7} und \ref{fig:3dlos27}.
 
 \begin{figure}
 	\centering
@@ -205,23 +215,23 @@ Mit der bekannten Funktion $f$ lässt sich das System mittels der Implementierun
 	\label{fig:3dlos27}
 \end{figure}
 
-Die Implementierung aus Teil 1 erlaubt eine grafische Darsetllung der Lösungen für den Fall $d=2$. Man sieht aus \ref{fig:referenz}, \ref{fig:3dlos7} und \ref{fig:3dlos27}, dass die numerische Lösungen sowohl für die Feinheit 7, als auch 27, sehr nach an der exakten Lösung liegen. Dieses Verhalten wird in \ref{fig:3dfel7} und \ref{fig:3dfel27} veranschaulicht: der Fehler ist der Ordnung von $10^{-17}$ bzw. $10^{-16}$.
+Die Implementierung aus Teil~1 erlaubt eine grafische Darsetllung der Lösungen für den Fall $d=2$. Man sieht aus den genannten Abbildungen, dass die numerische Lösung sowohl für die Feinheit 7, als auch 27, sehr nach an der exakten Lösung liegen. Dieses Verhalten wird in \ref{fig:3dfel7} und \ref{fig:3dfel27} veranschaulicht: der Fehler ist von der Ordnung von $10^{-17}$ bzw. $10^{-16}$.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{Bericht/Bilder2/3dfeh7}
-	\caption{Der asolute Fehler der numerischen Lösung bezüglich der exakten Lösung mit Feinheit der Diskretisierung 7}
+	\caption{Der absolute Fehler der numerischen Lösung bezüglich der exakten Lösung mit $n=7$}
 	\label{fig:3dfel7}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{Bericht/Bilder2/3dfeh27}
-	\caption{Der asolute Fehler der numerischen Lösung bezüglich der exakten Lösung mit Feinheit der Diskretisierung 27}
+	\caption{Der absolute Fehler der numerischen Lösung bezüglich der exakten Lösung mit $n=27$}
 	\label{fig:3dfel27}
 \end{figure}
 
-Im Allgemeinen verhalten sich die numerischen Lösungen sehr ähnlich in allen Dimensionen: der absolute Fehler wächst mit der Feinheit. Die Abbildungen \ref{fig:konvdim1}, \ref{fig:konvdim2} und \ref{fig:konvdim3} stellen dieses Verhalten grafisch dar. Da der Approximationsfehler nach der Theorie mit wachsendem $n$ senken soll, folgt aus diesem Verhalten, dass der Rundungsfehler eine größere Ordnung hat. Dies macht Sinn, weil der Rundungsfehler wachsend ist: er ist nach \ref{eq:rundfeh} proportional sowohl zu $n$, als auch zu $\kappa(A)$ ($\kappa(A)$ ist nach \ref{fig:sparsekon} stark wachsend).
+Im Allgemeinen verhalten sich die numerischen Lösungen sehr ähnlich in allen Dimensionen: der absolute Fehler wächst mit der Feinheit. Die Abbildungen \ref{fig:konvdim1}, \ref{fig:konvdim2} und \ref{fig:konvdim3} stellen dieses Verhalten graphisch dar. Da der Approximationsfehler nach der Theorie (s.~Abschnitt \ref{sec:theo}) mit wachsendem $n$ sinken soll, folgt aus diesem Verhalten, dass der Rundungsfehler eine größere Ordnung hat. Dies ist sinnvoll, weil der Rundungsfehler nach \ref{eq:rundfeh} proportional zu sowohl  $n$ als auch $\kappa(A)$. Dementsprechend ist in Abb. \ref{fig:sparsekon} einer starkerAnstieg zu erkennen.
 
 \begin{figure}
 	\centering
@@ -253,14 +263,14 @@ Im Allgemeinen verhalten sich die numerischen Lösungen sehr ähnlich in allen D
 	\label{fig:sparsekon}
 \end{figure}
 
-Die \textit{sparsity} der $L$-$U$-Zerlegung der Bandmatrizen lässt sich mittels der Implementierung aus Teil 1 Berechnen. In \ref{fig:sparsekon} sieht man, dass die Anzahl von nicht-null Einträgen in jeder Dimension bei der $L$-$U$-Zerlegung höher ist, als bei der ursprünglichen Bandmatrix. Dies stimmt mit der Theorie überein, weil wir wissen, dass dies für den eindimensionalen Fall gelten muss. Im mehrdimensionalen Fall sind die bzgl. des eindimensionalen Falls zusätzliche Einträge in der Bandmatrix genau die 1-Einträge auf bestimmten Nebendiagonalen. Aus der Formel der Matrixmultiplikation folgt, dass es für jeden solchen Eintrag mindestens einen zusätzlichen nicht-null Eintrag in der L und/oder U Matrix gibt. Folglich muss es in jeder Dimension mehr nicht-null Einträge in der $L$-$U$-Zerlegung geben, als in der Bandmatrix.
+Die \textit{sparsity} der $L$-$U$-Zerlegung der Bandmatrizen lässt sich mittels der Implementierung aus Teil~1 Berechnen. In \ref{fig:sparsekon} sieht man, dass die Anzahl von nicht-Null-Einträgen in jeder Dimension bei der $L$-$U$-Zerlegung höher ist als bei der ursprünglichen Bandmatrix. Dies stimmt mit der Theorie überein, weil bereits bekannt ist, dass dies für den eindimensionalen Fall gelten muss. Im mehrdimensionalen Fall sind die im Vergleich zum eindimmensionalen Fall zusätzlichen Einträge in der Bandmatrix genau die 1-Einträge auf den entsprechenden Nebendiagonalen. Aus der Formel der Matrixmultiplikation folgt, dass es für jeden solchen Eintrag mindestens einen zusätzlichen nicht-Null-Eintrag in der $L$- bzw. der $U$-Matrix gibt. Folglich muss es in jeder Dimension mehr nicht-Null-Einträge in der $L$-$U$-Zerlegung geben als in der Bandmatrix.
 
-Figur \ref{fig:sparsekon} zeigt auch, dass die Kondition der Bandmatrix in jeder Dimension proportional zur Feinheit der Diskretisierung wächst. Dies stimmt mit dem in der numerischen linearen Algebra berechneten Ergebnis überein. Die Spektralkondition einer eindimensionalen Bandmatrix $A$ der Feinheit $h$ ist gegeben durch \cite{aufg6.2}:
+Abb. \ref{fig:sparsekon} zeigt auch, dass die Kondition der Bandmatrix in jeder Dimension proportional zur Feinheit der Diskretisierung wächst. Dies stimmt mit dem in Numerischen Lineare Algebra berechneten Ergebnis überein. Die Spektralkondition einer eindimensionalen Bandmatrix $A$ der Feinheit $h$ ist gegeben durch \cite{aufg6.2}:
 \begin{align}
 \kappa_2(A) = \frac{\sin^2(\frac{\pi}{2}\cdot\frac{n-1}{n})}{\sin^2(\frac{\pi}{2n})}
 \label{eq:kappa2}
 \end{align}
-Obwohl $A$ in der Berechnung von diesem Ergebnis als $n^2\cdot A^{(1)}$ (mit $A^{(1)}$ Bandmatrix der ersten Dimension) definiert war, dürfen wir dieses Ergebnis immer noch benutzen, weil sich der Term $n^2$ in der Berechnung der Kondition gemäß \ref{eq:kond} rauskürzt. Es ist leicht zu sehen, dass $\kappa_2$ in \ref{eq:kappa2} gegen $\infty$ mit wachsendem $n$ divergiert, genauso wie die Kondition in \ref{fig:sparsekon}.
+Obwohl $A$ in der Berechnung dieses Ergebnisses als $n^2\cdot A^{(1)}$ (mit $A^{(1)}$ Bandmatrix der Dimension 1) definiert war, dürfen wir dieses Ergebnis immer noch benutzen, weil sich der Term $n^2$ in der Berechnung der Kondition gemäß \ref{eq:kond} herauskürzt. Es ist leicht zu sehen, dass $\kappa_2$ in \ref{eq:kappa2} gegen $\infty$ mit wachsendem $n$ divergiert, genauso wie die Kondition in \ref{fig:sparsekon}.
 
 %\subsection{3.6}
 %
@@ -292,14 +302,14 @@ dargestellt.
 \caption{Fehler der numerischen Lösung von \eqref{eq:hil_lgs} und Kondition von $H_m$ in Abhängigkeit von der Matrixgröße $m$.}
 \end{figure}
 
-Man erkennt ein starkes Ansteigen der Kondition von $H_m$ mit $m$. $\kappa(H_m)(m)$ ist in der logarithmischen Darstellung im betrachteten Bereich monoton wachsend und konvex, wächst also schneller als jede endliche Potenz von $m$. Der Wert von $\max\|\tilde{x}^{(i)}-x^{(i)}\|_\infty$ ist für die betrachteten $m$ durch $\kappa(H_m)$ beschränkt.
+Man erkennt ein starkes Ansteigen der Kondition von $H_m$ mit $m$. $\kappa(H_m)(m)$ ist in der logarithmischen Darstellung im betrachteten Bereich monoton wachsend und konvex, wächst also schneller als jede endliche Potenz von $m$. Der Wert von $\max\|\tilde{x}^{(i)}-x^{(i)}\|_\infty$ ist für die betrachteten $m$ durch $\kappa(H_m)$ beschränkt. Dies entspricht dem theoretischen Ergebnis \eqref{eq:beschr} aus Abschnitt \ref{sec:theo:absch}.
 
 
 \section{Zusammenfassung}
 
-In dieser Serie wurde ein Programm entwickelt, das numerisch Laplace-Differentialgleichungen in 1, 2 und 3 Dimensionen lösen kann. Des Weiteren wurde die Genauigkeit von diesem Lösungsverefahren untersucht und herausgefunden, dass dieses in allen Dimensionen sehr präzis ist, jedoch weniger so je größer die Feinheit der Diskretisierung. Dies liegt unter anderen daran, dass die Kondition von Bandmatrizen mit wachsender Feinheit stark zunimmt.
+In dieser Serie wurde ein Programm entwickelt, das numerisch Laplace-Differentialgleichungen in 1, 2 und 3 Dimensionen lösen kann. Des Weiteren wurde die Genauigkeit von dieses Lösungsverfahrens untersucht und herausgefunden, dass dieses in allen Dimensionen sehr präzise ist, die Präzision nimmt allerdings mit zunehmendem $n$ ab. Dies liegt unter anderen daran, dass die Kondition von Bandmatrizen mit wachsender Feinheit stark zunimmt. Zunehmende Feinheit bessert zwar den Fehler, der beim Aufstellen des Differenzenquotienten gegenüber der exakten Lösung gemacht wird, allerdings überwiegt der erstgenannte Effekt im untersuchten Bereich.
 
-Es wurden auch Methoden geschrieben, die Eigenschaften von Hilbert- und Bandmatrizen berechnen. So konnten wir zum Beispiel das Verhalter der Kondition von diesen Matrizen untersuchen. Es hat sich insbesondere herausgestellt, dass das oben erwähnte Lösungsverfahren seht ineffizient für Gleichungssysteme mit Hilbert-Matrizen ist, weil diese eine sehr große Kondition haben.
+Es wurden auch Methoden geschrieben, die die  Eigenschaften von Hilbert- und Bandmatrizen berechnen (s.~Schnittstellendokumentation). So konnte das Verhalten der Kondition dieser Matrizen untersucht werden. Es hat sich insbesondere herausgestellt, dass das oben erwähnte Lösungsverfahren seht ineffizient für Gleichungssysteme mit Hilbert-Matrizen ist, weil diese eine sehr große Kondition haben.
 
 Letztlich wurde eine Methode zur $L$-$U$-Zerlegung von Matrizen implementiert und seine Auswirkung auf die \textit{Sparcity} der zerlegten Matrix untersucht: diese ist für Bandmatrizen steigend.
 
