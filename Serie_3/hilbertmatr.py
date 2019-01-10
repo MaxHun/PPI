@@ -1,5 +1,5 @@
 """
-hilbertmatr.py stellt die Klasse Hilbert zur Verfuegung, mit der die Hilbertmatrix bestimmt und 
+hilbertmatr.py stellt die Klasse Hilbert zur Verfuegung, mit der die Hilbertmatrix bestimmt und
 analysiert werden kann.
 """
 import numpy as np
@@ -78,6 +78,12 @@ class Hilbert(object):
         """
         Loest das Gleichungssystem Ax=r_s fuer eine vorgebene rechte Seite unter Ausnutzung der
         Dreieckszerlegung.
+        
+        Input: -
+
+        Return:
+            (numpy.ndarray)
+                rechte Seite des Gleichungssystems Ax=r_s.
         """
         if r_s is  None:
             raise ValueError("Bitte uebergeben Sie eine gueltige rechte Seite!")

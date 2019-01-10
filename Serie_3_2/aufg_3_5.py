@@ -1,6 +1,7 @@
 """
 Dieses Modul löst die Aufgaben 3.2 und 3.3, indem es die Differentialgleichung löst und
 das Verhalten der Lösungen grafisch aufstellt.
+Autoren Arsen Hnatiuk und Max Huneshagen
 """
 from plot_disc_fct import plot_disc_fct
 from mpl_toolkits.mplot3d import Axes3D
@@ -10,7 +11,7 @@ from matplotlib import cm
 import numpy as np
 from sparse_erw import Sparse
 
-matplotlib.rcParams.update({'font.size': 18})
+matplotlib.rcParams.update({'font.size': 20})
 plt.rc('text', usetex=True)
 matplotlib.rcParams['text.latex.preamble'] = [
     r'\usepackage{amsmath}',
@@ -155,7 +156,7 @@ def loesg(dims, fkt, ulsg):
     """
     #Plotten von dem Konvergenzverfahren, Dimension 1
     if dims == 1:
-        arrn = np.arange(4, 804, 20)
+        arrn = np.arange(4, 1004, 20)
         arrfa = np.zeros(len(arrn))
         refe = 0
         for k in arrn:
@@ -163,7 +164,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = fkt(arra[i])/(k**2)
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -182,13 +183,13 @@ def loesg(dims, fkt, ulsg):
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
         plt.plot(arrn, arrfa)
-        plt.title("Konvergenzverfahren der numerischen Loesung in Dimension 1")
+        plt.title("Konvergenzverhalten der numerischen Loesung in Dimension 1")
         plt.xlabel("Feinheit der Diskretisierung")
         plt.ylabel("Absoluter Fehler")
 
     #Plotten von dem Konvergenzverfahren, Dimension 2
     if dims == 2:
-        arrn = np.arange(5, 105, 5)
+        arrn = np.arange(5, 95, 5)
         arrfa = np.zeros(len(arrn))
         refe = 0
         for k in arrn:
@@ -196,7 +197,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = fkt(arra[i])/(k**2)
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -215,7 +216,7 @@ def loesg(dims, fkt, ulsg):
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
         plt.plot(arrn, arrfa)
-        plt.title("Konvergenzverfahren der numerischen Loesung in Dimension 2")
+        plt.title("Konvergenzverhalten der numerischen Loesung in Dimension 2")
         plt.xlabel("Feinheit der Diskretisierung")
         plt.ylabel("Absoluter Fehler")
 
@@ -229,7 +230,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = fkt(arra[i])/(k**2)
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)
@@ -248,7 +249,7 @@ def loesg(dims, fkt, ulsg):
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
         plt.plot(arrn, arrfa)
-        plt.title("Konvergenzverfahren der numerischen Loesung in Dimension 3")
+        plt.title("Konvergenzverhalten der numerischen Loesung in Dimension 3")
         plt.xlabel("Feinheit der Diskretisierung")
         plt.ylabel("Absoluter Fehler")
 
@@ -262,7 +263,7 @@ def loesg(dims, fkt, ulsg):
             arra = gitter(k, dims)
             arrb = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])
+                arrb[i] = fkt(arra[i])/(k**2)
 
             #Erstellung und Lösen der Bandmatrix
             mata = Sparse(dims, k)

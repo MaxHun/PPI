@@ -1,6 +1,10 @@
 \BOOKMARK [1][-]{section.1}{Einleitung}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{Laplace Gleichung}{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{Hilbert-Matrizen}{section.1}% 3
-\BOOKMARK [1][-]{section.2}{Theorie}{}% 4
-\BOOKMARK [1][-]{section.3}{Experimente}{}% 5
-\BOOKMARK [1][-]{section.4}{Zusammenfassung}{}% 6
+\BOOKMARK [1][-]{section.2}{Theorie}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Laplace-Gleichung}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Hilbert-Matrizen}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Fehlerabsch\344tzung mit Hilfe der Kondition}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Experimente}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Numerische L\366sung der Laplace-Gleichung}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Sparsity und Kondition}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Kondition der Fehlermatrix und Fehler beim L\366sen des korrespondierenden GS}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Zusammenfassung}{}% 10

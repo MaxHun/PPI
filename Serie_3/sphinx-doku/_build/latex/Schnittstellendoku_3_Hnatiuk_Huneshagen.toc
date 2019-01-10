@@ -1,0 +1,6 @@
+\babel@toc {ngerman}{}
+\contentsline {chapter}{\numberline {1}Einleitung}{2}{chapter.1}
+\contentsline {section}{\numberline {1.1}Laplace Gleichung}{2}{section.1.1}
+\contentsline {section}{\numberline {1.2}Hilbert-Matrizen}{3}{section.1.2}
+\contentsline {chapter}{\numberline {2}Die Sparse-Klasse}{4}{chapter.2}
+\contentsline {chapter}{\numberline {3}Die Skripte \textit {aufg\_3\_2u3\_main.py} und \textit {aufg\_3\_4\_main.py}}{8}{chapter.3}
