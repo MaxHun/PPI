@@ -63,7 +63,8 @@ class Kl_quad(object):
 
         # modifizierte rechte Seite:
 
-        r_s_mod = np.dot(q_matr.transpose(),self.r_s)
+        r_s_mod = q_matr.transpose()*self.r_s
+        print(lina.solve_triangular(r_matr, r_s_mod, lower=False).shape)
         return lina.solve_triangular(r_matr, r_s_mod, lower=False)
 
     def res(self):
