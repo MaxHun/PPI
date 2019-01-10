@@ -1,12 +1,13 @@
+"""
+Dieses Programm dient zum Einlesen von Messwerte aus einer .txt Datei und zur grafischen Darstellung
+von diesen Werten zusammen mit der linearen Approximation
+Arsen Hnatiuk, Max Huneshagen
+"""
 import csv
 import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
-
-
-
-
 
 def lese(name, numb={1, 2}, fall=1):
     """
@@ -36,14 +37,14 @@ def lese(name, numb={1, 2}, fall=1):
         for i in range(laen):
             kappa = 0
             for j in numb:
-                ruck[i][kappa]=int(werte[i][j])
+                ruck[i][kappa] = int(werte[i][j])
                 kappa = kappa+1
     else:
         ruck = np.zeros((laen, len(numb)+1))
         for i in range(laen):
             kappa = 0
             for j in numb:
-                ruck[i][kappa+1]=int(werte[i][j])
+                ruck[i][kappa+1] = int(werte[i][j])
                 kappa = kappa+1
             ruck[i][0] = 1
     return ruck
