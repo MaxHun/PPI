@@ -86,8 +86,9 @@ class KlQuad(object):
         r_s_mod = np.dot(q_matr.transpose(), self.r_s)
 
         #Loesung durch Rueckwaertseinsetzen:
-
-        return lina.solve_triangular(r_matr, r_s_mod, lower=False)
+        #print("\n\n", r_matr[:,r_matr[1]], "\n")
+        print(r_matr[:2]) #TODO Funktioniert noch nicht, hier weiter
+        return lina.solve_triangular(r_matr[:2], r_s_mod, lower=False)
 
     def res(self):
         """
@@ -124,8 +125,8 @@ class KlQuad(object):
 
 
 if __name__ == "__main__":
-    A_MATR = np.array([[1, 2], [1, 1]])
-    B_VEC = np.array([1, 2])
+    A_MATR = np.array([[1, 2], [1, 1],[1,0.5]])
+    B_VEC = np.array([1, 2,0.5])
     K_Q = KlQuad(A_MATR, B_VEC)
-    #print(K_Q.lgs_lsg(), "\n")
-    print(K_Q.kond())
+    print(K_Q.lgs_lsg(), "\n")
+    #print(K_Q.kond())
