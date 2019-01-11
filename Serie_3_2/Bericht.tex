@@ -194,7 +194,7 @@ f_3(x)&= 2(x_1(1-x_1)x_2(1-x_2)+x_1(1-x_1)x_3(1-x_3)+x_2(1-x_2)x_3(1-x_3))
 \end{align}
 Mit der bekannten Funktion $f$ lässt sich das System mittels der Implementierung aus Teil~1 lösen. Zu einer gegebenen Dimension und Feinheit der Diskretisierung erstellt das Programm den Vektor $b$ und löst das Gleichungssystem. Da die exakte Lösung auch bekannt ist, lässt sich diese mit der numerischen Lösung vergleichen, s.~Abb.~\ref{fig:referenz}, \ref{fig:3dlos7} und \ref{fig:3dlos27}.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{Bericht/Bilder2/referenz}
 	\caption{Die exakte Lösung des Gleichungsystems}
@@ -233,17 +233,17 @@ Die Implementierung aus Teil~1 erlaubt eine grafische Darsetllung der Lösungen 
 
 Im Allgemeinen verhalten sich die numerischen Lösungen sehr ähnlich in allen Dimensionen: der absolute Fehler wächst mit der Feinheit. Die Abbildungen \ref{fig:konvdim1}, \ref{fig:konvdim2} und \ref{fig:konvdim3} stellen dieses Verhalten graphisch dar. Da der Approximationsfehler nach der Theorie (s.~Abschnitt \ref{sec:theo}) mit wachsendem $n$ sinken soll, folgt aus diesem Verhalten, dass der Rundungsfehler eine größere Ordnung hat. Dies ist sinnvoll, weil der Rundungsfehler nach \ref{eq:rundfeh} proportional zu sowohl  $n$ als auch $\kappa(A)$. Dementsprechend ist in Abb. \ref{fig:sparsekon} einer starkerAnstieg zu erkennen.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{Bericht/Bilder2/konvdim1}
-	\caption{Das Konvergenzverhalten der numerischen Lösung in Dimension 1}
+	\caption{Das Konvergenzverhalten der numerischen Lösung in einer Dimension}
 	\label{fig:konvdim1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{Bericht/Bilder2/konvdim2}
-	\caption{Das Konvergenzverhalten der numerischen Lösung in Dimension 2}
+	\caption{Das Konvergenzverhalten der numerischen Lösung in zwei Dimensionen}
 	\label{fig:konvdim2}
 \end{figure}
 
@@ -270,7 +270,7 @@ Abb. \ref{fig:sparsekon} zeigt auch, dass die Kondition der Bandmatrix in jeder 
 \kappa_2(A) = \frac{\sin^2(\frac{\pi}{2}\cdot\frac{n-1}{n})}{\sin^2(\frac{\pi}{2n})}
 \label{eq:kappa2}
 \end{align}
-Obwohl $A$ in der Berechnung dieses Ergebnisses als $n^2\cdot A^{(1)}$ (mit $A^{(1)}$ Bandmatrix der Dimension 1) definiert war, dürfen wir dieses Ergebnis immer noch benutzen, weil sich der Term $n^2$ in der Berechnung der Kondition gemäß \ref{eq:kond} herauskürzt. Es ist leicht zu sehen, dass $\kappa_2$ in \ref{eq:kappa2} gegen $\infty$ mit wachsendem $n$ divergiert, genauso wie die Kondition in \ref{fig:sparsekon}.
+Obwohl $A$ in der Berechnung dieses Ergebnisses als $n^2\cdot A^{(1)}$ (mit $A^{(1)}$ Bandmatrix der einer Dimension) definiert war, dürfen wir dieses Ergebnis immer noch benutzen, weil sich der Term $n^2$ in der Berechnung der Kondition gemäß \ref{eq:kond} herauskürzt. Es ist leicht zu sehen, dass $\kappa_2$ in \ref{eq:kappa2} gegen $\infty$ mit wachsendem $n$ divergiert, genauso wie die Kondition in \ref{fig:sparsekon}.
 
 %\subsection{3.6}
 %
