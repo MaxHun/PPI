@@ -1,66 +1,46 @@
 """
-Dieses Programm dient zum Einlesen von Messwerte aus einer .txt Datei und zur grafischen Darstellung
-von diesen Werten zusammen mit der linearen Approximation
-Arsen Hnatiuk, Max Huneshagen
+Diese Datei enthaelt im Wesentlichen die Funktion lese, mit der eine Textdatei mit Messwerten
+ausgelesen werden kann.
 """
-import csv
 import numpy as np
-import matplotlib
-matplotlib.use("TkAgg")
-from matplotlib import pyplot as plt
 
-def lese(name, numb={1, 2}, fall=1):
+
+
+def lese(name, zeil_ind=None, spalt_ind=None, einsen=False):
     """
-    Diese Funktion dient zum Einlesen von Werten aus einer Textdatei
+    Dient dem Einlesen einer Textdatei mit Messwerten.
+
     Input:
-        mane (String):
-            Pfad zur Datei, die eingelesen werden soll
-        numb (int):
-            Anzahl der zu berücksichtigenden Messungen
-        fall (int):
-            Kennzeichnet, ob es eine Spalte mit Einsen in die Matrix einzulegen
-    Return:
-        ruck(np Array):
-            Array mit den zu berücksichtigenden Messungen
+
+        name (str):
+            Pfad zur zu untersuchenden Textdatei.
+        zeil_ind (lis oder array, optional, sonst: None):
+            Indizes der Zeilen, die beruecksichtigt werden sollen.
+        spalt_ind (lis oder array, optional, sonst: None):
+            Indizes der Spalten, die beruecksichtigt werden sollen.
+        einsen (bool):
+            Gibt an, ob die erste Spalte der ausgegebenen Matrix mit Einsen gefuellt werden soll,
+            was fuer die lineare Regression mit Verschiebung nuetzlich ist.
     """
+    dat = np.loadtxt(name, delimiter=",")
 
-    #Einlesen der Datei
-    werte = []
-    with open(name, newline='') as daten1:
-        for zeile in csv.reader(daten1):
-            werte.append(zeile)
+    if zeil_ind is None:
+        zeil_ind = np.arange(dat.shape[0])
+    if spalt_ind is None:
+        spalt_ind = np.arange(dat.shape[1])
 
-    #Erstellen daes Rückgabevektors
-    laen = len(werte)
-    if fall == 0:
-        ruck = np.zeros((laen, len(numb)))
-        for i in range(laen):
-            kappa = 0
-            for j in numb:
-                ruck[i][kappa] = int(werte[i][j])
-                kappa = kappa+1
-    else:
-        ruck = np.zeros((laen, len(numb)+1))
-        for i in range(laen):
-            kappa = 0
-            for j in numb:
-                ruck[i][kappa+1] = int(werte[i][j])
-                kappa = kappa+1
-            ruck[i][0] = 1
-    return ruck
+    # Nur die gewuenschten Zeilen und Spalten auswählen:
 
-if __name__ == '__main__':
-    #Grafische Darstellung
-    print(lese('/u/hnatiuka/Praktikum/PPI/Serie_4/daten1.txt', {1}))
-    vektb = lese('/u/hnatiuka/Praktikum/PPI/Serie_4/daten1.txt', {0}, 0)
-    mat = lese('/u/hnatiuka/Praktikum/PPI/Serie_4/daten1.txt', {1})
-    mat0 = lese('/u/hnatiuka/Praktikum/PPI/Serie_4/daten1.txt', {1}, 0)
+    dat = dat[zeil_ind[:, None], spalt_ind]
 
-    vektb = vektb.flatten()
-    mat0 = mat0.flatten()
-    plt.figure()
-    plt.scatter(mat0, vektb)
-    plt.xlabel('Hochwasserstand am Pegel a1')
-    plt.ylabel('Hochwasserstand am Pegel p')
-    plt.title('Hochwasserstand an verschiedenen Pegeln')
-    plt.show()
+    # Einsen in die erste Spalte, falls gewuenscht:
+
+    if einsen is True:
+        eins_arr = np.ones((dat.shape[0], 1))
+        dat = np.hstack((eins_arr, dat))
+
+    return dat
+
+
+if __name__ == "__main__":
+    lese("./daten1.txt", np.array([0, 2, 3, 4]), np.array([0, 2]), True)
