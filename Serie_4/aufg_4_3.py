@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from aufg_4_1 import KlQuad
 from aufg_4_2 import lese
 
-
+matplotlib.rcParams.update({'font.size': 25})
 
 def main():
 
@@ -22,6 +22,12 @@ def main():
 
     kq_obj = KlQuad(mat_einf, vec)
     lsg_vec = kq_obj.lgs_lsg()
+    
+    x = np.linspace(np.min(mat_einf[:, 1]), np.max(mat_einf[:, 1]), 50)
+    plt.figure(figsize=(20, 10))
+    plt.plot(x, lsg_vec[0] + lsg_vec[1]*x)
+    plt.scatter(mat_einf[:, 1], vec)
+    plt.show()
     
     a_1 = mat_einf[:1]
     print(a_1)

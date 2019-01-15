@@ -5,6 +5,8 @@ Gleichungssystemen mit der Methode der kleinsten Quadrate ermoeglicht.
 import numpy as np
 from scipy import linalg as lina
 from numpy import linalg as np_lina # wird fuer Kondition benoetigt
+
+
 class KlQuad(object):
     """
     Diese Klasse stellt die Methode der kleinsten Quadrate zur Verfuegung, mit deren Hilfe
@@ -85,10 +87,16 @@ class KlQuad(object):
 
         r_s_mod = np.dot(q_matr.transpose(), self.r_s)
 
+        # quadratischer Anteil der Matrix R (obere Dreiecksmatrix) und zugehoeriger 
+        # Loesungsvektor:
+
+        anz_spalt = r_matr.shape[1]
+        r_matr_red = r_matr[:anz_spalt]
+        r_s_mod_red = r_s_mod[:anz_spalt]
+       
         #Loesung durch Rueckwaertseinsetzen:
-        #print("\n\n", r_matr[:,r_matr[1]], "\n")
-        print(r_matr[:2]) #TODO Funktioniert noch nicht, hier weiter
-        return lina.solve_triangular(r_matr[:2], r_s_mod, lower=False)
+
+        return lina.solve_triangular(r_matr_red, r_s_mod_red, lower=False)
 
     def res(self):
         """
@@ -125,8 +133,8 @@ class KlQuad(object):
 
 
 if __name__ == "__main__":
-    A_MATR = np.array([[1, 2], [1, 1],[1,0.5]])
-    B_VEC = np.array([1, 2,0.5])
+    A_MATR = np.array([[1, 2], [1, 1],[1,0.5],[1,2]])
+    B_VEC = np.array([1, 1,2,5])
     K_Q = KlQuad(A_MATR, B_VEC)
     print(K_Q.lgs_lsg(), "\n")
     #print(K_Q.kond())
