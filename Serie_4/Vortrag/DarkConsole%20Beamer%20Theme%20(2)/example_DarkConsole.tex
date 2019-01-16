@@ -1,0 +1,110 @@
+%%
+%% This is file `example_DarkConsole.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% examples_kmbeamer.dtx  (with options: `DarkConsole')
+%% Copyright (c) 2011-2013 Kazuki Maeda <kmaeda@users.sourceforge.jp>
+%% 
+%% Distributable under the MIT License:
+%% http://www.opensource.org/licenses/mit-license.php
+%% 
+
+%%% もし pdfTeX や LuaTeX を使うなら dvipdfmx オプションを外す．
+% \documentclass[dvipdfmx]{beamer}
+
+% Modified by LianTze Lim to work with fontspec/xelatex
+\documentclass{beamer}
+\usepackage[ngerman]{babel}
+\usepackage{mathspec}
+\usepackage{xeCJK}
+\setCJKmainfont{IPAPMincho}
+\setCJKsansfont{IPAGothic}
+\setCJKmonofont{IPAGothic}
+
+% You can set fonts for Latin script here
+\setmainfont{FreeSerif}
+\setsansfont{FreeSans}
+\setmonofont{Latin Modern Mono}
+
+\usetheme{DarkConsole}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Neue Sachen::
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\addtobeamertemplate{frametitle}{
+%   \let\insertframetitle\insertsectionhead}{}
+%\addtobeamertemplate{frametitle}{
+%   \let\insertframesubtitle\insertsubsectionhead}{}
+%
+%
+%\makeatletter
+%  \CheckCommand*\beamer@checkframetitle{\@ifnextchar\bgroup\beamer@inlineframetitle{}}
+%  \renewcommand*\beamer@checkframetitle{\global\let\beamer@frametitle\relax\@ifnextchar\bgroup\beamer@inlineframetitle{}}
+%\makeatother
+\usepackage{graphicx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ende neue Sachen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% \AtBeginDvi{\special{pdf:tounicode EUC-UCS2}} % EUC の場合
+%% \AtBeginDvi{\special{pdf:tounicode 90ms-RKSJ-UCS2}} % SJIS の場合
+
+%%% もし LuaTeX で日本語を出力するなら以下をコメントアウト．
+%% \usefonttheme{luatexja}
+%% \hypersetup{unicode}
+
+%%% 日本語を使うなら以下を入れると定理環境中のフォントが立体になる．
+%%% 欧文なら不要．
+%%% LLT: Comment out this line if your presentation is in English or other European languages
+\setbeamertemplate{theorems}[normal font]
+
+\title{Projektpraktikum I}
+\subtitle{Serie 4, Teil 1}
+\author{Arsen Hnatiuk, Max Huneshagen}
+
+\begin{document}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}{Inhalt}
+  \tableofcontents
+\end{frame}
+
+\section{Methode der kleinsten Quadrate}
+
+\begin{frame}{Herleitung}
+  Schlauer Text zu kleinsten Quadraten．
+  \begin{align}
+  f(x)=2x^2+4
+  \end{align}
+
+  \pause
+
+  \begin{enumerate}
+  \item Sehr\pause
+  \item schlaue\pause
+  \item Aufzählung
+  \end{enumerate}
+
+  \pause
+
+\end{frame}
+
+\begin{frame}{Problemstellung [0]}
+  Beschreibung des gestellten Problems mit den Pegeln．
+
+\end{frame}
+
+\section{Experimente}
+\begin{frame}
+Extrem hübsche Bilder usw.\\~\\
+\includegraphics[width=\textwidth]{Beispielbild}
+\end{frame}
+\end{document}
+\endinput
+%%
+%% End of file `example_DarkConsole.tex'.
