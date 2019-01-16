@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.36pt}
+\select@language {ngerman}
+\beamer@sectionintoc {1}{Methode der kleinsten Quadrate}{3}{0}{1}
+\beamer@sectionintoc {2}{Experimente}{6}{0}{2}

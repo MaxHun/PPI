@@ -44,6 +44,7 @@
 %  \renewcommand*\beamer@checkframetitle{\global\let\beamer@frametitle\relax\@ifnextchar\bgroup\beamer@inlineframetitle{}}
 %\makeatother
 \usepackage{graphicx}
+\usepackage{array}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ende neue Sachen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,26 +78,111 @@
 \section{Methode der kleinsten Quadrate}
 
 \begin{frame}{Herleitung}
-  Schlauer Text zu kleinsten Quadraten．
+  Sei $A\in \mathbb{R}^{n\times m}$,  $b\in \mathbb{R}^n$ mit $n>m$.\\
+  \begin{itemize}
+  \item Ziel: \glqq Lösen\grqq ~des überbestimmten Gleichungssystems 
   \begin{align}
-  f(x)=2x^2+4
+  Ax=b
   \end{align}
+  durch Finden des Minimums
+  \begin{align}
+  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty.
+  \end{align}
+\item Vorgehen:
+\begin{itemize}
+\item Finden der Q-R-Zerlegung:
+\begin{align}
+A=QR, \text{~~~}Q\in  O(n), R\in \mathbb{R}^{n\times m}\text{ obere Dreiecksmatrix}
+\end{align}
+\item mit $z:=Q^Tb=:
+\begin{pmatrix}
+z_1\\
+\hline
+z_2
+\end{pmatrix}$ und $R=:\begin{pmatrix}
+R_1\\
+0
+\end{pmatrix}$, wobei $z_1\in\mathbb{R}^{m}$ und $R_1\in\mathbb{R}^{m\times m}$ ergibt sich:
+\begin{align}
+R_1x=b\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
+\end{align}
 
-  \pause
+\end{itemize}
+  \end{itemize}
+  
 
-  \begin{enumerate}
-  \item Sehr\pause
-  \item schlaue\pause
-  \item Aufzählung
-  \end{enumerate}
 
-  \pause
 
 \end{frame}
 
 \begin{frame}{Problemstellung [0]}
-  Beschreibung des gestellten Problems mit den Pegeln．
+\begin{itemize}
+\item Pegelstände an 3 verschiedenen Pegeln beobachtet:
+\begin{align}
+p, a_1, a_2 \in \mathbb{R}^m
+\end{align}
+\item 2 Ansätze:
+\begin{itemize}
+\item Einfache lineare Regression:
+\begin{align}
+p =b_0+b_1a_1
+\label{eq:lin_reg}
+\end{align}
+\item Mehrfachregression:
+\begin{align}
+p =b_0+b_1a_1+b_2a_2
+\label{eq:mehr_reg}
+\end{align}
+\end{itemize}
+\item \eqref{eq:lin_reg} und \eqref{eq:mehr_reg} führen auf die folgenden Gleichungssysteme:
+\end{itemize}
 
+\end{frame}
+
+\begin{frame}{Problemstellung [0]}
+\begin{itemize}
+\item \eqref{eq:lin_reg} und \eqref{eq:mehr_reg} führen auf die folgenden (überbestimmten) Gleichungssysteme:
+\begin{itemize}
+\item Lineare Regression:
+\begin{align}
+\begin{pmatrix}
+1 & \vrule \\
+\vdots & a_1\\
+1 & \vrule
+\end{pmatrix}
+\begin{pmatrix}
+b_0\\
+b_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+\vrule\\
+p\\
+\vrule
+\end{pmatrix}
+\end{align}
+\item Mehrfachregression:
+\begin{align}
+\begin{pmatrix}
+1 & \vrule & \vrule\\
+\vdots & a_1&a_2\\
+1 & \vrule &\vrule
+\end{pmatrix}
+\begin{pmatrix}
+b_0\\
+b_1\\
+b_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+\vrule\\
+p\\
+\vrule
+\end{pmatrix}
+\end{align}
+\end{itemize}
+\item Lösung erfolgt über Methode der kleinsten Quadrate
+\end{itemize}
 \end{frame}
 
 \section{Experimente}
