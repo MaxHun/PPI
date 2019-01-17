@@ -30,6 +30,9 @@
 
 \usetheme{DarkConsole}
 
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Neue Sachen::
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -191,7 +194,7 @@ R_1x=z_1\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
  	\begin{itemize}
   	\item \textit{KlQuad} Klasse mit den folgenden Methoden:
   	\begin{itemize}
-  		\item QR Zerlegung der gegebenen Matrix und Berechnung des Residiums und der Kondition
+  		\item Q-R-Zerlegung der gegebenen Matrix und Berechnung des Residuums und der Kondition
   		\item Prüfung der Injektivität der Matrix: diese wird für die Lösbarkeit des Problems benötigt  		
   	\end{itemize}
   	\pause
@@ -216,27 +219,80 @@ R_1x=z_1\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
 	\end{table}
 \end{frame}
 
-\begin{frame}
-Extrem hübsche Bilder usw.\\~\\
-\includegraphics[width=\textwidth]{Beispielbild}
+\begin{frame}{Experimente}
+	\begin{figure}
+		\includegraphics[width=\textwidth]{Bilder/ungest.png}
+		\caption{Ungestörte Daten mit der dazugehörigen Lösung}
+	\end{figure}
 \end{frame}
 
-\begin{frame}{Vergleich von Residien und Konditionen in den Experimenten}\small
+\begin{frame}{Experimente}
+	\begin{figure}
+		\includegraphics[width=\textwidth]{Bilder/ungest+gerad.png}
+		\caption{Nur die Hälfte der Daten berücksichtigt}
+	\end{figure}
+ \end{frame}
+
+\begin{frame}{Experimente}
+	\begin{figure}
+		\includegraphics[width=\textwidth]{Bilder/ungest+versch.png}
+		\caption{Linear verschobene Daten}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Experimente}
+	\begin{figure}
+		\includegraphics[width=\textwidth]{Bilder/ungest+zuf.png}
+		\caption{Daten mit einer zufälligen Störung}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Vergleich von Residuen in den Experimenten}\small
 	\begin{table}
-		\begin{tabular}{p{2cm}|p{3.5cm}|p{3.5cm}|p{1.5cm}}
-			Experiment & Residium (einfache Regression)&Residium (doppelte Regression)&Kondition\\
+		\begin{tabular}{p{2cm}|P{4.5cm}|P{4.5cm}}
+			Experiment & Residuum (einfache Regression)&Residuum (mahrfache Regression)\\
 			\hline
-			Ohne Störung & 93&193&187\\
+			Ohne Störung & 23.23&20.08\\
 			\hline
-			 & 120&258&255\\
+			Hälfte der Daten& 17.18&15.56\\
 			 \hline
+			Linear verschobene Daten&23.23&20.08\\
+			 \hline
+			 Zufällig gestörte Daten&36.84&32.72\\
 		\end{tabular}
-		\caption{Berechnete Residien und Konditionen für die Experimenten}
+		\caption{Berechnetes Residuum für die Experimenten}
 	\end{table}
 \end{frame}
 
-\begin{frame}{Auswertung}
-	
+\begin{frame}{Vergleich von Konditionen in den Experimenten}\small
+	\begin{table}
+		\begin{tabular}{p{2cm}|P{4cm}|P{4cm}}
+			Experiment & Kondition von $A$ (einfache Regression)&Kondition von $A$ (mehrfache Regression)\\
+			\hline
+			Ohne Störung & 902.34&1934.43\\
+			\hline
+			Hälfte der Daten& 715.60&1442.70\\
+			\hline
+			Linear verschobene Daten&976.16&2079.92\\
+			\hline
+			Zufällig gestörte Daten&845.25&1941.25\\
+		\end{tabular}
+		\caption{Berechnete Konditionen für die Experimenten}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Auswertung \& Zusammenfassung}
+	\begin{itemize}
+		\item Die Genauigkeit von dem Verfahren ist bei der mehrfachen Regression deutlich höher
+		\pause
+		\item Störungen erhöhen den Fehler, im Gegensatz zur Verkleinerung der Datenmenge. Die Verschiebung von Daten hat keine Auswirkung auf das Residium
+		\pause
+		\item Außer beim Experiment mit der verkleinerten Datenmenge weicht die Kondition zufällig von dem ursprünglichen Wert ab
+		\pause
+		\item Die Kondition bei mehrfache Regression wird ungefähr gedoppelt
+		\pause
+		\item Zusammenfassend ist die mehrfache Regression genauer, aber aufwendiger
+	\end{itemize}
 \end{frame}
 
 \end{document}
