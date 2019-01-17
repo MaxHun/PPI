@@ -125,8 +125,12 @@ class KlQuad(object):
             (Tupel aus floats):
                 Kondition von A und von A^T*A.
         """
-        kond_a = np_lina.cond(self.a_matr, p=np.inf)
-        kond_ata = np_lina.cond(self.a_matr.transpose()*self.a_matr, p=np.inf)
+        a_pinv = np.dot(lina.inv(np.dot(self.a_matr.transpose(), self.a_matr)), self.a_matr.transpose())
+        kond_a = lina.norm(a_pinv, ord=np.inf) * lina.norm(self.a_matr, ord=np.inf)
+        #kond_ata =1
+
+        #kond_a = np_lina.cond(self.a_matr, p=np.inf)
+        kond_ata = np_lina.cond(np.dot(self.a_matr.transpose(),self.a_matr), p=np.inf)
 
         return kond_a, kond_ata
 
@@ -136,4 +140,4 @@ if __name__ == "__main__":
     B_VEC = np.array([1, 1,2,5])
     K_Q = KlQuad(A_MATR, B_VEC)
     print(K_Q.lgs_lsg(), "\n")
-    print(K_Q.res()[1])
+    print(K_Q.kond())
