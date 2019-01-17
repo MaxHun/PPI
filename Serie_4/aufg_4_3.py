@@ -16,7 +16,7 @@ def main():
     # Die rechte Seite p des zu loesenden Gleichungssystems ergibt sich aus der ersten
     # Spalte:
 
-    vec = lese("./daten1.txt", spalt_ind=[0])
+    vec = lese("./daten1.txt", spalt_ind=[0], zeil_ind=[0,2,4,6,8,10])
     
     # Anlegen des KlQuad-Objektes und Loesen des Gleichungssystems:
 
