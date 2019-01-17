@@ -109,8 +109,7 @@ class KlQuad(object):
             (Tupel aus numpy.ndarray und float):
                 Residuum und Norm des Residuums.
         """
-
-        r_vec = self.a_matr*self.lgs_lsg()-self.r_s
+        r_vec = np.dot(self.a_matr,self.lgs_lsg())-self.r_s
         r_norm = lina.norm(r_vec, ord=np.inf)
 
         return r_vec, r_norm
@@ -137,4 +136,4 @@ if __name__ == "__main__":
     B_VEC = np.array([1, 1,2,5])
     K_Q = KlQuad(A_MATR, B_VEC)
     print(K_Q.lgs_lsg(), "\n")
-    #print(K_Q.kond())
+    print(K_Q.res()[1])

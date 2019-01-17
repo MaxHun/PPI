@@ -24,7 +24,6 @@ def main():
     print(mat_einf,mat_einf_10)
     vec = lese("./daten1.txt", spalt_ind=[0])
 
-    print(random.randn(12,1).shape, "\n",vec.shape)
 
     mat_lis = [mat_einf, mat_einf[::4,:], mat_einf_10, mat_einf]
     vec_lis = [vec, vec[::4], vec, vec + 10*random.randn(12, 1)]
@@ -41,7 +40,7 @@ def main():
 
         x = np.linspace(np.min(mat_einf[:, 1]), np.max(mat_einf[:, 1]), 50)
 
-        plt.plot(x, lsg_vec[0] + lsg_vec[1]*x, label= label_lis[ind])
+        plt.plot(x, lsg_vec[0] + lsg_vec[1]*x, label= label_lis[ind]+r", $\|r\|={}$".format(kq_obj.res()[1]))
         plt.scatter(mat[:, 1], vec_lis[ind])
     plt.legend()
     plt.show()
