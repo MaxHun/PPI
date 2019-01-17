@@ -38,7 +38,7 @@ def lese(name, zeil_ind=None, spalt_ind=None, einsen=False):
     if einsen is True:
         eins_arr = np.ones((dat.shape[0], 1))
         dat = np.hstack((eins_arr, dat))
-
+    
     return dat
 
 

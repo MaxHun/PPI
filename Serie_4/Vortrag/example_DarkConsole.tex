@@ -73,12 +73,87 @@
 
 \begin{frame}{Inhalt}
   \tableofcontents
+  
+ \section{Methode der kleinsten Quadrate}  
+  
+ 
 \end{frame}
 
-\section{Methode der kleinsten Quadrate}
+\begin{frame}{Problemstellung [0]}
+	\begin{itemize}
+		\item Pegelstände an 3 verschiedenen Pegeln beobachtet:
+		\begin{align}
+		p, a_1, a_2 \in \mathbb{R}^m
+		\end{align}
+		\item Ziel: Pegelstand $p$ aus $a_1$ und $a_2$ vorhersagen
+		\pause
+		\item 2 Ansätze:
+		\begin{itemize}
+			\item Einfache lineare Regression:
+			\begin{align}
+			p =b_0+b_1a_1
+			\label{eq:lin_reg}
+			\end{align}
+			\item Mehrfachregression:
+			\begin{align}
+			p =b_0+b_1a_1+b_2a_2
+			\label{eq:mehr_reg}
+			\end{align}
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Problemstellung [0]}
+	\begin{itemize}
+		\item \eqref{eq:lin_reg} und \eqref{eq:mehr_reg} führen auf die folgenden (überbestimmten) Gleichungssysteme:
+		\begin{itemize}
+			\item Lineare Regression:
+			\begin{align}
+			\begin{pmatrix}
+			1 & \vrule \\
+			\vdots & a_1\\
+			1 & \vrule
+			\end{pmatrix}
+			\begin{pmatrix}
+			b_0\\
+			b_1
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+			\vrule\\
+			p\\
+			\vrule
+			\end{pmatrix}
+			\end{align}
+			\item Mehrfachregression:
+			\begin{align}
+			\begin{pmatrix}
+			1 & \vrule & \vrule\\
+			\vdots & a_1&a_2\\
+			1 & \vrule &\vrule
+			\end{pmatrix}
+			\begin{pmatrix}
+			b_0\\
+			b_1\\
+			b_2
+			\end{pmatrix}
+			=
+			\begin{pmatrix}
+			\vrule\\
+			p\\
+			\vrule
+			\end{pmatrix}
+			\end{align}
+		\pause
+		\end{itemize}
+		\item Lösung erfolgt über Methode der kleinsten Quadrate
+	\end{itemize}
+\end{frame}
+
 
 \begin{frame}{Herleitung}
-  Sei $A\in \mathbb{R}^{n\times m}$,  $b\in \mathbb{R}^n$ mit $n>m$.\\
+  Sei $A\in \mathbb{R}^{n\times m}$ mit vollem Spaltenrang,  $b\in \mathbb{R}^n$ mit $n>m$.\\
   \begin{itemize}
   \item Ziel: \glqq Lösen\grqq ~des überbestimmten Gleichungssystems 
   \begin{align}
@@ -104,92 +179,66 @@ R_1\\
 0
 \end{pmatrix}$, wobei $z_1\in\mathbb{R}^{m}$ und $R_1\in\mathbb{R}^{m\times m}$ ergibt sich:
 \begin{align}
-R_1x=b\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
+R_1x=z_1\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
 \end{align}
 
 \end{itemize}
   \end{itemize}
   
-
-
-
 \end{frame}
 
-\begin{frame}{Problemstellung [0]}
-\begin{itemize}
-\item Pegelstände an 3 verschiedenen Pegeln beobachtet:
-\begin{align}
-p, a_1, a_2 \in \mathbb{R}^m
-\end{align}
-\item 2 Ansätze:
-\begin{itemize}
-\item Einfache lineare Regression:
-\begin{align}
-p =b_0+b_1a_1
-\label{eq:lin_reg}
-\end{align}
-\item Mehrfachregression:
-\begin{align}
-p =b_0+b_1a_1+b_2a_2
-\label{eq:mehr_reg}
-\end{align}
-\end{itemize}
-\item \eqref{eq:lin_reg} und \eqref{eq:mehr_reg} führen auf die folgenden Gleichungssysteme:
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Problemstellung [0]}
-\begin{itemize}
-\item \eqref{eq:lin_reg} und \eqref{eq:mehr_reg} führen auf die folgenden (überbestimmten) Gleichungssysteme:
-\begin{itemize}
-\item Lineare Regression:
-\begin{align}
-\begin{pmatrix}
-1 & \vrule \\
-\vdots & a_1\\
-1 & \vrule
-\end{pmatrix}
-\begin{pmatrix}
-b_0\\
-b_1
-\end{pmatrix}
-=
-\begin{pmatrix}
-\vrule\\
-p\\
-\vrule
-\end{pmatrix}
-\end{align}
-\item Mehrfachregression:
-\begin{align}
-\begin{pmatrix}
-1 & \vrule & \vrule\\
-\vdots & a_1&a_2\\
-1 & \vrule &\vrule
-\end{pmatrix}
-\begin{pmatrix}
-b_0\\
-b_1\\
-b_2
-\end{pmatrix}
-=
-\begin{pmatrix}
-\vrule\\
-p\\
-\vrule
-\end{pmatrix}
-\end{align}
-\end{itemize}
-\item Lösung erfolgt über Methode der kleinsten Quadrate
-\end{itemize}
-\end{frame}
+ \begin{frame}{Implementierung}
+ 	\begin{itemize}
+  	\item \textit{KlQuad} Klasse mit den folgenden Methoden:
+  	\begin{itemize}
+  		\item QR Zerlegung der gegebenen Matrix und Berechnung des Residiums und der Kondition
+  		\item Prüfung der Injektivität der Matrix: diese wird für die Lösbarkeit des Problems benötigt  		
+  	\end{itemize}
+  	\pause
+  	\item \textit{lese} Methode, die ausgewählten Zeilen und Spalten aus einer gegebenen Datei einliest
+  	\pause
+  	\item \textit{main} Methode, die Grafiken mit den gewählten Daten erstellt
+  	\end{itemize}
+ \end{frame}
 
 \section{Experimente}
+
+\begin{frame}{Daten}
+	\begin{table}\small
+		\begin{tabular}{l || c c c c c c c c c c c c}
+			$p$ & 172&309&302&283&443&298&319&419&361&267&337&230\\
+			\hline
+			$a_1$ & 93&193&187&174&291&184&205&260&212&169&216&144\\
+			\hline
+			$a_2$ & 120&258&255&238&317&246&265&304&292&242&272&191\\
+		\end{tabular}
+		\caption{Ursprüngliche Daten}
+	\end{table}
+\end{frame}
+
 \begin{frame}
 Extrem hübsche Bilder usw.\\~\\
 \includegraphics[width=\textwidth]{Beispielbild}
 \end{frame}
+
+\begin{frame}{Vergleich von Residien und Konditionen in den Experimenten}\small
+	\begin{table}
+		\begin{tabular}{p{2cm}|p{3.5cm}|p{3.5cm}|p{1.5cm}}
+			Experiment & Residium (einfache Regression)&Residium (doppelte Regression)&Kondition\\
+			\hline
+			Ohne Störung & 93&193&187\\
+			\hline
+			 & 120&258&255\\
+			 \hline
+		\end{tabular}
+		\caption{Berechnete Residien und Konditionen für die Experimenten}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Auswertung}
+	
+\end{frame}
+
 \end{document}
 \endinput
 %%
