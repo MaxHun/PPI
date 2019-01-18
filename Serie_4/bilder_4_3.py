@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from aufg_4_1 import KlQuad
 from aufg_4_2 import lese
 from numpy import random
-
+import sys
 
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
@@ -23,7 +23,7 @@ def main():
     # also die zweite Spalte, ausgelesen werden:
 
     mat_einf = lese("./daten1.txt", spalt_ind=[1], einsen=True)
-    print(mat_einf)
+    # print(mat_einf)
     mat_einf_10 = np.ones_like(mat_einf)
     mat_einf_10[:, 1] = mat_einf[:, 1] + 10
     
@@ -31,7 +31,7 @@ def main():
     mat_einf_rand[:, 1] = mat_einf[:, 1] + 10*random.randn(12)
     # Die rechte Seite p des zu loesenden Gleichungssystems ergibt sich aus der ersten
     # Spalte:
-    print(mat_einf,mat_einf_10)
+    #print(mat_einf,mat_einf_10)
     vec = lese("./daten1.txt", spalt_ind=[0])
 
 
@@ -41,12 +41,33 @@ def main():
 
     # Erstellen der Plots in einer for-Schleife: 
     
-
+    # Ermitteln, was abgebildet werden soll:
+    print("Moegliche Uebergaben: ung, gerad, versch, rand.")
+    try:
+        what = sys.argv[1]
+    except Exception:
+        what = "alle"
+    
     plt.figure(figsize=(20, 10))
     ax=plt.subplot(111)
-    mat_lis=list(mat_lis[i] for i in [0,3])
-    vec_lis=list(vec_lis[i] for i in [0,3])
-    label_lis=list(label_lis[i] for i in [0,3])
+    
+    if what == "ung":
+        mat_lis=list(mat_lis[i] for i in [0])
+        vec_lis=list(vec_lis[i] for i in [0])
+        label_lis=list(label_lis[i] for i in [0])
+        what = ""
+    if what == "gerad":
+        mat_lis=list(mat_lis[i] for i in [0,1])
+        vec_lis=list(vec_lis[i] for i in [0,1])
+        label_lis=list(label_lis[i] for i in [0,1])
+    elif what == "versch":
+        mat_lis=list(mat_lis[i] for i in [0,2])
+        vec_lis=list(vec_lis[i] for i in [0,2])
+        label_lis=list(label_lis[i] for i in [0,2])
+    elif what == "rand":
+        mat_lis=list(mat_lis[i] for i in [0,3])
+        vec_lis=list(vec_lis[i] for i in [0,3])
+        label_lis=list(label_lis[i] for i in [0,3])
     #print(mat_lis)
     for ind, mat in enumerate(mat_lis):
         kq_obj = KlQuad(mat, vec_lis[ind])
@@ -55,7 +76,7 @@ def main():
 
         x = np.linspace(np.min(mat_einf[:, 1]), np.max(mat_einf[:, 1]), 50)
         # 0:.2f
-        plt.plot(x, lsg_vec[0] + lsg_vec[1]*x, label=label_lis[ind]+r", $\|r\|={:.2f}$, $\kappa={:.2f}$".format(kq_obj.res()[1], kq_obj.kond()[0]),lw=4)
+        plt.plot(x, lsg_vec[0] + lsg_vec[1]*x, label=label_lis[ind]+r", $\|r\|_\infty={:.2f}$, $\kappa={:.2f}$".format(kq_obj.res()[1], kq_obj.kond()[0]),lw=4)
         plt.xlabel(r"$a_1$")
         plt.ylabel(r"$p$")
         plt.scatter(mat[:, 1], vec_lis[ind],s=100)
@@ -78,7 +99,7 @@ def main():
     ax.yaxis.set_major_locator(major_locator_y)
 
     plt.legend()
-    plt.savefig("Bild.png", dpi=300)
+    plt.savefig("Vortrag/Bilder/ungest+" + what + ".png", dpi=300)
     plt.show()
 
 
