@@ -77,11 +77,11 @@
 \begin{frame}{Inhalt}
   \tableofcontents
   
- \section{Methode der kleinsten Quadrate}  
+
   
  
 \end{frame}
-
+ \section{Methode der kleinsten Quadrate}  
 \begin{frame}{Problemstellung [0]}
 	\begin{itemize}
 		\item Pegelstände an 3 verschiedenen Pegeln beobachtet:
@@ -171,7 +171,7 @@
 \item Finden der Q-R-Zerlegung:
 \begin{align}
 A=QR, \text{~~~}Q\in  O(n), R\in \mathbb{R}^{n\times m}\text{ obere Dreiecksmatrix}
-\end{align}
+\end{align}\pause
 \item mit $z:=Q^Tb=:
 \begin{pmatrix}
 z_1\\
@@ -192,15 +192,21 @@ R_1x=z_1\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
 
  \begin{frame}{Implementierung}
  	\begin{itemize}
-  	\item \textit{KlQuad} Klasse mit den folgenden Methoden:
+  	\item Klasse \textit{KlQuad}:
   	\begin{itemize}
   		\item Q-R-Zerlegung der gegebenen Matrix und Berechnung des Residuums und der Kondition
-  		\item Prüfung der Injektivität der Matrix: diese wird für die Lösbarkeit des Problems benötigt  		
+  		\item Prüfung der Injektivität der Matrix (voller Spaltenrang)
   	\end{itemize}
   	\pause
-  	\item \textit{lese} Methode, die ausgewählten Zeilen und Spalten aus einer gegebenen Datei einliest
+  	\item Methode \textit{lese} Methode, die 
+  	  	\begin{itemize}
+  		\item Einlesen ausgewählter Zeilen und Spalten aus einer gegebenen Datei
+  	\end{itemize}
   	\pause
-  	\item \textit{main} Methode, die Grafiken mit den gewählten Daten erstellt
+  	\item \textit{main()}:
+  	  	\begin{itemize}
+  		\item Einlesen der Daten und grafische Darstellung
+  	\end{itemize}
   	\end{itemize}
  \end{frame}
 
@@ -209,11 +215,11 @@ R_1x=z_1\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
 \begin{frame}{Daten}
 	\begin{table}\small
 		\begin{tabular}{l || c c c c c c c c c c c c}
-			$p$ & 172&309&302&283&443&298&319&419&361&267&337&230\\
+			$p$ & 172 & 309 & 302 & 283 & 443 & 298 & 319 & 419 & 361 & 267 & 337 & 230\\
 			\hline
-			$a_1$ & 93&193&187&174&291&184&205&260&212&169&216&144\\
+			$a_1$ & 93 & 193 & 187 & 174 & 291 & 184 & 205 & 260 &212 & 169 & 216 & 144\\
 			\hline
-			$a_2$ & 120&258&255&238&317&246&265&304&292&242&272&191\\
+			$a_2$ & 120 & 258 & 255 & 238 & 317 & 246 & 265 & 304 & 292 & 242 & 272 & 191\\
 		\end{tabular}
 		\caption{Ursprüngliche Daten}
 	\end{table}
@@ -229,7 +235,7 @@ R_1x=z_1\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
 \begin{frame}{Experimente}
 	\begin{figure}
 		\includegraphics[width=\textwidth]{Bilder/ungest+gerad.png}
-		\caption{Nur die Hälfte der Daten berücksichtigt}
+		\caption{Nur die Hälfte der Daten berücksichtigt (gerade Indizes)}
 	\end{figure}
  \end{frame}
 
@@ -250,7 +256,7 @@ R_1x=z_1\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
 \begin{frame}{Vergleich von Residuen in den Experimenten}\small
 	\begin{table}
 		\begin{tabular}{p{2cm}|P{4.5cm}|P{4.5cm}}
-			Experiment & Residuum (einfache Regression)&Residuum (mahrfache Regression)\\
+			Experiment & Residuum (einfache Regression)&Residuum (Mehrfachregression)\\
 			\hline
 			Ohne Störung & 23.23&20.08\\
 			\hline
@@ -267,31 +273,32 @@ R_1x=z_1\text{,~~~}  \min\limits_{x\in\mathbb{R}^m}\|Ax-b\|_\infty=\|z_2\|
 \begin{frame}{Vergleich von Konditionen in den Experimenten}\small
 	\begin{table}
 		\begin{tabular}{p{2cm}|P{4cm}|P{4cm}}
-			Experiment & Kondition von $A$ (einfache Regression)&Kondition von $A$ (mehrfache Regression)\\
+			Experiment & Kondition von $A$ (einfache Regression)&Kondition von $A$ (Mehrfachregression)\\
 			\hline
-			Ohne Störung & 902.34&1934.43\\
+			Ohne Störung & 902.34 & 1934.43\\
 			\hline
-			Hälfte der Daten& 715.60&1442.70\\
+			Hälfte der Daten & 715.60 & 1442.70\\
 			\hline
-			Linear verschobene Daten&976.16&2079.92\\
+			Linear verschobene Daten & 976.16 & 2079.92\\
 			\hline
-			Zufällig gestörte Daten&845.25&1941.25\\
+			Zufällig gestörte Daten & 845.25 & 1941.25\\
 		\end{tabular}
 		\caption{Berechnete Konditionen für die Experimenten}
 	\end{table}
 \end{frame}
 
-\begin{frame}{Auswertung \& Zusammenfassung}
+\begin{frame}{Zusammenfassung}
 	\begin{itemize}
-		\item Die Genauigkeit von dem Verfahren ist bei der mehrfachen Regression deutlich höher
+		\item Genauigkeit  der mehrfachen Regression deutlich besser.
 		\pause
-		\item Störungen erhöhen den Fehler, im Gegensatz zur Verkleinerung der Datenmenge. Die Verschiebung von Daten hat keine Auswirkung auf das Residium
+		\item Störungen erhöhen Fehler, Verkleinerung der Datenmenge senkt ihn. 
 		\pause
-		\item Außer beim Experiment mit der verkleinerten Datenmenge weicht die Kondition zufällig von dem ursprünglichen Wert ab
+		\item
+		Verschiebung von $a_1$ hat keine Auswirkung auf das Residiuum.
 		\pause
-		\item Die Kondition bei mehrfache Regression wird ungefähr gedoppelt
+		\item Kondition der Koeffizientenmatrix ist groß.
 		\pause
-		\item Zusammenfassend ist die mehrfache Regression genauer, aber aufwendiger
+		\item Mehrfachregression verdoppelt Kondition in etwa.
 	\end{itemize}
 \end{frame}
 
