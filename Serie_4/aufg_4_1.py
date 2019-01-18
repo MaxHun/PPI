@@ -81,19 +81,26 @@ class KlQuad(object):
             (numpy.ndarray):
                 Loesungsvektor von Ax=b.
         """
+
+        # Injektivitaet der Matrix pruefen:
+
+        if not self.rang_pruef():
+            raise lina.LinAlgError("Die Koeffizientenmatrix ist nicht injektiv, die Methode der "+
+                                   "kleinsten Quadrate kann nicht angewendet werden!")
+
         q_matr, r_matr = self.qr_zerl()
 
         # modifizierte rechte Seite:
 
         r_s_mod = np.dot(q_matr.transpose(), self.r_s)
 
-        # quadratischer Anteil der Matrix R (obere Dreiecksmatrix) und zugehoeriger 
+        # quadratischer Anteil der Matrix R (obere Dreiecksmatrix) und zugehoeriger
         # Loesungsvektor:
 
         anz_spalt = r_matr.shape[1]
         r_matr_red = r_matr[:anz_spalt]
         r_s_mod_red = r_s_mod[:anz_spalt]
-       
+
         #Loesung durch Rueckwaertseinsetzen:
 
         return lina.solve_triangular(r_matr_red, r_s_mod_red, lower=False)
@@ -109,7 +116,7 @@ class KlQuad(object):
             (Tupel aus numpy.ndarray und float):
                 Residuum und Norm des Residuums.
         """
-        r_vec = np.dot(self.a_matr,self.lgs_lsg())-self.r_s
+        r_vec = np.dot(self.a_matr, self.lgs_lsg())-self.r_s
         r_norm = lina.norm(r_vec, ord=np.inf)
 
         return r_vec, r_norm
@@ -125,19 +132,31 @@ class KlQuad(object):
             (Tupel aus floats):
                 Kondition von A und von A^T*A.
         """
-        a_pinv = np.dot(lina.inv(np.dot(self.a_matr.transpose(), self.a_matr)), self.a_matr.transpose())
-        kond_a = lina.norm(a_pinv, ord=np.inf) * lina.norm(self.a_matr, ord=np.inf)
-        #kond_ata =1
 
-        #kond_a = np_lina.cond(self.a_matr, p=np.inf)
-        kond_ata = np_lina.cond(np.dot(self.a_matr.transpose(),self.a_matr), p=np.inf)
+        # Berechnung der Moore-Penrose-Pseudoinversen nach der Formel
+        # A^+ = (A^T*A)^-1 * A^T:
+
+        a_pinv = np.dot(lina.inv(np.dot(self.a_matr.transpose(), self.a_matr)),
+                        self.a_matr.transpose())
+
+        # Kondition berechnet sich als ||A||*||A^+||:
+
+        kond_a = lina.norm(a_pinv, ord=np.inf) * lina.norm(self.a_matr, ord=np.inf)
+
+        # Fuer die Kondition der quadratischen Matrix A^T*A wird die numpy-Implementierung
+        # verwendet:
+
+        kond_ata = np_lina.cond(np.dot(self.a_matr.transpose(), self.a_matr), p=np.inf)
 
         return kond_a, kond_ata
 
 
 if __name__ == "__main__":
-    A_MATR = np.array([[1, 2], [1, 1],[1,0.5],[1,2]])
-    B_VEC = np.array([1, 1,2,5])
+
+    # Test der Funktionaitaet:
+
+    A_MATR = np.array([[1, 2], [1, 0.5], [1, 0.2], [1, 4]])
+    B_VEC = np.array([1, 1, 2, 5])
     K_Q = KlQuad(A_MATR, B_VEC)
     print(K_Q.lgs_lsg(), "\n")
     print(K_Q.kond())
