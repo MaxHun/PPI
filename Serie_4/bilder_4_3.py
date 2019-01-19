@@ -76,11 +76,14 @@ def main():
 
         x = np.linspace(np.min(mat_einf[:, 1]), np.max(mat_einf[:, 1]), 50)
         # 0:.2f
-        plt.plot(x, lsg_vec[0] + lsg_vec[1]*x, label=label_lis[ind]+r", $\|r\|_\infty={:.2f}$, $\kappa={:.2f}$".format(kq_obj.res()[1], kq_obj.kond()[0]),lw=4)
+        plt.plot(x, lsg_vec[0] + lsg_vec[1]*x)#, label=label_lis[ind]+r", $\|r\|_\infty={:.2f}$, $\kappa={:.2f}$".format(kq_obj.res()[1], kq_obj.kond()[0]),lw=4)
         plt.xlabel(r"$a_1$")
         plt.ylabel(r"$p$")
-        plt.scatter(mat[:, 1], vec_lis[ind],s=100)
-    
+        if len(vec_lis[ind]) > 10:
+            plt.scatter(mat[:, 1], vec_lis[ind],s=100, label=label_lis[ind]+r", $\|r\|_\infty={:.2f}$, $\kappa={:.2f}$".format(kq_obj.res()[1], kq_obj.kond()[0]),lw=4)
+        else:
+            plt.scatter(mat[:, 1], vec_lis[ind],s=100, label=label_lis[ind]+r", $\|r\|_\infty={:.2f}$, $\kappa={:.2f}$".format(kq_obj.res()[1], kq_obj.kond()[0]),lw=4,
+                        edgecolors="", linewidths=0.5)
     # Kosmetik:
     ax.tick_params(left=True,right=True,bottom=True,top=True,which='major',length=10)
     ax.tick_params(right=True, direction='in',which='both')    
