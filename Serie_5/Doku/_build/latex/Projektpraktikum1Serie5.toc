@@ -1,0 +1,5 @@
+\babel@toc {ngerman}{}
+\contentsline {chapter}{\numberline {1}Die Sparse-Klasse}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Indices and tables}{5}{chapter.2}
+\contentsline {chapter}{Python-Modulindex}{7}{section*.19}
+\contentsline {chapter}{Stichwortverzeichnis}{9}{section*.20}

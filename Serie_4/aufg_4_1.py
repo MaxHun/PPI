@@ -65,7 +65,7 @@ class KlQuad(object):
 
         diag = r_matr[arr, arr]
 
-        norm = lina.norm(diag, ord=-np.inf)
+        norm = lina.norm(diag, ord=2)
 
         return bool(norm > eps)
 
@@ -116,8 +116,8 @@ class KlQuad(object):
             (Tupel aus numpy.ndarray und float):
                 Residuum und Norm des Residuums.
         """
-        r_vec = np.dot(self.a_matr, self.lgs_lsg())-self.r_s
-        r_norm = lina.norm(r_vec, ord=np.inf)
+        r_vec = np.dot(self.a_matr, self.lgs_lsg()) - self.r_s
+        r_norm = lina.norm(r_vec, ord=2)
 
         return r_vec, r_norm
 
@@ -141,12 +141,12 @@ class KlQuad(object):
 
         # Kondition berechnet sich als ||A||*||A^+||:
 
-        kond_a = lina.norm(a_pinv, ord=np.inf) * lina.norm(self.a_matr, ord=np.inf)
+        kond_a = lina.norm(a_pinv, ord=np.inf) * lina.norm(self.a_matr, ord=2)
 
         # Fuer die Kondition der quadratischen Matrix A^T*A wird die numpy-Implementierung
         # verwendet:
 
-        kond_ata = np_lina.cond(np.dot(self.a_matr.transpose(), self.a_matr), p=np.inf)
+        kond_ata = np_lina.cond(np.dot(self.a_matr.transpose(), self.a_matr), p=2)
 
         return kond_a, kond_ata
 
