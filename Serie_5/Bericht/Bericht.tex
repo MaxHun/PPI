@@ -100,13 +100,65 @@
 
 \section{Einleitung}
 
+In dieser Serie soll das bereits in Serie~3 behandelte Problem 
+\begin{align}
+A^{(d)}\hat{u} = b
+\label{eq:glc}
+\end{align}
+mit $A^{(d)}\in\mathbb{R}^{(n-1)^d\times(n-1)^d}$, $\hat{u},b\in\mathbb{R}^{n-1}$ und der Diskretisierung $n\in\mathbb{N}$ sowie $\hat{u},b \in \mathbb{R}^{(n-1)^d}$ erneut aufgegriffen werden. Dieses ist durch eine bestimmte Wahl von $A^{(d)}$ und $b$, die in Serie~2 erläutert wurde,  eine diskrete Formulierung des Laplace-Problems 
+\begin{align}
+\begin{split}
+-\Delta u&=f(x)\text{ in }\Omega=(0, 1)^d, d\in\{1,2,3\}\\
+u \vert _{\partial\Omega}&=u_D\text{ für ein gegebenes }u_D.
+\end{split}
+\label{eq:rwp}
+\end{align}
+Das exakte Lösen von \eqref{eq:glc} kann für feine Diskretisierungen einen sehr hohen Rechenaufwand verursachen. Im Laufe dessen wurde in Serie~3 die  $L$-$U$-Zerlegung von $A^{(d)}$ berechnet. Während $A^{(d)}$ eine Banddiagonalmatrix ist und sich demzufolge gut als \textit{sparse}-Matrix speichern lässt, ist dies für $L$ und $U$ im Allgemeinen nicht der Fall. Dieser Speicherplatzvorteil kann also bei der Verwendung der $L$-$U$-Zerlegung nicht länger ausgenutzt werden. Diese Beobachtungen motivieren die Verwendung von iterativen Verfahren wie der \emph{conjugate gradients}-Methode (\textbf{CG}). Bei dieser handelt es sich eigentlich um ein exaktes Verfahren, mit dem sich ein Gleichungssystem der Form
+\begin{align}
+Bx=d
+\end{align}
+mit $B \in \mathbb{R}^{m\times m}$ s.\,p.\,d. und $x,d\in \mathbb{R}^m$ in $m$ Iterationsschritten exakt lösen lässt. In der Praxis kann das Verfahren aber meist nach viel weniger Schritten abgebrochen werden, da die Zwischenlösung schon nahe genug (insbesondere im Vergleich zum Diskretisierungsfehler) an der exakten Lösung liegt.
+
+Die \textbf{CG}-Methode soll im Folgenden verwendet werden, um \eqref{eq:rwp} für ein vorgegebenes $u$ bzw. \eqref{eq:glc} für eine vorgegebene rechte Seite näherungsweise zu lösen. Die so erhaltene approximative Lösung wird mit der Lösung mit dem bereits in Serie~3 verwendeten Verfahren hinsichtlich des Konvergenzverhaltens verglichen. 
+
+\section{Theorie}
+
+\subsection{Die \emph{conjugate gradients}-Methode (\textbf{CG})}
+
+Sei $B \in \mathbb{R}^{m\times m}$ s.\,p.\,d. und $x,d\in \mathbb{R}^m$. Sei $x_0\in \mathbb{R}^m$ beliebig. Dann berechnet sich eine Lösung von $Bx=d$ wie folgt \cite{wiki:cg}:
+
+%TODO Hier eventuell Einzug?
+
+Zunächst sei 
+\begin{align}
+r_0&:=d-Bx_0\\
+d_0&:=r_0.
+\end{align}
+Berechne nun für $k=0,1,2,\dots$:
+\begin{align}
+z&=Bd_k,\\
+\alpha&=\frac{r_k^Tr_k}{d_k^Tz},\\
+x_{k+1}&=x_k+\alpha_kd_k,\\
+r_{k+1}&=r_k-\alpha_kz,\\
+\beta_k&=\frac{r^T_{k+1}r_{k+1}}{r^T_{k}r_{k}},\\
+d_{k+1}&=r_{k+1}+\beta_kd_k,
+\end{align}
+bis das Residuum $\|r_{k+1}\|_\infty$ kleiner als ein zuvor gegebenes $\epsilon$ wird.
+Zu prüfen ist nun noch, ob die Matrizen $A^{(d)}$ die o.\,g. Bedingungen erfüllen und symmetrisch und positiv semidefinit sind. Symmetrie folgt direkt aus der Definition der Matrizen, die positive Definitheit folgt daraus, dass die $A^{(d)}$ diagonaldominante Matrizen sind, also dass gilt:
+%\begin{align}
+%|(A^{(d)})_{ii}|\geq \sum\limits_{j=1,\\j\neq i}%%Hier weiter 
+%\end{align}
+%\subsection{Anwendbarkeit der \textbf{CG}-Methode für die Matrizen}
+
+
+
 
 \section{Zusammenfassung}
 
 
 \begin{thebibliography}{9}
-%%\bibitem{wiki} Kein Autor, Aufgerufen am 22.11.2018, \textit{Sparse Matrix}. 
-%%\url{https://en.wikipedia.org/wiki/Sparse_matrix}
+\bibitem{wiki:cg} Kein Autor, Aufgerufen am \today, \textit{C-G-Verfahren}. 
+\url{https://de.wikipedia.org/wiki/CG-Verfahren}
 \end{thebibliography}
 
 
