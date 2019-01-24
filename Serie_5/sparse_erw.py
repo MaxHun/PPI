@@ -47,6 +47,44 @@ class Sparse(object):
         self.r_s = r_s
         self.ex_lsg = ex_lsg
 
+    def cg_meth(self, los1, vekb, eps):
+        """
+        Diese Methode approximiert die Lösung eines Gleichungssystems mithilfe des CG-Verfahrens,
+        bis auf eine vogegebene Genauigkeit.
+
+        Input:
+
+            los0 (numpy.ndarray aus floats):
+                Die erste Lösung, die in der Iteration benutzt wird
+            vekb (numpy.ndarray aus floats):
+                Der b Vektor des zu lösendes Gleichungssystems
+            eps (float):
+                Die Genauigkeit, bei welcher die Iteration abgebrochen wird
+
+        Return:
+
+            los (Liste aus numpy.ndarray aus floats):
+                Liste mit den berechneten Lösungen nach jedem Iterationsschitt
+        """
+        rplus = vekb - self.matr.dot(los1)
+        dplus = rplus
+        los = []
+        norm = 1000000000
+        #In dieser Schleife wird die Iteration durchgeführt
+        while norm > eps:
+            rminus = rplus
+            dminus = dplus
+            los0 = los1
+            zet = self.matr.dot(dminus)
+            alpha = np.dot(rminus, rminus)/np.dot(dminus, zet)
+            los1 = los0 + np.dot(alpha, dminus)
+            rplus = rminus - np.dot(alpha, zet)
+            beta = np.dot(rplus, rplus)/np.dot(rminus, rminus)
+            dplus = rplus + np.dot(beta, dminus)
+            los.append(los1)
+            norm = lina.norm(rplus, ord=np.inf)
+        return los
+
     def constr_mat_l_k(self, k, dim, dis):
         """
         Konstruiert die Matrix A_l(k) mit der gewuenschten Diskretisierung.
@@ -303,7 +341,7 @@ class Sparse(object):
 
         return lsg
         #return self.l_u_zerl()[0].solve(r_s)
-    
+
     def anz_nn_lu_abs(self):
         """
         Gibt die Anzahl von Eintraegen von L bzw. U zurueck, die ungleich 0 sind.
