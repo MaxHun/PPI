@@ -115,7 +115,7 @@
 \usepackage{cmap}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,amstext}
-\usepackage{babel}
+\usepackage[ngerman]{babel}
 \usepackage{times}
 \usepackage[Sonny]{fncychap}
 \usepackage[dontkeepoldnames]{sphinx}
@@ -168,7 +168,7 @@
 
 \chapter{Einleitung}
 
-\section{Laplace Gleichung}
+%\section{Laplace Gleichung}
 Die in dieser Serie implementierten Programme ermöglichen die Lösung des in Serie 2 betrachteten Gleichungssystems
 \begin{align}
 A^{(d)}\hat{u} = b,
@@ -204,30 +204,31 @@ R\hat{u}=z
 \end{align}
 Wenn man die Gleichungen \eqref{eq:lu1} und \eqref{eq:lu2} zusammensetzt, so erhält man \eqref{eq:lu}.
 
-\section{Hilbert-Matrizen}
-Die erstellten Programme ermöglichen auch die Arbeit mit Hilbert-Matrizen. Diese dienen als Beispiel schlecht konditionierter Matrizen und sind wie folgt definiert:
-\begin{align}
-H_m &:= (a_{ij})_{1\le i, j \le m} \in \mathbb{R}^{m\times m}, 	\\
-a_{ij} &:= \frac{1}{i+j-1} \label{eq:hb1}
-\end{align}
-Das Inverse einer Hilbert-Matrix ergibt sich zu:
-\begin{align}
-H_m^{-1}& := (b_{ij})_{1\le i, j \le m} \in \mathbb{R}^{m\times m},	\\
-b_{ij} := \frac{(-1)^{i+j}}{i+j-1}\cdot &\frac{(m+i-1)!}{(i-1)!^2(m-i)!}\cdot \frac{(m+j-1)!}{(j-1)!^2(m-j)!}
-\end{align}
+%%%%%% HILBERT-MATRIZEN
+%\section{Hilbert-Matrizen}
+%Die erstellten Programme ermöglichen auch die Arbeit mit Hilbert-Matrizen. Diese dienen als Beispiel schlecht konditionierter Matrizen und sind wie folgt definiert:
+%\begin{align}
+%H_m &:= (a_{ij})_{1\le i, j \le m} \in \mathbb{R}^{m\times m}, 	\\
+%a_{ij} &:= \frac{1}{i+j-1} \label{eq:hb1}
+%\end{align}
+%Das Inverse einer Hilbert-Matrix ergibt sich zu:
+%\begin{align}
+%H_m^{-1}& := (b_{ij})_{1\le i, j \le m} \in \mathbb{R}^{m\times m},	\\
+%b_{ij} := \frac{(-1)^{i+j}}{i+j-1}\cdot &\frac{(m+i-1)!}{(i-1)!^2(m-i)!}\cdot \frac{(m+j-1)!}{(j-1)!^2(m-j)!}
+%\end{align}
+%
+%Für die Kondition $\kappa$ einer Matrix $A$ gilt
+%\begin{align}
+%\kappa(A)=\|A\|\cdot \|A^{-1}\|
+%\end{align}
+%Wenn wir die Spaltensummennorm $\|\cdot \|_{\infty}$ benutzen, ist die hohe Kondition einer Hilbert-Matrix leicht zu sehen. Aus \eqref{eq:hb1}  sieht man, dass die erste Spalte von $H_m$ die höchste Spaltensumme hat, und es gilt
+%\begin{align}
+%\|H_m\|_{\infty}=\sum_{i=1}^{m}\frac{1}{i}
+%\end{align}
+%Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Schon für $i=j=1$ gilt $b_{ij} = m^2$, also wächst die Norm von dieser Matrix mindestens quadratisch. Folglich ist die Kondition $\kappa(H_m)\gg1$ für $m>1$.
 
-Für die Kondition $\kappa$ einer Matrix $A$ gilt
-\begin{align}
-\kappa(A)=\|A\|\cdot \|A^{-1}\|
-\end{align}
-Wenn wir die Spaltensummennorm $\|\cdot \|_{\infty}$ benutzen, ist die hohe Kondition einer Hilbert-Matrix leicht zu sehen. Aus \eqref{eq:hb1}  sieht man, dass die erste Spalte von $H_m$ die höchste Spaltensumme hat, und es gilt
-\begin{align}
-\|H_m\|_{\infty}=\sum_{i=1}^{m}\frac{1}{i}
-\end{align}
-Diese Reihe divergiert. Die Einträge von $H_m^{-1}$ sind dabei sehr groß. Schon für $i=j=1$ gilt $b_{ij} = m^2$, also wächst die Norm von dieser Matrix mindestens quadratisch. Folglich ist die Kondition $\kappa(H_m)\gg1$ für $m>1$.
 
-\chapter{Die verwendeten Klassen}
-\section{Die erweiterte Sparse-Klasse}
+\chapter{Die erweiterte Sparse-Klasse}
 
 \label{\detokenize{index:welcome-to-serie-3-s-documentation}}\label{\detokenize{index:module-sparse_erw}}\label{\detokenize{index:die-sparse-klasse}}\index{sparse\_erw (Modul)}
 \textit{sparse\_erw.py} stellt eine erweiterte Version der  Klasse \textit{Sparse} zur Verfügung, mit der die Matrix $A^{(d)}$ für $d\in\{1,2,3\}$
@@ -425,22 +426,26 @@ Relative Anzahl von Nulleinträgen von $A^{(d)}$.
 Diese Methode approximiert die Lösung eines Gleichungssystems mithilfe des CG-Verfahrens
 bis auf eine vorgegebene Genauigkeit.
 
-Input:
+\begin{description}
+\item [{Input:}] 
+\end{description}
 \begin{quote}
 \begin{description}
-\item[{los0 (numpy.ndarrays):}] \leavevmode
+\item[{los0 (numpy.ndarray):}] \leavevmode
 Startwert $x_0$ der Iteration.
 
 \item[{vekb (numpy.ndarrays):}] \leavevmode
 Rechte Seite $b$ des zu lösenden Gleichungssystems.
 
 \item[{eps (float):}] \leavevmode
-Grenze für das Abbruchkriterium. Das Verfahren wird abgebrochen, wenn für das Residuum gilt: $\|r_{k+1}\|_\infty<eps$
+Grenze für das Abbruchkriterium. Das Verfahren wird abgebrochen, wenn für das Residuum gilt: $\|r_{k+1}\|_\infty<eps$.
 
 \end{description}
 \end{quote}
 
-Return:
+\begin{description}
+\item [{Return:}] 
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{los (Liste aus numpy.ndarray aus floats):}] \leavevmode
@@ -619,38 +624,140 @@ Inverse von $A^{(d)}$.
 
 \end{fulllineitems}
 
-\section{Die Hilbert-Klasse}
+%\section{Die Hilbert-Klasse}
+%
+%\phantomsection\label{\detokenize{index:module-hilbertmatr}}\index{hilbertmatr (Modul)}
+%\textit{hilbertmatr.py} stellt die Klasse Hilbert zur Verfügung, mit der die Hilbertmatrix bestimmt und
+%analysiert werden kann.
+%\index{Hilbert (Klasse in hilbertmatr)}
+%
+%\begin{fulllineitems}
+%\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert}}\pysiglinewithargsret{\sphinxbfcode{class }\sphinxcode{hilbertmatr.}\sphinxbfcode{Hilbert}}{\emph{dim}, \emph{r\_s=None}}{}
+%Diese Klasse stellt Hilbert-Matrizen zur Verfügung.
+%
+%Attribute:
+%\begin{quote}
+%\begin{description}
+%\item[{dim (int):}] \leavevmode
+%Dimension der Matrix.
+%
+%\end{description}
+%\end{quote}
+%\index{kond\_hil\_zs() (Methode von hilbertmatr.Hilbert)}
+%
+%\begin{fulllineitems}
+%\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.kond_hil_zs}}\pysiglinewithargsret{\sphinxbfcode{kond\_hil\_zs}}{}{}
+%Gibt die Kondition der Matrix bezüglich der Zeilensummennorm zurueck.
+%
+%\begin{description}
+%\item [{Input:}] -
+%\end{description}
+%\begin{description}
+%\item[{Return:}] \leavevmode\begin{description}
+%\item[{(float):}] \leavevmode
+%Kondition der Hilbertmatrix.
+%
+%\end{description}
+%
+%\end{description}
+%
+%\end{fulllineitems}
+%
+%\index{l\_u\_zerl() (Methode von hilbertmatr.Hilbert)}
+%
+%\begin{fulllineitems}
+%\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.l_u_zerl}}\pysiglinewithargsret{\sphinxbfcode{l\_u\_zerl}}{}{}
+%Errechnet die L-U-Zerlegung von $H_m=PLU$.
+%
+%\begin{description}
+%\item [{Input:}] -
+%\end{description}
+%\begin{description}
+%\item[{Return:}] \leavevmode\begin{description}
+%\item[{(Tripel aus numpy.ndarrays):}] \leavevmode
+%Die Matrizen $P$, $L$, $U$.
+%
+%\end{description}
+%
+%\end{description}
+%
+%\end{fulllineitems}
+%
+%\index{lgs\_lsg() (Methode von hilbertmatr.Hilbert)}
+%
+%\begin{fulllineitems}
+%\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.lgs_lsg}}\pysiglinewithargsret{\sphinxbfcode{lgs\_lsg}}{\emph{r\_s=None}}{}
+%Löst das Gleichungssystem $H_mx=r\_s$ für eine vorgebene rechte Seite unter Ausnutzung der
+%Dreieckszerlegung.
+%
+%\begin{description}
+%\item [{Input:}] -
+%\end{description}
+%\begin{description}
+%\item[{Return:}] \leavevmode\begin{description}
+%\item[{(numpy.ndarray)}] \leavevmode
+%rechte Seite des Gleichungssystems $H_mx=r\_s$.
+%
+%\end{description}\end{description}
+%
+%\end{fulllineitems}
+%
+%\index{return\_hil\_matr() (Methode von hilbertmatr.Hilbert)}
+%
+%\begin{fulllineitems}
+%\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.return_hil_matr}}\pysiglinewithargsret{\sphinxbfcode{return\_hil\_matr}}{\emph{inv=\texttt{False}}}{}
+%Gibt die Hilbertmatrix oder ihr Inverses zurück.
+%\begin{description}
+%\item [{Input:}] \leavevmode
+%
+%
+%
+%\begin{description}
+%\item[{inv (bool, Standard: False)}] \leavevmode
+%Gibt an, ob Hilbertmatrix (\texttt{False}) oder ihr Inverses (\texttt{True}) ausgegeben wird.
+%\end{description}
+%
+%\end{description}
+%\begin{description}
+%\item[{Return:}] \leavevmode\begin{description}
+%\item[{(numpy.ndarray):}] \leavevmode
+%Hilbertmatrix oder ihr Inverses, falls \texttt{inv == True}.
+%
+%\end{description}
+%
+%\end{description}
+%
+%\end{fulllineitems}
+%
+%
+%\end{fulllineitems}
 
-\phantomsection\label{\detokenize{index:module-hilbertmatr}}\index{hilbertmatr (Modul)}
-\textit{hilbertmatr.py} stellt die Klasse Hilbert zur Verfügung, mit der die Hilbertmatrix bestimmt und
-analysiert werden kann.
-\index{Hilbert (Klasse in hilbertmatr)}
+
+
+
+\chapter{Das Skript aufg\_5-2.py}
+\label{\detokenize{index:module-aufg_5_2}}\label{\detokenize{index:das-skript-aufg-5-2-py}}\index{aufg\_5\_2 (Modul)}
+Dieses Modul löst die Aufgabe 5.2, indem es die Differentialgleichung löst und
+das Verhalten der Lösungen graphisch darstellt.
+\index{fntn1() (im Modul aufg\_5\_2)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert}}\pysiglinewithargsret{\sphinxbfcode{class }\sphinxcode{hilbertmatr.}\sphinxbfcode{Hilbert}}{\emph{dim}, \emph{r\_s=None}}{}
-Diese Klasse stellt Hilbert-Matrizen zur Verfügung.
-
-Attribute:
+\phantomsection\label{\detokenize{index:aufg_5_2.fntn1}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn1}}}{\emph{wert}}{}
+Beispielfunktion der Dimension 1.
+\begin{description}
+\item [{Input:}] -
+\end{description}
 \begin{quote}
 \begin{description}
-\item[{dim (int):}] \leavevmode
-Dimension der Matrix.
+\item[{wert (float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
 
 \end{description}
 \end{quote}
-\index{kond\_hil\_zs() (Methode von hilbertmatr.Hilbert)}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.kond_hil_zs}}\pysiglinewithargsret{\sphinxbfcode{kond\_hil\_zs}}{}{}
-Gibt die Kondition der Matrix bezüglich der Zeilensummennorm zurueck.
-
-\begin{description}
-\item [{Input:}] -
-\end{description}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Kondition der Hilbertmatrix.
+Wert der Funktion
 
 \end{description}
 
@@ -658,103 +765,23 @@ Kondition der Hilbertmatrix.
 
 \end{fulllineitems}
 
-\index{l\_u\_zerl() (Methode von hilbertmatr.Hilbert)}
+\index{fntn2() (im Modul aufg\_5\_2)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.l_u_zerl}}\pysiglinewithargsret{\sphinxbfcode{l\_u\_zerl}}{}{}
-Errechnet die L-U-Zerlegung von $H_m=PLU$.
-
-\begin{description}
-\item [{Input:}] -
-\end{description}
-\begin{description}
-\item[{Return:}] \leavevmode\begin{description}
-\item[{(Tripel aus numpy.ndarrays):}] \leavevmode
-Die Matrizen $P$, $L$, $U$.
-
-\end{description}
-
-\end{description}
-
-\end{fulllineitems}
-
-\index{lgs\_lsg() (Methode von hilbertmatr.Hilbert)}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.lgs_lsg}}\pysiglinewithargsret{\sphinxbfcode{lgs\_lsg}}{\emph{r\_s=None}}{}
-Löst das Gleichungssystem $H_mx=r\_s$ für eine vorgebene rechte Seite unter Ausnutzung der
-Dreieckszerlegung.
-
-\begin{description}
-\item [{Input:}] -
-\end{description}
-\begin{description}
-\item[{Return:}] \leavevmode\begin{description}
-\item[{(numpy.ndarray)}] \leavevmode
-rechte Seite des Gleichungssystems $H_mx=r\_s$.
-
-\end{description}\end{description}
-
-\end{fulllineitems}
-
-\index{return\_hil\_matr() (Methode von hilbertmatr.Hilbert)}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:hilbertmatr.Hilbert.return_hil_matr}}\pysiglinewithargsret{\sphinxbfcode{return\_hil\_matr}}{\emph{inv=\texttt{False}}}{}
-Gibt die Hilbertmatrix oder ihr Inverses zurück.
-\begin{description}
-\item [{Input:}] \leavevmode
-
-
-
-\begin{description}
-\item[{inv (bool, Standard: False)}] \leavevmode
-Gibt an, ob Hilbertmatrix (\texttt{False}) oder ihr Inverses (\texttt{True}) ausgegeben wird.
-\end{description}
-
-\end{description}
-\begin{description}
-\item[{Return:}] \leavevmode\begin{description}
-\item[{(numpy.ndarray):}] \leavevmode
-Hilbertmatrix oder ihr Inverses, falls \texttt{inv == True}.
-
-\end{description}
-
-\end{description}
-
-\end{fulllineitems}
-
-
-\end{fulllineitems}
-
-
-
-
-\chapter{Die verwendeten Skripte}
-
-\section{Das Skript \textit{aufg\_3\_2u3\_main.py}}
-
-\phantomsection\label{\detokenize{index:module-aufg_3_2u3_main}}\index{aufg\_3\_2u3\_main (Modul)}
-Das Modul \textit{aufg\_3\_2u3\_main.py} löst die Aufgaben 3.2 und 3.3, indem es die Differentialgleichung löst und
-das Verhalten der Lösungen graphisch darstellt. Zusätzlich kann die numerische Lösung mit einer bekannten exakten Lösung verglichen werden.
-\index{fntn() (im Modul aufg\_3\_2u3\_main)}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:aufg_3_2u3_main.fntn}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{fntn}}{\emph{wert}}{}
-Beliebige Beispielfunktion. Diese Funktion steht in keiner Beziehung zu einer Lösung der DGL, sie dient lediglich dem Testen der Funktionalität der entwickelten Methoden.
-\begin{description}
-\item [{Input:}] \leavevmode
-
+\phantomsection\label{\detokenize{index:aufg_5_2.fntn2}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn2}}}{\emph{wert}}{}
+Beispielfunktion der Dimension 2
+Input:
+\begin{quote}
 \begin{description}
 \item[{wert (array von float):}] \leavevmode
 Werte, auf dem die Funktion ausgewertet wird.
-\end{description}
 
 \end{description}
+\end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Werte der Funktion an den übergebenen Stellen.
+Wert der Funktion
 
 \end{description}
 
@@ -762,15 +789,38 @@ Werte der Funktion an den übergebenen Stellen.
 
 \end{fulllineitems}
 
-\index{gitter() (im Modul aufg\_3\_2u3\_main)}
+\index{fntn3() (im Modul aufg\_5\_2)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:aufg_3_2u3_main.gitter}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{gitter}}{\emph{numb}, \emph{dims}}{}
-Funktion, die für eine gegebene Dimension und Schrittweite eine Menge von Punkten erzeugt, auf
-der die Differentialgleichung zu lösen ist.
+\phantomsection\label{\detokenize{index:aufg_5_2.fntn3}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn3}}}{\emph{wert}}{}
+Beispielfunktion der Dimension 3
+Input:
+\begin{quote}
 \begin{description}
-\item [{Input:}] \leavevmode
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
 
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{gitter() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.gitter}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{gitter}}}{\emph{numb}, \emph{dims}}{}
+Funktion, die fuer eine gegebene Dimension und Schritweite eine Menge von Punkten erzeugt, auf
+der die Differentialgleichung zu loesen ist.
+Input:
+\begin{quote}
 \begin{description}
 \item[{numb (int):}] \leavevmode
 Feinheit der Diskretisierung
@@ -779,7 +829,7 @@ Feinheit der Diskretisierung
 Dimension der Diskretisierung
 
 \end{description}
-\end{description}
+\end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{arra (ndarray):}] \leavevmode
@@ -791,33 +841,33 @@ Array mit den Punkten auf dem Diskretisierungsgitter
 
 \end{fulllineitems}
 
-\index{loesg() (im Modul aufg\_3\_2u3\_main)}
+\index{loesg() (im Modul aufg\_5\_2)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:aufg_3_2u3_main.loesg}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{loesg}}{\emph{numb}, \emph{dims}, \emph{fkt}, \emph{ulsg=\textless{}function fntn\textgreater{}}}{}
-Diese Methode dient zur Lösung der Differentialgleichung und zum Vergleichen der exakten
-und approximierten Lösungen.
+\phantomsection\label{\detokenize{index:aufg_5_2.loesg}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{loesg}}}{\emph{dims}, \emph{numb}, \emph{fkt}, \emph{ulsg}}{}
+Diese Methode dient zur Loesung der Differentialgleichung und zum Vergleichen der exakten
+und approxmierten Loesungen.
+Input:
+\begin{quote}
 \begin{description}
-\item [{Input:}] \leavevmode
-\begin{description}
-\item[{numb (int):}] \leavevmode
-Feinheit der Diskretisierung.
-
 \item[{dims (int):}] \leavevmode
-Dimension der Diskretisierung.
+Dimension der Diskretisierung
 
-\item[{fkt (function):}] \leavevmode
-Die gegebene Funktion $f$ aus der Aufgabestellung.
+\item[{numb (int):}] \leavevmode
+Feinheit der DiskretisierungS
 
-\item[{ulsg (function):}] \leavevmode
-Die exakte Lösung der Differentialgleichung.
+\item[{fkt (Funktion):}] \leavevmode
+Die gegebene Funktion f aus der Aufgabestellung
 
-\end{description}\end{description}
+\item[{ulsg (Funktion):}] \leavevmode
+Die exakte Loesung der Differentialgleichung
 
+\end{description}
+\end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Der absolute Fehler in der approximierten Lösung der Differentialgleichung.
+Der absolute Fehler in der approximierten Loesung der Differentialgleichung
 
 \end{description}
 
@@ -825,21 +875,30 @@ Der absolute Fehler in der approximierten Lösung der Differentialgleichung.
 
 \end{fulllineitems}
 
-\index{modo() (im Modul aufg\_3\_2u3\_main)}
+\index{main() (im Modul aufg\_5\_2)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:aufg_3_2u3_main.modo}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_2u3\_main.}\sphinxbfcode{modo}}{\emph{m\_nb}, \emph{numb}}{}
-Funktion, die die modifizierte Modolo-Methode aus dem Bericht zu Serie 2 implementiert
-\begin{description}
-\item [{Input:}] \leavevmode
+\phantomsection\label{\detokenize{index:aufg_5_2.main}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{main}}}{}{}
+In dieser Funktion werden alle Loesungen der Aufgabe dem Nutzer ausgegeben
+
+\end{fulllineitems}
+
+\index{modo() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.modo}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{modo}}}{\emph{m\_nb}, \emph{numb}}{}
+Funktion, die die modofizierte Modolo Methode aus dem Bericht zu Serie 2 implementiert
+Input:
+\begin{quote}
 \begin{description}
 \item[{m\_nb (int):}] \leavevmode
-Zahl, für die wir den Wert der modifizierten Modolo Methode berechnen wollen
+Zahl, fuer die wir den Wert der modifizierten Modolo Methode berechnen wollen
 
 \item[{numb (int):}] \leavevmode
 Feinheit der Diskretisierung
 
-\end{description}\end{description}
+\end{description}
+\end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(int):}] \leavevmode
@@ -851,135 +910,77 @@ Ausgabe der modifizierten Modolo Methode
 
 \end{fulllineitems}
 
-
-
-\section{Das Skript \textit{aufg\_3\_4\_main.py}}
-
-\phantomsection\label{\detokenize{index:module-aufg_3_4_main}}\index{aufg\_3\_4\_main (Modul)}
-Dieses Skript stellt die Lösung zu Aufgabe 3.4 dar, bei der es vor allem um die Analyse
-der beiden zuvor bahndelten Matrizentypen und deren Fehleranfälligkeit geht.
-
-~\\
-\emph{Bemerkung:} Da in der Aufgabenstellung explizit angegeben wurde, in welche Arten von sparse-Matrizentypen die Matrix $A^{(d)}$ umgewandelt werden kann und sich darunter nicht der Typ \textit{lil\_matrix} befand, wurde das \textit{SparseEfficiencyWarning} beim Ausführen von \textit{aufg\_3\_4\_main.py} ignoriert, weil es sich nur durch die Umwandlung in eine \textit{lil\_matrix} direkt umgehen lässt. Das Aufkommen eines weiteren \textit{SparseEfficiencyWarning} könnte durch die Umwandlung von $b$ in ein \textit{csc\_matrix}-Objekt verhindert werdenn (s.~doppelt auskommentierter Teil im Quellcode), da $b$ aber i.\,A. dicht besetzt ist, wird darauf verzichtet.
-
-\index{plot\_fehl() (im Modul aufg\_3\_4\_main)}
+\index{ulsg1() (im Modul aufg\_5\_2)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_fehl}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_fehl}}{\emph{plotber}, \emph{r\_s\_arr}, \emph{ex\_lsg\_arr}, \emph{matr\_type}, \emph{dim=1}}{}
-Plottet den Fehler der numerischen Lösung im Vergleich zur exakten Lösung.
-\begin{description}
-\item[{Input:}] \leavevmode\begin{description}
-\item[{plotber (axis-Objekt):}] \leavevmode
-Plotbereich, in den geplottet werden soll
-
-\item[{r\_s\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
-Liste aus rechten Seiten.
-
-\item[{ex\_lsg\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
-Liste aus entsprechenden exakten Lösungen.
-
-\item[{matr\_type (string):}] \leavevmode
-Bestimmt die Matrixart, die untersucht wird.
-Möglichkeiten: Hilbertmatrix (\texttt{hil}) oder
-Bandmatrix (\texttt{a}) für $d\in\{1,2,3\}$.
-
-\item[{dim (int, Standard: 1):}] \leavevmode
-Wird nur für die Bandmatrizen benötigt und gibt deren Dimension an.
-
-\end{description}
-
-\end{description}
-\begin{description}
-\item [{Return:}] -
-\end{description}
-\end{fulllineitems}
-
-\index{plot\_kond() (im Modul aufg\_3\_4\_main)}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_kond}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_kond}}{\emph{plotber}, \emph{m\_max}, \emph{matr\_type}}{}
-Plottet die Kondition der Bandmatrizen bzw. der Hilbert-Matrix in Abhängigkeit von der
-Matrixgröße $m$.
-
-\begin{description}
-\item[{Input:}] \leavevmode
-
-\begin{description}
-\item[{plotber (axis-Objekt):}] \leavevmode
-Plotbereich, in den geplottet werden soll
-
-\item[{m\_max (int):}] \leavevmode
-Maximale Matrixgröße.
-
-\item[{matr\_type (string):}] \leavevmode
-Bestimmt die Matrixart, die untersucht wird.
-Möglichkeiten: Hilbertmatrix (\texttt{hil}) oder
-Bandmatrix (\texttt{a}) für $d\in\{1,2,3\}$.
-
-\end{description}
-\end{description}
-\begin{description}
-\item [{Return:}] -
-\end{description}
-\end{fulllineitems}
-
-\index{plot\_nn() (im Modul aufg\_3\_4\_main)}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_nn}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_nn}}{\emph{plotber}, \emph{m\_max}}{}
-Plottet die (absolute) Anzahl der Nichtnulleinträge der Koeffizientenmatrix $A^{(d)}$
-
+\phantomsection\label{\detokenize{index:aufg_5_2.ulsg1}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg1}}}{\emph{wert}}{}
+Exakte Loesung der Dimension 1
 Input:
 \begin{quote}
 \begin{description}
-\item[{plotber (axis-Objekt):}] \leavevmode
-Plotbereich, in den geplottet werden soll
-
-\item[{m\_max (int):}] \leavevmode
-Maximale Matrixgröße.
+\item[{wert (float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
 
 \end{description}
 \end{quote}
 \begin{description}
-\item [{Return:}] -
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
 \end{description}
+
+\end{description}
+
 \end{fulllineitems}
 
-\index{plot\_res() (im Modul aufg\_3\_4\_main)}
+\index{ulsg2() (im Modul aufg\_5\_2)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:aufg_3_4_main.plot_res}}\pysiglinewithargsret{\sphinxcode{aufg\_3\_4\_main.}\sphinxbfcode{plot\_res}}{\emph{plotber}, \emph{r\_s\_arr}, \emph{matr\_type}, \emph{dim=1}}{}
-Plottet das  Residuum.
+\phantomsection\label{\detokenize{index:aufg_5_2.ulsg2}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg2}}}{\emph{wert}}{}
+Exakte Loesung der Dimension 2
+Input:
+\begin{quote}
 \begin{description}
-\item[{Input:}] \leavevmode\begin{description}
-\item[{plotber (axis-Objekt):}] \leavevmode
-Plotbereich, in den geplottet werden soll
-
-\item[{r\_s\_arr (list oder array aus numpy.ndarrays):}] \leavevmode
-Liste aus rechten Seiten.
-
-\item[{matr\_type (string):}] \leavevmode
-Bestimmt die Matrixart, die untersucht wird.
-Möglichkeiten: Hilbertmatrix (\texttt{hil}) oder
-Bandmatrix (\texttt{a}) für $d\in\{1,2,3\}$.
-
-\item[{dim (int, Standard: 1):}] \leavevmode
-Wird nur für die Bandmatrizen benötigt und gibt deren Dimension an.
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
 
 \end{description}
-
-\end{description}
+\end{quote}
 \begin{description}
-\item [{Return:}] -
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
 \end{description}
+
+\end{description}
+
 \end{fulllineitems}
 
+\index{ulsg3() (im Modul aufg\_5\_2)}
 
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.ulsg3}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg3}}}{\emph{wert}}{}
+Exakte Loesung der Dimension 3
+Input:
+\begin{quote}
+\begin{description}
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
 
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
 
+\end{description}
 
+\end{description}
 
-Die graphische Darstellung zeigt, dass für ein festes $m$ gilt, dass $\kappa(A^{(1)})>\kappa(A^{(2)})>\kappa(A^{(3)})$. Die Kondition der Hilbertmatrix ist indes um viele Größenordnungen größer als die der betrachteten Bandmatrizen und wächst exponentiell mit $m$ (Gerade im einfach logarithmischen Plot). Des Weiteren wurde die Anzahl der Nichtnulleinträge der Bandmatrizen und ihrer L-U-Zerlegung untersucht. Dabei ist zu erkennen, dass die Matrizen $L$ und $U$ relativ dicht besetzt sind und wenig Nulleinträge haben im Vergleichh zur Ausgangsmatrix $A^{(d)}$, was die Verwendung der L-U-Zerlegung bei sehr großen $m$ hier sehr unpraktikabel macht. \textit{aufg\_3\_4\_main.py}  enthält ebenfalls die Funktionen \textit{plot\_fehl} und \textit{plot\_res}, die den Fehler $|\lvert x-x^\star|\rvert_\infty$ mit einer bekannten Referenzlösung $x^\star$ bzw. das Residuum $|\lvert Mx-b|\rvert_\infty$ mit $M\in \{A^{(1)},A^{(2)},A^{(3)}, H_m\}$ gegen $m$ plotten. Diese werden in zukünftigen Aufgaben benötigt.
+\end{fulllineitems}
 
 
 

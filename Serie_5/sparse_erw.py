@@ -49,27 +49,27 @@ class Sparse(object):
 
     def cg_meth(self, los1, vekb, eps):
         """
-        Diese Methode approximiert die Lösung eines Gleichungssystems mithilfe des CG-Verfahrens,
+        Diese Methode approximiert die Loesung eines Gleichungssystems mithilfe des CG-Verfahrens,
         bis auf eine vogegebene Genauigkeit.
 
         Input:
 
             los0 (numpy.ndarray aus floats):
-                Die erste Lösung, die in der Iteration benutzt wird
+                Die erste Loesung, die in der Iteration benutzt wird
             vekb (numpy.ndarray aus floats):
-                Der b Vektor des zu lösendes Gleichungssystems
+                Der b Vektor des zu loesendes Gleichungssystems
             eps (float):
                 Die Genauigkeit, bei welcher die Iteration abgebrochen wird
 
         Return:
 
             los (Liste aus numpy.ndarray aus floats):
-                Liste mit den berechneten Lösungen nach jedem Iterationsschitt
+                Liste mit den berechneten Loesungen nach jedem Iterationsschitt
         """
         rplus = vekb - self.matr.dot(los1)
         dplus = rplus
         los = []
-        norm = 10000000000000
+        norm = 1000000000
         #In dieser Schleife wird die Iteration durchgeführt
         while norm > eps:
             rminus = rplus
@@ -304,7 +304,7 @@ class Sparse(object):
 
     def lgs_lsg(self, r_s=None):
         """
-        Loest das Gleichungssystem Ax=r_s für eine vorgebene rechte Seite unter Ausnutzung der
+        Loest das Gleichungssystem Ax=r_s fuer eine vorgebene rechte Seite unter Ausnutzung der
         Dreieckszerlegung.
 
         Input:

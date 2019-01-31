@@ -5,6 +5,7 @@
    \let\sphinxpxdimen\pdfpxdimen\else\newdimen\sphinxpxdimen
 \fi \sphinxpxdimen=.75bp\relax
 
+\PassOptionsToPackage{warn}{textcomp}
 \usepackage[utf8]{inputenc}
 \ifdefined\DeclareUnicodeCharacter
  \ifdefined\DeclareUnicodeCharacterAsOptional
@@ -29,7 +30,9 @@
 \usepackage{babel}
 \usepackage{times}
 \usepackage[Sonny]{fncychap}
-\usepackage[dontkeepoldnames]{sphinx}
+\ChNameVar{\Large\normalfont\sffamily}
+\ChTitleVar{\Large\normalfont\sffamily}
+\usepackage{sphinx}
 
 \usepackage{geometry}
 
@@ -45,8 +48,8 @@
 \addto\captionsngerman{\renewcommand{\tablename}{Tab.}}
 \addto\captionsngerman{\renewcommand{\literalblockname}{Quellcode}}
 
-\addto\captionsngerman{\renewcommand{\literalblockcontinuedname}{continued from previous page}}
-\addto\captionsngerman{\renewcommand{\literalblockcontinuesname}{continues on next page}}
+\addto\captionsngerman{\renewcommand{\literalblockcontinuedname}{Fortsetzung der vorherigen Seite}}
+\addto\captionsngerman{\renewcommand{\literalblockcontinuesname}{Fortsetzung auf der nächsten Seite}}
 
 \addto\extrasngerman{\def\pageautorefname{Seite}}
 
@@ -55,15 +58,18 @@
 
 
 \title{Projektpraktikum 1, Serie 5 Documentation}
-\date{24.01.2019}
+\date{31.01.2019}
 \release{}
 \author{Arsen Hnatiuk, Max Huneshagen}
 \newcommand{\sphinxlogo}{\vbox{}}
-\renewcommand{\releasename}{Release}
+\renewcommand{\releasename}{}
 \makeindex
 
 \begin{document}
-\ifnum\catcode`\"=\active\shorthandoff{"}\fi
+\ifdefined\shorthandoff
+  \ifnum\catcode`\=\string=\active\shorthandoff{=}\fi
+  \ifnum\catcode`\"=\active\shorthandoff{"}\fi
+\fi
 \maketitle
 \sphinxtableofcontents
 \phantomsection\label{\detokenize{index::doc}}
@@ -71,13 +77,13 @@
 
 
 \chapter{Die Sparse-Klasse}
-\label{\detokenize{index:module-sparse_erw}}\label{\detokenize{index:die-sparse-klasse}}\label{\detokenize{index:welcome-to-projektpraktikum-1-serie-5-s-documentation}}\index{sparse\_erw (Modul)}
+\label{\detokenize{index:module-sparse_erw}}\label{\detokenize{index:die-sparse-klasse}}\index{sparse\_erw (Modul)}
 sparse.py stellt die Klasse Sparse zur Verfuegung, mit der die Matrix A\textasciicircum{}(d) fuer d=1,2,3
 bestimmt und analysiert werden kann.
 \index{Sparse (Klasse in sparse\_erw)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse}}\pysiglinewithargsret{\sphinxbfcode{class }\sphinxcode{sparse\_erw.}\sphinxbfcode{Sparse}}{\emph{dim}, \emph{dis}, \emph{r\_s=None}, \emph{ex\_lsg=None}}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{sparse\_erw.}}\sphinxbfcode{\sphinxupquote{Sparse}}}{\emph{dim}, \emph{dis}, \emph{r\_s=None}, \emph{ex\_lsg=None}}{}
 Diese Klasse erlaubt das Erstellen der Matrizen A\textasciicircum{}(d) fuer d in {[}1,2,3{]}. Diese Matrizen werden
 z. B. fuer die Berechnung der DGL u‘‚(x)=-f(x) verwendet. Es handelt sich bei diesen Matrizen
 um sehr duenn besetzte Block-Band-Matrizen, was die Verwendung von sog. sparse-Matrizen
@@ -100,7 +106,7 @@ A\textasciicircum{}(d) mit Diskretisierung dis.
 \index{anz\_n\_abs() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_abs}}\pysiglinewithargsret{\sphinxbfcode{anz\_n\_abs}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_abs}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{anz\_n\_abs}}}{}{}
 Gibt die Anzahl von Eintraegen von A\textasciicircum{}(d) zurueck, die gleich 0 sind.
 
 Input: -
@@ -118,7 +124,7 @@ Anzahl von Nulleintraegen von A\textasciicircum{}(d).
 \index{anz\_n\_lu\_abs() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_lu_abs}}\pysiglinewithargsret{\sphinxbfcode{anz\_n\_lu\_abs}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_lu_abs}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{anz\_n\_lu\_abs}}}{}{}
 Gibt die Anzahl von Eintraegen von L bzw. U zurueck, die gleich 0 sind.
 
 Input: -
@@ -136,7 +142,7 @@ Anzahl von Nulleintraegen von L und U.
 \index{anz\_n\_lu\_rel() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_lu_rel}}\pysiglinewithargsret{\sphinxbfcode{anz\_n\_lu\_rel}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_lu_rel}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{anz\_n\_lu\_rel}}}{}{}
 Gibt die relative Anzahl von Eintraegen von L bzw. U zurueck, die gleich 0 sind.
 
 Input: -
@@ -154,7 +160,7 @@ Relative Anzahl von Nulleintraegen von L und U.
 \index{anz\_n\_rel() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_rel}}\pysiglinewithargsret{\sphinxbfcode{anz\_n\_rel}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_rel}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{anz\_n\_rel}}}{}{}
 Gibt die relative Anzahl von Eintraegen von A\textasciicircum{}(d) zurueck, die gleich 0 sind.
 
 Input: -
@@ -172,7 +178,7 @@ Relative Anzahl von Nulleintraegen von A\textasciicircum{}(d).
 \index{anz\_nn\_abs() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_nn_abs}}\pysiglinewithargsret{\sphinxbfcode{anz\_nn\_abs}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_nn_abs}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{anz\_nn\_abs}}}{}{}
 Gibt die Anzahl von Eintraegen von A\textasciicircum{}(d) zurueck, die ungleich 0 sind.
 
 Input: -
@@ -190,7 +196,7 @@ Anzahl von Nicht-Nulleintraegen von A\textasciicircum{}(d).
 \index{anz\_nn\_lu\_abs() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_nn_lu_abs}}\pysiglinewithargsret{\sphinxbfcode{anz\_nn\_lu\_abs}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_nn_lu_abs}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{anz\_nn\_lu\_abs}}}{}{}
 Gibt die Anzahl von Eintraegen von L bzw. U zurueck, die ungleich 0 sind.
 
 Input: -
@@ -208,7 +214,7 @@ Anzahl von Nicht-Nulleintraegen von L und U.
 \index{anz\_nn\_lu\_rel() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_nn_lu_rel}}\pysiglinewithargsret{\sphinxbfcode{anz\_nn\_lu\_rel}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_nn_lu_rel}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{anz\_nn\_lu\_rel}}}{}{}
 Gibt die relative Anzahl von Eintraegen von L bzw. U zurueck, die ungleich 0 sind.
 
 Input: -
@@ -226,7 +232,7 @@ Relative Anzahl von Nulleintraegen von L und U.
 \index{anz\_nn\_rel() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_nn_rel}}\pysiglinewithargsret{\sphinxbfcode{anz\_nn\_rel}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_nn_rel}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{anz\_nn\_rel}}}{}{}
 Gibt die relative Anzahl von Eintraegen von A\textasciicircum{}(d) zurueck, die ungleich 0 sind.
 
 Input: -
@@ -241,10 +247,43 @@ Relative Anzahl von Nulleintraegen von A\textasciicircum{}(d).
 
 \end{fulllineitems}
 
+\index{cg\_meth() (Methode von sparse\_erw.Sparse)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.cg_meth}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{cg\_meth}}}{\emph{los1}, \emph{vekb}, \emph{eps}}{}
+Diese Methode approximiert die Loesung eines Gleichungssystems mithilfe des CG-Verfahrens,
+bis auf eine vogegebene Genauigkeit.
+
+Input:
+\begin{quote}
+\begin{description}
+\item[{los0 (numpy.ndarray aus floats):}] \leavevmode
+Die erste Loesung, die in der Iteration benutzt wird
+
+\item[{vekb (numpy.ndarray aus floats):}] \leavevmode
+Der b Vektor des zu loesendes Gleichungssystems
+
+\item[{eps (float):}] \leavevmode
+Die Genauigkeit, bei welcher die Iteration abgebrochen wird
+
+\end{description}
+\end{quote}
+
+Return:
+\begin{quote}
+\begin{description}
+\item[{los (Liste aus numpy.ndarray aus floats):}] \leavevmode
+Liste mit den berechneten Loesungen nach jedem Iterationsschitt
+
+\end{description}
+\end{quote}
+
+\end{fulllineitems}
+
 \index{constr\_mat\_l\_k() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.constr_mat_l_k}}\pysiglinewithargsret{\sphinxbfcode{constr\_mat\_l\_k}}{\emph{k}, \emph{dim}, \emph{dis}}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.constr_mat_l_k}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{constr\_mat\_l\_k}}}{\emph{k}, \emph{dim}, \emph{dis}}{}
 Konstruiert die Matrix A\_l(k) mit der gewuenschten Diskretisierung.
 
 Input:
@@ -275,7 +314,7 @@ A\_l(k) mit der gewuenschten Diskretisierung.
 \index{kond\_a\_d\_zs() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.kond_a_d_zs}}\pysiglinewithargsret{\sphinxbfcode{kond\_a\_d\_zs}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.kond_a_d_zs}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{kond\_a\_d\_zs}}}{}{}
 Gibt die Kondition der Matrix A\textasciicircum{}(d) bezueglich der Zeilensummennorm zurueck.
 
 Input: -
@@ -293,7 +332,7 @@ Kondition von A\textasciicircum{}(d) bzgl. Zeilennorm.
 \index{l\_u\_zerl() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.l_u_zerl}}\pysiglinewithargsret{\sphinxbfcode{l\_u\_zerl}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.l_u_zerl}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{l\_u\_zerl}}}{}{}
 Errechnet die L-U-Zerlegung von A\textasciicircum{}(d)=P\_r\textasciicircum{}T*L*U*P\_c\textasciicircum{}T
 
 Input: -
@@ -312,9 +351,9 @@ Erster Eintrag: Tripel aus den Matrizen P\_r, P\_c, L, U.
 \index{lgs\_lsg() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.lgs_lsg}}\pysiglinewithargsret{\sphinxbfcode{lgs\_lsg}}{\emph{r\_s=None}}{}~\begin{quote}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.lgs_lsg}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{lgs\_lsg}}}{\emph{r\_s=None}}{}~\begin{quote}
 
-Loest das Gleichungssystem Ax=r\_s für eine vorgebene rechte Seite unter Ausnutzung der
+Loest das Gleichungssystem Ax=r\_s fuer eine vorgebene rechte Seite unter Ausnutzung der
 Dreieckszerlegung.
 
 Input:
@@ -340,7 +379,7 @@ Loesungsvektor.
 \index{return\_mat\_d() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.return_mat_d}}\pysiglinewithargsret{\sphinxbfcode{return\_mat\_d}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.return_mat_d}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{return\_mat\_d}}}{}{}
 Diese Methode gibt die Matrix A\textasciicircum{}(d) as sparse-Matrix zurueck.
 
 Input: -
@@ -358,7 +397,7 @@ Die Matrix A\textasciicircum{}(d) als sparse-Matrix.
 \index{return\_mat\_d\_csc() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.return_mat_d_csc}}\pysiglinewithargsret{\sphinxbfcode{return\_mat\_d\_csc}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.return_mat_d_csc}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{return\_mat\_d\_csc}}}{}{}
 Gibt A\textasciicircum{}(d) als scipy.sparse.csc\_matrix-Objekt zurueck.
 
 Input: -
@@ -376,7 +415,7 @@ Die Matrix A\textasciicircum{}(d)
 \index{return\_mat\_d\_inv() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{index:sparse_erw.Sparse.return_mat_d_inv}}\pysiglinewithargsret{\sphinxbfcode{return\_mat\_d\_inv}}{}{}
+\phantomsection\label{\detokenize{index:sparse_erw.Sparse.return_mat_d_inv}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{return\_mat\_d\_inv}}}{}{}
 Gibt die numerisch berechnete Inverse von A\textasciicircum{}(d) zurueck.
 
 Input: -
@@ -391,6 +430,254 @@ Inverse von A\textasciicircum{}(d).
 
 \end{fulllineitems}
 
+
+\end{fulllineitems}
+
+
+
+\chapter{Das Skript aufg\_5-2.py}
+\label{\detokenize{index:module-aufg_5_2}}\label{\detokenize{index:das-skript-aufg-5-2-py}}\index{aufg\_5\_2 (Modul)}
+Dieses Modul loest die Aufgabe 5.2, indem es die Differentialgleichung loest und
+das Verhalten der Loesungen grafisch aufstellt.
+Autoren Arsen Hnatiuk und Max Huneshagen
+\index{fntn1() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.fntn1}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn1}}}{\emph{wert}}{}
+Beispielfunktion der Dimension 1
+Input:
+\begin{quote}
+\begin{description}
+\item[{wert (float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{fntn2() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.fntn2}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn2}}}{\emph{wert}}{}
+Beispielfunktion der Dimension 2
+Input:
+\begin{quote}
+\begin{description}
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{fntn3() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.fntn3}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn3}}}{\emph{wert}}{}
+Beispielfunktion der Dimension 3
+Input:
+\begin{quote}
+\begin{description}
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{gitter() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.gitter}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{gitter}}}{\emph{numb}, \emph{dims}}{}
+Funktion, die fuer eine gegebene Dimension und Schritweite eine Menge von Punkten erzeugt, auf
+der die Differentialgleichung zu loesen ist.
+Input:
+\begin{quote}
+\begin{description}
+\item[{numb (int):}] \leavevmode
+Feinheit der Diskretisierung
+
+\item[{dims (int):}] \leavevmode
+Dimension der Diskretisierung
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{arra (ndarray):}] \leavevmode
+Array mit den Punkten auf dem Diskretisierungsgitter
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{loesg() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.loesg}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{loesg}}}{\emph{dims}, \emph{numb}, \emph{fkt}, \emph{ulsg}}{}
+Diese Methode dient zur Loesung der Differentialgleichung und zum Vergleichen der exakten
+und approxmierten Loesungen.
+Input:
+\begin{quote}
+\begin{description}
+\item[{dims (int):}] \leavevmode
+Dimension der Diskretisierung
+
+\item[{numb (int):}] \leavevmode
+Feinheit der DiskretisierungS
+
+\item[{fkt (Funktion):}] \leavevmode
+Die gegebene Funktion f aus der Aufgabestellung
+
+\item[{ulsg (Funktion):}] \leavevmode
+Die exakte Loesung der Differentialgleichung
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Der absolute Fehler in der approximierten Loesung der Differentialgleichung
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{main() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.main}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{main}}}{}{}
+In dieser Funktion werden alle Loesungen der Aufgabe dem Nutzer ausgegeben
+
+\end{fulllineitems}
+
+\index{modo() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.modo}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{modo}}}{\emph{m\_nb}, \emph{numb}}{}
+Funktion, die die modofizierte Modolo Methode aus dem Bericht zu Serie 2 implementiert
+Input:
+\begin{quote}
+\begin{description}
+\item[{m\_nb (int):}] \leavevmode
+Zahl, fuer die wir den Wert der modifizierten Modolo Methode berechnen wollen
+
+\item[{numb (int):}] \leavevmode
+Feinheit der Diskretisierung
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(int):}] \leavevmode
+Ausgabe der modifizierten Modolo Methode
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{ulsg1() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.ulsg1}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg1}}}{\emph{wert}}{}
+Exakte Loesung der Dimension 1
+Input:
+\begin{quote}
+\begin{description}
+\item[{wert (float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{ulsg2() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.ulsg2}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg2}}}{\emph{wert}}{}
+Exakte Loesung der Dimension 2
+Input:
+\begin{quote}
+\begin{description}
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
+\end{description}
+
+\end{description}
+
+\end{fulllineitems}
+
+\index{ulsg3() (im Modul aufg\_5\_2)}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{index:aufg_5_2.ulsg3}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg3}}}{\emph{wert}}{}
+Exakte Loesung der Dimension 3
+Input:
+\begin{quote}
+\begin{description}
+\item[{wert (array von float):}] \leavevmode
+Werte, auf dem die Funktion ausgewertet wird.
+
+\end{description}
+\end{quote}
+\begin{description}
+\item[{Return:}] \leavevmode\begin{description}
+\item[{(float):}] \leavevmode
+Wert der Funktion
+
+\end{description}
+
+\end{description}
 
 \end{fulllineitems}
 
@@ -413,6 +700,9 @@ Inverse von A\textasciicircum{}(d).
 \renewcommand{\indexname}{Python-Modulindex}
 \begin{sphinxtheindex}
 \def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+\bigletter{a}
+\item {\sphinxstyleindexentry{aufg\_5\_2}}\sphinxstyleindexpageref{index:\detokenize{module-aufg_5_2}}
+\indexspace
 \bigletter{s}
 \item {\sphinxstyleindexentry{sparse\_erw}}\sphinxstyleindexpageref{index:\detokenize{module-sparse_erw}}
 \end{sphinxtheindex}
