@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sparse_erw import Sparse
 
-matplotlib.rcParams.update({'font.size': 20})
+matplotlib.rcParams.update({'font.size': 25})
 plt.rc('text', usetex=True)
 matplotlib.rcParams['text.latex.preamble'] = [
     r'\usepackage{amsmath}',
@@ -186,12 +186,13 @@ def loesg(dims, numb, fkt, ulsg):
         if k == laeng-1:
             print(np.amax(arrf))
     plt.semilogy(range(laeng), maxfeh)
-    plt.title("Konvergenzverhalten der numerischen Loesung mit der CG-Methode in Dimension "+
-              str(dims)+" und Feinheit der Diskretisierung " + str(numb)+
+    plt.title("Konvergenzverhalten der Loesung mit der CG-Methode in Dimension "+
+              str(dims)+" mit Feinheit der Diskretisierung " + str(numb)+
               " und mit Schranke "+ str(eps))
     plt.xlabel("Iterationsschritt")
     plt.ylabel("Absoluter Fehler")
-
+    
+    #plt.savefig("./Bericht/Bilder/IterDim"+str(dims), dpi=300)
     plt.show()
 
     #Erstellung und Loesen der Bandmatrix durch die L-U-Zerlegung
@@ -318,7 +319,7 @@ def loesg(dims, numb, fkt, ulsg):
         plt.semilogy(arrn, arrfa, 'b', label="Mit C-G-Verfahren")
         
     if dims == 3:
-        arrn = np.arange(3, 23, 2)
+        arrn = np.arange(3, 23, 4)
         arrfa = np.zeros(len(arrn))
         refe = 0
         for k in arrn:
@@ -459,8 +460,8 @@ def main():
     """
     In dieser Funktion werden alle Loesungen der Aufgabe dem Nutzer ausgegeben
     """
-    dims = 2
-    numb = 50
+    dims = 1
+    numb = 100
     fntn = [fntn1, fntn2, fntn3]
     ulsg = [ulsg1, ulsg2, ulsg3]
     maxfl = loesg(dims, numb, fntn[dims-1], ulsg[dims-1])
