@@ -150,11 +150,61 @@ Zu prüfen ist nun noch, ob die Matrizen $A^{(d)}$ die o.\,g. Bedingungen erfül
 %\end{align}
 %\subsection{Anwendbarkeit der \textbf{CG}-Methode für die Matrizen}
 
+\section{Experimente}
 
+Es wurden Experimente durchgeführt, um das Konvergenzvehalten der \textit{C-G-Methode} zu bestimmen.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Bilder/VergleichDim1}
+	\caption{Vergleich der Genauigkeit der zwei implementierten Methoden in der ersten Dimension}
+	\label{fig:vergleichdim1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Bilder/VergleichDim3}
+	\caption{Vergleich der Genauigkeit der zwei implementierten Methoden in der dritten Dimension}
+	\label{fig:vegleichdim3}
+\end{figure}
+
+Die Figuren \ref{fig:vergleichdim1} und \ref{fig:vegleichdim3} waren mit der festen Abbruchsschranke $10^{-14 }$ erzeugt und zeigen, dass das  \textit{C-G-Verfahren} nach ausreichend viele Iterationen auf ein Ergebnis kommt, das nur durch den Fehler der Diskretisierung geprägt wird. Dies siehr man noch besser in \ref{fig:iterdim1} und \ref{fig:iterdim3}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Bilder/IterDim1}
+	\caption{Der Fehler bezüglich des Iterationsschritts im C-G-Verfahren in einer Dimension}
+	\label{fig:iterdim1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Bilder/IterDim3}
+	\caption{Der Fehler bezüglich des Iterationsschritts im C-G-Verfahren in drei Dimensionen}
+	\label{fig:iterdim3}
+\end{figure}
+ 
+ Diese Figuren zeigen, dass der Fehler in der durch die \textit{C-G-Methode} nach genügend viele Iterationen gewonnene Lösung nur der Fehler der Diskretisierung ist. Obwohl in beiden Fällen das Residuum in der Iteration am Ende kleiner als $10^{-14}$ ist, bleibt der absolute Fehler in \ref{fig:iterdim1} bei $10^{-4}$ und in \ref{fig:iterdim3} bei $10^{-3}$. Genau diese Werte sind die Fehler der Diskretisierung für Dimension 1 und Feinheit 100 bzw. Dimension 3 und Feinheit 15, wie man aus \ref{fig:vergleichdim1} bzw. \ref{fig:vegleichdim3} ablesen kann. Eine weitere Beobachtung von den Abbildungen \ref{fig:iterdim1} und \ref{fig:iterdim3} ist dass die Konvergenz der \textit{C-G-Methode} immer mit einem Sprung endet. Aus der Theorie wissen wir, dass der exakte Wert nach höchstens $dim(Matrix)$-vielen Iterationsschritten gewonnen ist, und das ist auch bei unseren Ergebnissen der Fall. Die Konvergenz erfolgt in der Tat nach deutlich weniger als $dim(Matrix)$-vielen Schritten (ungefähr 50 anstelle von 100 in einer Dimension und 15 anstelle von $15^3=3375$) .Jedoch sehen wir auch, dass sofern ein Zwischenergebnis in einer geeigneter Umgebung der exakten Ergebnis liegt, konvergiert das Verfahren fast instantan.  Dies ist insbesondere in \ref{fig:iterdim1} sichtbar. Bei einer Wahl von dem Nullvektor als Startwert in der Iteration konvergiert das Verfahren sogar in ein Schritt. Deswegen wird hier der Vektor mit Werten $0.001$ als Startwert verwendet. 
+ 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=\linewidth]{Bilder/SchranekDim1}
+ 	\caption{Der Fehler bezüglich der Abbruchsschranke im C-G-Verfahren in einer Dimension}
+ 	\label{fig:schrankedim1}
+ \end{figure}
+
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=\linewidth]{Bilder/loglogdim3}
+ 	\caption{Der Fehler bezüglich der Abbruchsschranke als Funktion der Feinheit der Diskretisierung im C-G-Verfahren in drei Dimensionen}
+ 	\label{fig:loglog3}
+ \end{figure}
+
+Die Abbildungen \ref{fig:schrankedim1} und \ref{fig:loglog3} zeigen erneut, dass der Fehler im \textit{C-G-Verfahren} durch den Fehler der Diskretisierung von unten beschränkt ist. Ab einer bestimmten Wahl von der Abbruchsschranke wird das Ergebnis nicht mehr verbessert, weil die Genauigkeit stärker von der Diskretisuerung geprägt wird. In Figur \ref{fig:loglog3} ist die Schranke als $n^{-k}$ gesetzt, wobei $n$ die Feinheit der Diskretisierung ist und $k$ eine Natürliche Zahl zwischen -2 und 6 ist. Wie erwartet, spielt die Wahl der Schranke ab einem bestimmten Punkt (um $10^{-3}$)keine Rolle mehr.
 
 \section{Zusammenfassung}
 
+Das \textit{C-G-Verfahren} hat sich als eine zuverlässige Lösungsmethode des Laplace Problems herausgestellt. Die exakte Lösung wird nach verhältnismäßig wenig Iterationsschritten gewonnen. Jedoch ist es wichtig, eine nicht zu große Abbruchsschranke anzugeben, weil viele Iterationen könnten dann Sinnlos sein, da die Genauigkeit des Ergebnis sowieso durch den Diskretidierungsfehler beschränkt ist.
 
 \begin{thebibliography}{9}
 \bibitem{wiki:cg} Kein Autor, Aufgerufen am \today, \textit{C-G-Verfahren}. 
