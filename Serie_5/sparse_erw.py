@@ -69,7 +69,7 @@ class Sparse(object):
         rplus = vekb - self.matr.dot(los1)
         dplus = rplus
         los = []
-        norm = 1000000000
+        norm = 10000000000000
         #In dieser Schleife wird die Iteration durchgeführt
         while norm > eps:
             rminus = rplus
