@@ -143,8 +143,8 @@
 
 
 
-\title{Serie 3 Schnittstellendokumentation}
-\date{1.~Korrektur, Abgabe: \today}
+\title{Serie 5 Schnittstellendokumentation}
+\date{Abgabe: \today}
 \release{}
 \author{Arsen Hnatiuk, Max Huneshagen}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -203,6 +203,8 @@ R\hat{u}=z
 \label{eq:lu2}
 \end{align}
 Wenn man die Gleichungen \eqref{eq:lu1} und \eqref{eq:lu2} zusammensetzt, so erhält man \eqref{eq:lu}.
+
+Zusätzlich wurde in dieser Serie eine Methode zur Lösung des Gleichungssystems \eqref{eq:glc} mit Hilfe des \emph{conjugate gradients}-Verfahrens implementiert. Dieses Verfahren wird in der Praxis nahezu ausschließlich als iteratives Verfahren verwendet, obwohl es sich eigentlich um ein direktes Verfahren handelt. Der Algorithmus ist im Bericht zu dieser Serie dargestellt.
 
 %%%%%% HILBERT-MATRIZEN
 %\section{Hilbert-Matrizen}
@@ -281,7 +283,7 @@ Anzahl von Nulleinträgen von $A^{(d)}$.
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:sparse_erw.Sparse.anz_n_lu_abs}}\pysiglinewithargsret{\sphinxbfcode{anz\_n\_lu\_abs}}{}{}
-Gibt die Anzahl von Einträgen von $L$ bzw. $U$ zurück, die gleich 0 sind.
+Gibt die Anzahl von Einträgen von $L$ bzw. $U$ zurück, die gleich $0$ sind.
 
 \begin{description}
 \item [{Input:}] -
@@ -369,7 +371,7 @@ Gibt die Anzahl von Einträgen von L bzw. U zurück, die ungleich 0 sind.
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(int-Tupel):}] \leavevmode
-Anzahl von Nichtnulleinträgen von L und U.
+Anzahl von Nichtnulleinträgen von $L$ und $U$.
 
 \end{description}
 
@@ -449,7 +451,7 @@ Grenze für das Abbruchkriterium. Das Verfahren wird abgebrochen, wenn für das 
 \begin{quote}
 \begin{description}
 \item[{los (Liste aus numpy.ndarray aus floats):}] \leavevmode
-Liste mit den berechneten Loesungen nach jedem Iterationsschitt
+Liste mit den berechneten Lösungen nach jedem Iterationsschitt
 
 \end{description}
 \end{quote}
@@ -580,7 +582,6 @@ Die Matrix $A^{(d)}$ als sparse-Matrix.
 \end{description}
 
 \end{fulllineitems}
-\clearpage
 \index{return\_mat\_d\_csc() (Methode von sparse\_erw.Sparse)}
 
 \begin{fulllineitems}
@@ -745,19 +746,19 @@ das Verhalten der Lösungen graphisch darstellt.
 \phantomsection\label{\detokenize{index:aufg_5_2.fntn1}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn1}}}{\emph{wert}}{}
 Beispielfunktion der Dimension 1.
 \begin{description}
-\item [{Input:}] -
+\item [{Input:}]
 \end{description}
 \begin{quote}
 \begin{description}
 \item[{wert (float):}] \leavevmode
-Werte, auf dem die Funktion ausgewertet wird.
+Stelle, an  der die Funktion ausgewertet wird.
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Wert der Funktion
+Wert der Funktion an der gegebenen Stelle.
 
 \end{description}
 
@@ -769,19 +770,21 @@ Wert der Funktion
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.fntn2}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn2}}}{\emph{wert}}{}
-Beispielfunktion der Dimension 2
-Input:
+Beispielfunktion der Dimension 2.
+\begin{description}
+\item [{Input:}]
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{wert (array von float):}] \leavevmode
-Werte, auf dem die Funktion ausgewertet wird.
+Stelle im $\mathbb{R}^2$, an der die Funktion ausgewertet wird.
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Wert der Funktion
+Wert der Funktion an der gegebenen Stelle.
 
 \end{description}
 
@@ -793,19 +796,21 @@ Wert der Funktion
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.fntn3}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{fntn3}}}{\emph{wert}}{}
-Beispielfunktion der Dimension 3
-Input:
+Beispielfunktion der Dimension 3.
+\begin{description}
+\item [{Input:}]
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{wert (array von float):}] \leavevmode
-Werte, auf dem die Funktion ausgewertet wird.
+Stelle im $\mathbb{R}^3$, an der die Funktion ausgewertet wird.
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Wert der Funktion
+Wert der Funktion an der gegebenen Stelle.
 
 \end{description}
 
@@ -817,23 +822,25 @@ Wert der Funktion
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.gitter}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{gitter}}}{\emph{numb}, \emph{dims}}{}
-Funktion, die fuer eine gegebene Dimension und Schritweite eine Menge von Punkten erzeugt, auf
+Funktion, die für eine gegebene Dimension und Schritweite eine Menge von Punkten erzeugt, auf
 der die Differentialgleichung zu loesen ist.
-Input:
+\begin{description}
+\item [{Input:}]
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{numb (int):}] \leavevmode
-Feinheit der Diskretisierung
+Feinheit der Diskretisierung.
 
 \item[{dims (int):}] \leavevmode
-Dimension der Diskretisierung
+Dimension der Diskretisierung.
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{arra (ndarray):}] \leavevmode
-Array mit den Punkten auf dem Diskretisierungsgitter
+Array mit den Punkten des Diskretisierungsgitters.
 
 \end{description}
 
@@ -845,29 +852,31 @@ Array mit den Punkten auf dem Diskretisierungsgitter
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.loesg}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{loesg}}}{\emph{dims}, \emph{numb}, \emph{fkt}, \emph{ulsg}}{}
-Diese Methode dient zur Loesung der Differentialgleichung und zum Vergleichen der exakten
-und approxmierten Loesungen.
-Input:
+Diese Methode dient zur Lösung der Differentialgleichung und zum Vergleichen der exakten
+und approxmierten Lösungen.
+\begin{description}
+\item [{Input:}]
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{dims (int):}] \leavevmode
-Dimension der Diskretisierung
+Dimension der Diskretisierung.
 
 \item[{numb (int):}] \leavevmode
-Feinheit der DiskretisierungS
+Feinheit der Diskretisierung.
 
 \item[{fkt (Funktion):}] \leavevmode
-Die gegebene Funktion f aus der Aufgabestellung
+Die gegebene Funktion $f$ aus der Aufgabestellung.
 
 \item[{ulsg (Funktion):}] \leavevmode
-Die exakte Loesung der Differentialgleichung
+Die exakte Lösung der Differentialgleichung
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Der absolute Fehler in der approximierten Loesung der Differentialgleichung
+Der absolute Fehler in der approximierten Lösung der Differentialgleichung
 
 \end{description}
 
@@ -879,30 +888,37 @@ Der absolute Fehler in der approximierten Loesung der Differentialgleichung
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.main}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{main}}}{}{}
-In dieser Funktion werden alle Loesungen der Aufgabe dem Nutzer ausgegeben
-
+In dieser Funktion werden alle Lösungen der Aufgabe dem Nutzer ausgegeben
+\begin{description}
+\item [{Input:}] -
+\end{description}
+\begin{description}
+\item [{Return:}] .
+\end{description}
 \end{fulllineitems}
 
 \index{modo() (im Modul aufg\_5\_2)}
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.modo}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{modo}}}{\emph{m\_nb}, \emph{numb}}{}
-Funktion, die die modofizierte Modolo Methode aus dem Bericht zu Serie 2 implementiert
-Input:
+Funktion, die die modofizierte Modolo-Methode aus dem Bericht zu Serie 2 implementiert.
+\begin{description}
+\item [{Input:}]
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{m\_nb (int):}] \leavevmode
-Zahl, fuer die wir den Wert der modifizierten Modolo Methode berechnen wollen
+Zahl, für die der Wert der modifizierten Modolo Methode berechnet werden soll.
 
 \item[{numb (int):}] \leavevmode
-Feinheit der Diskretisierung
+Feinheit der Diskretisierung.
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(int):}] \leavevmode
-Ausgabe der modifizierten Modolo Methode
+Ausgabe der modifizierten Modolo-Methode.
 
 \end{description}
 
@@ -914,19 +930,21 @@ Ausgabe der modifizierten Modolo Methode
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.ulsg1}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg1}}}{\emph{wert}}{}
-Exakte Loesung der Dimension 1
-Input:
+Exakte Lösung der Dimension 1.
+\begin{description}
+\item [{Input:}]
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{wert (float):}] \leavevmode
-Werte, auf dem die Funktion ausgewertet wird.
+Stelle, an der die Funktion ausgewertet wird.
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Wert der Funktion
+Wert der Funktion an der gegebenen Stelle.
 
 \end{description}
 
@@ -938,19 +956,21 @@ Wert der Funktion
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.ulsg2}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg2}}}{\emph{wert}}{}
-Exakte Loesung der Dimension 2
-Input:
+Exakte Lösung der Dimension 2.
+\begin{description}
+\item [{Input:}]
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{wert (array von float):}] \leavevmode
-Werte, auf dem die Funktion ausgewertet wird.
+Stelle im $\mathbb{R}^2$, an der die Funktion ausgewertet wird.
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Wert der Funktion
+Wert der Funktion an der gegebenen Stelle.
 
 \end{description}
 
@@ -962,19 +982,21 @@ Wert der Funktion
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{index:aufg_5_2.ulsg3}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{aufg\_5\_2.}}\sphinxbfcode{\sphinxupquote{ulsg3}}}{\emph{wert}}{}
-Exakte Loesung der Dimension 3
-Input:
+Exakte Lösung der Dimension 3.
+\begin{description}
+\item [{Input:}]
+\end{description}
 \begin{quote}
 \begin{description}
 \item[{wert (array von float):}] \leavevmode
-Werte, auf dem die Funktion ausgewertet wird.
+Stelle im $\mathbb{R}^3$, an der die Funktion ausgewertet wird.
 
 \end{description}
 \end{quote}
 \begin{description}
 \item[{Return:}] \leavevmode\begin{description}
 \item[{(float):}] \leavevmode
-Wert der Funktion
+Wert der Funktion an dher gegebenen Stelle.
 
 \end{description}
 
