@@ -10,19 +10,37 @@
   \item anz\_nn\_lu\_abs() (Methode von sparse\_erw.Sparse), \hyperpage{2}
   \item anz\_nn\_lu\_rel() (Methode von sparse\_erw.Sparse), \hyperpage{2}
   \item anz\_nn\_rel() (Methode von sparse\_erw.Sparse), \hyperpage{2}
+  \item aufg\_5\_2 (Modul), \hyperpage{4}
 
   \indexspace
   \bigletter C
+  \item cg\_meth() (Methode von sparse\_erw.Sparse), \hyperpage{2}
   \item constr\_mat\_l\_k() (Methode von sparse\_erw.Sparse), \hyperpage{2}
 
   \indexspace
+  \bigletter F
+  \item fntn1() (im Modul aufg\_5\_2), \hyperpage{4}
+  \item fntn2() (im Modul aufg\_5\_2), \hyperpage{4}
+  \item fntn3() (im Modul aufg\_5\_2), \hyperpage{4}
+
+  \indexspace
+  \bigletter G
+  \item gitter() (im Modul aufg\_5\_2), \hyperpage{4}
+
+  \indexspace
   \bigletter K
-  \item kond\_a\_d\_zs() (Methode von sparse\_erw.Sparse), \hyperpage{2}
+  \item kond\_a\_d\_zs() (Methode von sparse\_erw.Sparse), \hyperpage{3}
 
   \indexspace
   \bigletter L
   \item l\_u\_zerl() (Methode von sparse\_erw.Sparse), \hyperpage{3}
   \item lgs\_lsg() (Methode von sparse\_erw.Sparse), \hyperpage{3}
+  \item loesg() (im Modul aufg\_5\_2), \hyperpage{4}
+
+  \indexspace
+  \bigletter M
+  \item main() (im Modul aufg\_5\_2), \hyperpage{4}
+  \item modo() (im Modul aufg\_5\_2), \hyperpage{4}
 
   \indexspace
   \bigletter R
@@ -34,5 +52,11 @@
   \bigletter S
   \item Sparse (Klasse in sparse\_erw), \hyperpage{1}
   \item sparse\_erw (Modul), \hyperpage{1}
+
+  \indexspace
+  \bigletter U
+  \item ulsg1() (im Modul aufg\_5\_2), \hyperpage{5}
+  \item ulsg2() (im Modul aufg\_5\_2), \hyperpage{5}
+  \item ulsg3() (im Modul aufg\_5\_2), \hyperpage{5}
 
 \end{sphinxtheindex}

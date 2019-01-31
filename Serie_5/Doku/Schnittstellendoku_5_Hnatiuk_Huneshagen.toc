@@ -1,0 +1,4 @@
+\select@language {ngerman}
+\contentsline {chapter}{\numberline {1}Einleitung}{2}{chapter.1}
+\contentsline {chapter}{\numberline {2}Die erweiterte Sparse-Klasse}{3}{chapter.2}
+\contentsline {chapter}{\numberline {3}Das Skript aufg\_5-2.py}{8}{chapter.3}

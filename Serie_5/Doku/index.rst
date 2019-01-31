@@ -17,6 +17,11 @@ Die Sparse-Klasse
 .. automodule:: sparse_erw
     :members:
 
+Das Skript aufg_5-2.py
+======================
+ 
+.. automodule:: aufg_5_2
+    :members:
 
 
 Indices and tables

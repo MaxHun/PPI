@@ -1,6 +1,6 @@
 """
-Dieses Modul löst die Aufgabe 5.2, indem es die Differentialgleichung löst und
-das Verhalten der Lösungen grafisch aufstellt.
+Dieses Modul loest die Aufgabe 5.2, indem es die Differentialgleichung loest und
+das Verhalten der Loesungen grafisch aufstellt.
 Autoren Arsen Hnatiuk und Max Huneshagen
 """
 import matplotlib
@@ -20,7 +20,7 @@ def modo(m_nb, numb):
     Funktion, die die modofizierte Modolo Methode aus dem Bericht zu Serie 2 implementiert
     Input:
         m_nb (int):
-            Zahl, für die wir den Wert der modifizierten Modolo Methode berechnen wollen
+            Zahl, fuer die wir den Wert der modifizierten Modolo Methode berechnen wollen
         numb (int):
             Feinheit der Diskretisierung
     Return:
@@ -33,8 +33,8 @@ def modo(m_nb, numb):
 
 def gitter(numb, dims):
     """
-    Funktion, die für eine gegebene Dimension und Schritweite eine Menge von Punkten erzeugt, auf
-    der die Differentialgleichung zu lösen ist.
+    Funktion, die fuer eine gegebene Dimension und Schritweite eine Menge von Punkten erzeugt, auf
+    der die Differentialgleichung zu loesen ist.
     Input:
         numb (int):
             Feinheit der Diskretisierung
@@ -101,7 +101,7 @@ def fntn3(wert):
 
 def ulsg1(wert):
     """
-    Exakte Lösung der Dimension 1
+    Exakte Loesung der Dimension 1
     Input:
         wert (float):
             Werte, auf dem die Funktion ausgewertet wird.
@@ -113,7 +113,7 @@ def ulsg1(wert):
 
 def ulsg2(wert):
     """
-    Exakte Lösung der Dimension 2
+    Exakte Loesung der Dimension 2
     Input:
         wert (array von float):
             Werte, auf dem die Funktion ausgewertet wird.
@@ -125,7 +125,7 @@ def ulsg2(wert):
 
 def ulsg3(wert):
     """
-    Exakte Lösung der Dimension 3
+    Exakte Loesung der Dimension 3
     Input:
         wert (array von float):
             Werte, auf dem die Funktion ausgewertet wird.
@@ -137,8 +137,8 @@ def ulsg3(wert):
 
 def loesg(dims, numb, fkt, ulsg):
     """
-    Diese Methode dient zur Lösung der Differentialgleichung und zum Vergleichen der exakten
-    und approxmierten Lösungen.
+    Diese Methode dient zur Loesung der Differentialgleichung und zum Vergleichen der exakten
+    und approxmierten Loesungen.
     Input:
         dims (int):
             Dimension der Diskretisierung
@@ -147,16 +147,16 @@ def loesg(dims, numb, fkt, ulsg):
         fkt (Funktion):
             Die gegebene Funktion f aus der Aufgabestellung
         ulsg (Funktion):
-            Die exakte Lösung der Differentialgleichung
+            Die exakte Loesung der Differentialgleichung
 
     Return:
         (float):
-            Der absolute Fehler in der approximierten Lösung der Differentialgleichung
+            Der absolute Fehler in der approximierten Loesung der Differentialgleichung
     """
 
-#Grafik des Fehlers bezüglich des Iterationsschritts
+#Grafik des Fehlers bezueglich des Iterationsschritts
 
-    #CG Methode Lösung, Dimension 1
+    #CG Methode Loesung, Dimension 1
     los0 = 0.001*np.ones((numb-1)**dims)
 
     #Erstellung des Vektors b
@@ -165,18 +165,18 @@ def loesg(dims, numb, fkt, ulsg):
     for i in range((numb-1)**dims):
         arrb[i] = fkt(arra[i])/(numb**2)
 
-    #Erstellung und Lösen der Bandmatrix durch die CG-Methode
+    #Erstellung und Loesen der Bandmatrix durch die CG-Methode
     eps = 10**-14
     mata = Sparse(dims, numb)
     los = mata.cg_meth(los0, arrb, eps)
     laeng = len(los)
 
-    #Erstellung des Vektors der exakten Lösung
+    #Erstellung des Vektors der exakten Loesung
     arrex = np.zeros((numb-1)**dims)
     for i in range((numb-1)**dims):
         arrex[i] = ulsg(arra[i])
 
-    #Erstellung des Vektors des Fehlers in der berechneten Lösung mit C-G-Verfahren
+    #Erstellung des Vektors des Fehlers in der berechneten Loesung mit C-G-Verfahren
     maxfeh = np.zeros(laeng)
     for k in range(laeng):
         arrf = np.zeros((numb-1)**dims)
@@ -195,17 +195,17 @@ def loesg(dims, numb, fkt, ulsg):
 
     plt.show()
 
-    #Erstellung und Lösen der Bandmatrix durch die L-U-Zerlegung
+    #Erstellung und Loesen der Bandmatrix durch die L-U-Zerlegung
     mata = Sparse(dims, numb)
     lsg_lu = mata.lgs_lsg(arrb)
 
-    #Erstellung des Vektors des Fehlers in der berechneten Lösung mit L-U-Zerlegung
+    #Erstellung des Vektors des Fehlers in der berechneten Loesung mit L-U-Zerlegung
     arrf = np.zeros((numb-1)**dims)
     for i in range((numb-1)**dims):
         arrf[i] = np.abs(arrex[i]-lsg_lu[i])
     print(np.amax(arrf))
 
-    #Grafik des Fehlers bezüglich Epsilon
+    #Grafik des Fehlers bezueglich Epsilon
     fehl = np.zeros(5)
     ind = 0
     for k in [-2, 0, 2, 4, 6]:
@@ -228,7 +228,7 @@ def loesg(dims, numb, fkt, ulsg):
 
     plt.show()
 
-    #Grafik des Fehlers bezüglich der Feinheit der Discretisierung
+    #Grafik des Fehlers bezueglich der Feinheit der Discretisierung
 
     if dims == 1:
         arrn = np.arange(4, 1004, 40)
@@ -241,7 +241,7 @@ def loesg(dims, numb, fkt, ulsg):
             for i in range((k-1)**dims):
                 arrb[i] = fkt(arra[i])/(k**2)
 
-            #Erstellung und Lösen der Bandmatrix mit C-G-Verfahren
+            #Erstellung und Loesen der Bandmatrix mit C-G-Verfahren
             los0 = 0.001*np.ones((k-1)**dims)
             eps = 10**-14
             mata = Sparse(dims, k)
@@ -249,12 +249,12 @@ def loesg(dims, numb, fkt, ulsg):
             laeng = len(los)
             lsg = los[laeng-1]
 
-            #Erstellung des Vektors der exakten Lösung
+            #Erstellung des Vektors der exakten Loesung
             arrex = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
                 arrex[i] = ulsg(arra[i])
 
-            #Erstellung des Vektors des Fehlers in der berechneten Lösung
+            #Erstellung des Vektors des Fehlers in der berechneten Loesung
             arrf = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
                 arrf[i] = np.abs(arrex[i]-lsg[i])
@@ -281,16 +281,16 @@ def loesg(dims, numb, fkt, ulsg):
             for i in range((k-1)**dims):
                 arrb[i] = fkt(arra[i])/(k**2)
 
-            #Erstellung und Lösen der Bandmatrix
+            #Erstellung und Loesen der Bandmatrix
             mata = Sparse(dims, k)
             lsg = mata.lgs_lsg(arrb)
 
-            #Erstellung des Vektors der exakten Lösung
+            #Erstellung des Vektors der exakten Loesung
             arrex = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
                 arrex[i] = ulsg(arra[i])
 
-            #Erstellung des Vektors des Fehlers in der berechneten Lösung
+            #Erstellung des Vektors des Fehlers in der berechneten Loesung
             arrf = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
                 arrf[i] = np.abs(arrex[i]-lsg[i])
@@ -314,16 +314,16 @@ def loesg(dims, numb, fkt, ulsg):
             for i in range((k-1)**dims):
                 arrb[i] = fkt(arra[i])/(k**2)
 
-            #Erstellung und Lösen der Bandmatrix
+            #Erstellung und Loesen der Bandmatrix
             mata = Sparse(dims, k)
             lsg = mata.lgs_lsg(arrb)
 
-            #Erstellung des Vektors der exakten Lösung
+            #Erstellung des Vektors der exakten Loesung
             arrex = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
                 arrex[i] = ulsg(arra[i])
 
-            #Erstellung des Vektors des Fehlers in der berechneten Lösung
+            #Erstellung des Vektors des Fehlers in der berechneten Loesung
             arrf = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
                 arrf[i] = np.abs(arrex[i]-lsg[i])
@@ -347,16 +347,16 @@ def loesg(dims, numb, fkt, ulsg):
             for i in range((k-1)**dims):
                 arrb[i] = fkt(arra[i])/(k**2)
 
-            #Erstellung und Lösen der Bandmatrix
+            #Erstellung und Loesen der Bandmatrix
             mata = Sparse(dims, k)
             lsg = mata.lgs_lsg(arrb)
 
-            #Erstellung des Vektors der exakten Lösung
+            #Erstellung des Vektors der exakten Loesung
             arrex = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
                 arrex[i] = ulsg(arra[i])
 
-            #Erstellung des Vektors des Fehlers in der berechneten Lösung
+            #Erstellung des Vektors des Fehlers in der berechneten Loesung
             arrf = np.zeros((k-1)**dims)
             for i in range((k-1)**dims):
                 arrf[i] = np.abs(arrex[i]-lsg[i])
@@ -374,7 +374,7 @@ def loesg(dims, numb, fkt, ulsg):
 
 def main():
     """
-    In dieser Funktion werden alle Lösungen der Aufgabe dem Nutzer ausgegeben
+    In dieser Funktion werden alle Loesungen der Aufgabe dem Nutzer ausgegeben
     """
     dims = 1
     numb = 1000
@@ -382,5 +382,5 @@ def main():
     ulsg = [ulsg1, ulsg2, ulsg3]
     maxfl = loesg(dims, numb, fntn[dims-1], ulsg[dims-1])
     print("Der maximale Fehler ist "+str(maxfl))
-
-main()
+if __name__ == "__main__":
+    main()
