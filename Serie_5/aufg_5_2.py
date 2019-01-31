@@ -1,9 +1,10 @@
 """
-Dieses Modul löst die Aufgabe 5.s, indem es die Differentialgleichung löst und
+Dieses Modul löst die Aufgabe 5.2, indem es die Differentialgleichung löst und
 das Verhalten der Lösungen grafisch aufstellt.
 Autoren Arsen Hnatiuk und Max Huneshagen
 """
 import matplotlib
+matplotlib.use ("TkAgg")
 import matplotlib.pyplot as plt
 import numpy as np
 from sparse_erw import Sparse
@@ -156,7 +157,7 @@ def loesg(dims, numb, fkt, ulsg):
 #Grafik des Fehlers bezüglich des Iterationsschritts
 
     #CG Methode Lösung, Dimension 1
-    los0 = np.ones((numb-1)**dims)
+    los0 = 0.001*np.ones((numb-1)**dims)
 
     #Erstellung des Vektors b
     arra = gitter(numb, dims)
@@ -165,52 +166,51 @@ def loesg(dims, numb, fkt, ulsg):
         arrb[i] = fkt(arra[i])/(numb**2)
 
     #Erstellung und Lösen der Bandmatrix durch die CG-Methode
-    eps = 10**-16
+    eps = 10**-14
     mata = Sparse(dims, numb)
     los = mata.cg_meth(los0, arrb, eps)
     laeng = len(los)
-    lsg = los[laeng-1]
 
     #Erstellung des Vektors der exakten Lösung
     arrex = np.zeros((numb-1)**dims)
     for i in range((numb-1)**dims):
         arrex[i] = ulsg(arra[i])
 
-    #Erstellung des Vektors des Fehlers in der berechneten Lösung
+    #Erstellung des Vektors des Fehlers in der berechneten Lösung mit C-G-Verfahren
     maxfeh = np.zeros(laeng)
     for k in range(laeng):
         arrf = np.zeros((numb-1)**dims)
         for i in range((numb-1)**dims):
             arrf[i] = np.abs(arrex[i]-los[k][i])
         maxfeh[k] = np.amax(arrf)
+        #print(np.max(los[k]))
         if k == laeng-1:
             print(np.amax(arrf))
-    plt.plot(range(laeng), maxfeh)
+    plt.semilogy(range(laeng), maxfeh)
     plt.title("Konvergenzverhalten der numerischen Loesung mit der CG-Methode in Dimension "+
               str(dims)+" und Feinheit der Diskretisierung " + str(numb)+
               " und mit Schranke "+ str(eps))
     plt.xlabel("Iterationsschritt")
     plt.ylabel("Absoluter Fehler")
 
-    #Erstellung und Lösen der Bandmatrix durch die L-U-Zerlegung
-    mata = Sparse(dims, numb)
-    lsg = mata.lgs_lsg(arrb)
-
-    #Erstellung des Vektors des Fehlers in der berechneten Lösung
-    arrf = np.zeros((numb-1)**dims)
-    for i in range((numb-1)**dims):
-        arrf[i] = np.abs(arrex[i]-lsg[i])
-    print(np.amax(arrf))
-
     plt.show()
 
-#Grafik des Fehlers bezüglich Epsilon
+    #Erstellung und Lösen der Bandmatrix durch die L-U-Zerlegung
+    mata = Sparse(dims, numb)
+    lsg_lu = mata.lgs_lsg(arrb)
 
+    #Erstellung des Vektors des Fehlers in der berechneten Lösung mit L-U-Zerlegung
+    arrf = np.zeros((numb-1)**dims)
+    for i in range((numb-1)**dims):
+        arrf[i] = np.abs(arrex[i]-lsg_lu[i])
+    print(np.amax(arrf))
+
+    #Grafik des Fehlers bezüglich Epsilon
     fehl = np.zeros(5)
     ind = 0
     for k in [-2, 0, 2, 4, 6]:
         eps = numb**(-k)
-        los0 = np.ones((numb-1)**dims)
+        los0 = 0.001*np.ones((numb-1)**dims)
         mata = Sparse(dims, numb)
         los = mata.cg_meth(los0, arrb, eps)
         laeng = len(los)
@@ -219,22 +219,58 @@ def loesg(dims, numb, fkt, ulsg):
         for i in range((numb-1)**dims):
             arrf[i] = np.abs(arrex[i]-lsg[i])
         fehl[ind] = np.amax(arrf)
-    plt.plot([-2, 0, 2, 4, 6], fehl)
+        ind = ind+1
+    plt.loglog([numb**2, 1, numb**-2, numb**-4, numb**-6], fehl)
     plt.title("Konvergenzverhalten der numerischen Loesung mit der CG-Methode in Dimension "+
-              str(dims)+" und Feinheit der Diskretisierung " + str(numb)+
-              " und mit Schranke (Feinheit)$^{-k}$")
-    plt.xlabel("k")
+              str(dims)+" und Feinheit der Diskretisierung " + str(numb))
+    plt.xlabel("Schranke")
     plt.ylabel("Absoluter Fehler")
 
     plt.show()
 
-#Grafik des Fehlers bezüglich der Feinheit der Discretisierung
+    #Grafik des Fehlers bezüglich der Feinheit der Discretisierung
 
+    if dims == 1:
+        arrn = np.arange(4, 1004, 40)
+        arrfa = np.zeros(len(arrn))
+        refe = 0
+        for k in arrn:
+            #Erstellung des Vektors b
+            arra = gitter(k, dims)
+            arrb = np.zeros((k-1)**dims)
+            for i in range((k-1)**dims):
+                arrb[i] = fkt(arra[i])/(k**2)
 
+            #Erstellung und Lösen der Bandmatrix mit C-G-Verfahren
+            los0 = 0.001*np.ones((k-1)**dims)
+            eps = 10**-14
+            mata = Sparse(dims, k)
+            los = mata.cg_meth(los0, arrb, eps)
+            laeng = len(los)
+            lsg = los[laeng-1]
+
+            #Erstellung des Vektors der exakten Lösung
+            arrex = np.zeros((k-1)**dims)
+            for i in range((k-1)**dims):
+                arrex[i] = ulsg(arra[i])
+
+            #Erstellung des Vektors des Fehlers in der berechneten Lösung
+            arrf = np.zeros((k-1)**dims)
+            for i in range((k-1)**dims):
+                arrf[i] = np.abs(arrex[i]-lsg[i])
+
+            arrfa[refe] = np.amax(arrf)
+            refe = refe + 1
+        plt.semilogy(arrn, arrfa)
+        plt.title("Konvergenzverhalten der C-G Loesung in Dimension 1")
+        plt.xlabel("Feinheit der Diskretisierung")
+        plt.ylabel("Absoluter Fehler")
+        
+        plt.show()
 
 
     #Plotten von dem Konvergenzverfahren, Dimension 1
-    if dims == 4:
+    if dims == 1:
         arrn = np.arange(4, 1004, 20)
         arrfa = np.zeros(len(arrn))
         refe = 0
@@ -261,7 +297,7 @@ def loesg(dims, numb, fkt, ulsg):
 
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
-        plt.plot(arrn, arrfa)
+        plt.semilogy(arrn, arrfa)
         plt.title("Konvergenzverhalten der numerischen Loesung in Dimension 1")
         plt.xlabel("Feinheit der Diskretisierung")
         plt.ylabel("Absoluter Fehler")
@@ -340,8 +376,8 @@ def main():
     """
     In dieser Funktion werden alle Lösungen der Aufgabe dem Nutzer ausgegeben
     """
-    dims = 2
-    numb = 50
+    dims = 1
+    numb = 1000
     fntn = [fntn1, fntn2, fntn3]
     ulsg = [ulsg1, ulsg2, ulsg3]
     maxfl = loesg(dims, numb, fntn[dims-1], ulsg[dims-1])
