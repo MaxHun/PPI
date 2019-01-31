@@ -70,7 +70,7 @@ class Sparse(object):
         dplus = rplus
         los = []
         norm = 1000000000
-        #In dieser Schleife wird die Iteration durchgefuehrt
+        #In dieser Schleife wird die Iteration durchgeführt
         while norm > eps:
             rminus = rplus
             dminus = dplus
