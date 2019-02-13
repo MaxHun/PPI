@@ -68,8 +68,10 @@ class Sparse(object):
         """
         rplus = vekb - self.matr.dot(los1)
         dplus = rplus
-        los = []
-        norm = 1000000000
+        los = [los1]
+        print(rplus)
+        norm = lina.norm(rplus, ord=np.inf)
+        #norm = 1000000000
         #In dieser Schleife wird die Iteration durchgeführt
         while norm > eps:
             rminus = rplus
@@ -299,7 +301,6 @@ class Sparse(object):
         pc_matr[np.arange(matr_dim), zerl.perm_c] = 1
         l_matr = zerl.L.A
         u_matr = zerl.U.A
-        #print( "JHFHGFKHGFKHGTFKHTF", lina.norm(self.matr-(pr_matr.T * (l_matr * u_matr) * pc_matr.T).A))
         return [zerl, [pr_matr, pc_matr, l_matr, u_matr]]
 
     def lgs_lsg(self, r_s=None):

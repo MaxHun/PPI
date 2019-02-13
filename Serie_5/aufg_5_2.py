@@ -160,102 +160,111 @@ def loesg(dims, numb, fkt, ulsg):
     los0 = 0.001*np.ones((numb-1)**dims)
 
     #Erstellung des Vektors b
-    arra = gitter(numb, dims)
-    arrb = np.zeros((numb-1)**dims)
-    for i in range((numb-1)**dims):
-        arrb[i] = fkt(arra[i])/(numb**2)
-
-    #Erstellung und Loesen der Bandmatrix durch die CG-Methode
-    eps = 10**-14
-    mata = Sparse(dims, numb)
-    los = mata.cg_meth(los0, arrb, eps)
-    laeng = len(los)
-
-    #Erstellung des Vektors der exakten Loesung
-    arrex = np.zeros((numb-1)**dims)
-    for i in range((numb-1)**dims):
-        arrex[i] = ulsg(arra[i])
-
-    #Erstellung des Vektors des Fehlers in der berechneten Loesung mit C-G-Verfahren
-    maxfeh = np.zeros(laeng)
-    for k in range(laeng):
-        arrf = np.zeros((numb-1)**dims)
-        for i in range((numb-1)**dims):
-            arrf[i] = np.abs(arrex[i]-los[k][i])
-        maxfeh[k] = np.amax(arrf)
-        if k == laeng-1:
-            print(np.amax(arrf))
-    plt.semilogy(range(laeng), maxfeh)
-    plt.title("Konvergenzverhalten der Loesung mit der CG-Methode in Dimension "+
-              str(dims)+" mit Feinheit der Diskretisierung " + str(numb)+
-              " und mit Schranke "+ str(eps))
-    plt.xlabel("Iterationsschritt")
-    plt.ylabel("Absoluter Fehler")
-    
-    #plt.savefig("./Bericht/Bilder/IterDim"+str(dims), dpi=300)
-    plt.show()
-
-    #Erstellung und Loesen der Bandmatrix durch die L-U-Zerlegung
-    mata = Sparse(dims, numb)
-    lsg_lu = mata.lgs_lsg(arrb)
-
-    #Erstellung des Vektors des Fehlers in der berechneten Loesung mit L-U-Zerlegung
-    arrf = np.zeros((numb-1)**dims)
-    for i in range((numb-1)**dims):
-        arrf[i] = np.abs(arrex[i]-lsg_lu[i])
-    print(np.amax(arrf))
-
-    #Grafik des Fehlers bezueglich Epsilon
-    fehl = np.zeros(5)
-    ind = 0
-    for k in [-2, 0, 2, 4, 6]:
-        eps = numb**(-k)
-        los0 = 0.001*np.ones((numb-1)**dims)
-        mata = Sparse(dims, numb)
-        los = mata.cg_meth(los0, arrb, eps)
-        laeng = len(los)
-        lsg = los[laeng-1]
-        arrf = np.zeros((numb-1)**dims)
-        for i in range((numb-1)**dims):
-            arrf[i] = np.abs(arrex[i]-lsg[i])
-        fehl[ind] = np.amax(arrf)
-        ind = ind+1
-    plt.loglog([numb**2, 1, numb**-2, numb**-4, numb**-6], fehl)
-    plt.title("Konvergenzverhalten der numerischen Loesung mit der CG-Methode in Dimension "+
-              str(dims)+" und Feinheit der Diskretisierung " + str(numb))
-    plt.xlabel("Schranke (abhaengig von der Feinheit der Diskretisierung)")
-    plt.ylabel("Absoluter Fehler")
-
-    plt.show()
-    
-    #Grafik des Fehlers bezüglch der Fehlerschranke
-    
-    eps = np.logspace(-15, 1, 30)
-    los0 = 0.001*np.ones((numb-1)**dims)
-    graf = np.zeros(30)
-    abbr = 0
-    for i in eps:
-        mata = Sparse(dims, numb)
-        los = mata.cg_meth(los0, arrb, i)
-        laeng = len(los)
-        arrf = np.zeros((numb-1)**dims)
-        for k in range((numb-1)**dims):
-            arrf[k] = np.abs(arrex[k]-los[laeng-1][k])
-        graf[abbr] = np.amax(arrf)
-        abbr = abbr+1
-    plt.loglog(eps, graf)
-    plt.title("Konvergenzverhalten der numerischen Loesung mit der CG-Methode in Dimension "+
-              str(dims)+" und Feinheit der Diskretisierung " + str(numb))
-    plt.xlabel("Schranke")
-    plt.ylabel("Absoluter Fehler")
-    plt.show()
+#    arra = gitter(numb, dims)
+#    arrb = np.zeros((numb-1)**dims)
+#    for i in range((numb-1)**dims):
+#        arrb[i] = fkt(arra[i])/(numb**2)
+#
+#    #Erstellung und Loesen der Bandmatrix durch die CG-Methode
+#    eps = 10**-14
+#    mata = Sparse(dims, numb)
+#    los = mata.cg_meth(los0, arrb, eps)
+#    laeng = len(los)
+#
+#    #Erstellung des Vektors der exakten Loesung
+#    arrex = np.zeros((numb-1)**dims)
+#    for i in range((numb-1)**dims):
+#        arrex[i] = ulsg(arra[i])
+#
+#    #Erstellung des Vektors des Fehlers in der berechneten Loesung mit C-G-Verfahren
+#    maxfeh = np.zeros(laeng)
+#    for k in range(laeng):
+#        arrf = np.zeros((numb-1)**dims)
+#        for i in range((numb-1)**dims):
+#            arrf[i] = np.abs(arrex[i]-los[k][i])
+#        maxfeh[k] = np.amax(arrf)
+#        if k == laeng-1:
+#            print(np.amax(arrf))
+#    plt.semilogy(range(laeng), maxfeh)
+#    plt.title("Konvergenzverhalten der Loesung mit der CG-Methode in Dimension "+
+#              str(dims)+" mit Feinheit der Diskretisierung " + str(numb)+
+#              " und mit Schranke "+ str(eps))
+#    plt.xlabel("Iterationsschritt")
+#    plt.ylabel("Absoluter Fehler")
+#    
+#    #plt.savefig("./Bericht/Bilder/IterDim"+str(dims), dpi=300)
+#    plt.show()
+#
+#    #Erstellung und Loesen der Bandmatrix durch die L-U-Zerlegung
+#    mata = Sparse(dims, numb)
+#    lsg_lu = mata.lgs_lsg(arrb)
+#
+#    #Erstellung des Vektors des Fehlers in der berechneten Loesung mit L-U-Zerlegung
+#    arrf = np.zeros((numb-1)**dims)
+#    for i in range((numb-1)**dims):
+#        arrf[i] = np.abs(arrex[i]-lsg_lu[i])
+#    print(np.amax(arrf))
+#
+#    #Grafik des Fehlers bezueglich Epsilon
+#    fehl = np.zeros(5)
+#    ind = 0
+#    for k in [-2, 0, 2, 4, 6]:
+#        eps = numb**(-k)
+#        los0 = 0.001*np.ones((numb-1)**dims)
+#        mata = Sparse(dims, numb)
+#        los = mata.cg_meth(los0, arrb, eps)
+#        laeng = len(los)
+#        lsg = los[laeng-1]
+#        arrf = np.zeros((numb-1)**dims)
+#        for i in range((numb-1)**dims):
+#            arrf[i] = np.abs(arrex[i]-lsg[i])
+#        fehl[ind] = np.amax(arrf)
+#        ind = ind+1
+#    plt.loglog([numb**2, 1, numb**-2, numb**-4, numb**-6], fehl)
+#    plt.title("Konvergenzverhalten der numerischen Loesung mit der CG-Methode in Dimension "+
+#              str(dims)+" und Feinheit der Diskretisierung " + str(numb))
+#    plt.xlabel("Schranke (abhaengig von der Feinheit der Diskretisierung)")
+#    plt.ylabel("Absoluter Fehler")
+#
+#    plt.show()
+#    
+#    #Grafik des Fehlers bezüglch der Fehlerschranke
+#    
+#    eps = np.logspace(-15, 1, 30)
+#    los0 = 0.001*np.ones((numb-1)**dims)
+#    graf = np.zeros(30)
+#    abbr = 0
+#    for i in eps:
+#        mata = Sparse(dims, numb)
+#        los = mata.cg_meth(los0, arrb, i)
+#        laeng = len(los)
+#        arrf = np.zeros((numb-1)**dims)
+#        for k in range((numb-1)**dims):
+#            arrf[k] = np.abs(arrex[k]-los[laeng-1][k])
+#        graf[abbr] = np.amax(arrf)
+#        abbr = abbr+1
+#    plt.loglog(eps, graf)
+#    plt.title("Konvergenzverhalten der numerischen Loesung mit der CG-Methode in Dimension "+
+#              str(dims)+" und Feinheit der Diskretisierung " + str(numb))
+#    plt.xlabel("Schranke")
+#    plt.ylabel("Absoluter Fehler")
+#    plt.show()
 
     #Grafik des Fehlers bezüglich der Feinheit der Disretisierung
-
-    if dims == 1:
+    plt.figure(figsize=(20,13))
+    once = False
+    for ind in np.array([2,0,-1,-2,-4,-6]):
+        eps = float(numb)**ind
         arrn = np.arange(4, 1004, 40)
         arrfa = np.zeros(len(arrn))
         refe = 0
+        
+        if not once:
+            plt.loglog(arrn, arrfa,  label="Mit L-U-Zerlegung")
+            plt.title("Konvergenzverhalten in Dimension 1")
+            plt.xlabel(r"Feinheit der Diskretisierung $n$")
+            plt.ylabel("Absoluter Fehler")
+            once = True
         for k in arrn:
             #Erstellung des Vektors b
             arra = gitter(k, dims)
@@ -265,7 +274,6 @@ def loesg(dims, numb, fkt, ulsg):
 
             #Erstellung und Loesen der Bandmatrix mit C-G-Verfahren
             los0 = 0.001*np.ones((k-1)**dims)
-            eps = 10**-14
             mata = Sparse(dims, k)
             los = mata.cg_meth(los0, arrb, eps)
             laeng = len(los)
@@ -283,76 +291,7 @@ def loesg(dims, numb, fkt, ulsg):
 
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
-        plt.semilogy(arrn, arrfa, 'b', label="Mit C-G-Verfahren")
-        
-    if dims == 2:
-        arrn = np.arange(5, 95, 10)
-        arrfa = np.zeros(len(arrn))
-        refe = 0
-        for k in arrn:
-            #Erstellung des Vektors b
-            arra = gitter(k, dims)
-            arrb = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])/(k**2)
-
-            #Erstellung und Lösen der Bandmatrix mit C-G-Verfahren
-            los0 = 0.001*np.ones((k-1)**dims)
-            eps = 10**-14
-            mata = Sparse(dims, k)
-            los = mata.cg_meth(los0, arrb, eps)
-            laeng = len(los)
-            lsg = los[laeng-1]
-
-            #Erstellung des Vektors der exakten Lösung
-            arrex = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrex[i] = ulsg(arra[i])
-
-            #Erstellung des Vektors des Fehlers in der berechneten Lösung
-            arrf = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrf[i] = np.abs(arrex[i]-lsg[i])
-
-            arrfa[refe] = np.amax(arrf)
-            refe = refe + 1
-        plt.semilogy(arrn, arrfa, 'b', label="Mit C-G-Verfahren")
-        
-    if dims == 3:
-        arrn = np.arange(3, 23, 4)
-        arrfa = np.zeros(len(arrn))
-        refe = 0
-        for k in arrn:
-            #Erstellung des Vektors b
-            arra = gitter(k, dims)
-            arrb = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])/(k**2)
-
-            #Erstellung und Lösen der Bandmatrix mit C-G-Verfahren
-            los0 = 0.001*np.ones((k-1)**dims)
-            eps = 10**-14
-            mata = Sparse(dims, k)
-            los = mata.cg_meth(los0, arrb, eps)
-            laeng = len(los)
-            lsg = los[laeng-1]
-
-            #Erstellung des Vektors der exakten Lösung
-            arrex = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrex[i] = ulsg(arra[i])
-
-            #Erstellung des Vektors des Fehlers in der berechneten Lösung
-            arrf = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrf[i] = np.abs(arrex[i]-lsg[i])
-
-            arrfa[refe] = np.amax(arrf)
-            refe = refe + 1
-        plt.semilogy(arrn, arrfa, 'b', label="Mit C-G-Verfahren")
-
-    #Plotten von dem Konvergenzverfahren, Dimension 1
-    if dims == 1:
+        plt.loglog(arrn, arrfa,  label=r"Mit CG-Verfahren, $\epsilon={}^{{{}}}$".format(numb, ind))
         arrn = np.arange(4, 1004, 20)
         arrfa = np.zeros(len(arrn))
         refe = 0
@@ -379,82 +318,190 @@ def loesg(dims, numb, fkt, ulsg):
 
             arrfa[refe] = np.amax(arrf)
             refe = refe + 1
-        plt.semilogy(arrn, arrfa, 'r', label="Mit L-U-Zerlegung")
-        plt.title("Konvergenzverhalten in Dimension 1")
-        plt.xlabel("Feinheit der Diskretisierung")
-        plt.ylabel("Absoluter Fehler")
-
-    #Plotten von dem Konvergenzverfahren, Dimension 2
-    if dims == 2:
-        arrn = np.arange(5, 95, 5)
-        arrfa = np.zeros(len(arrn))
-        refe = 0
-        for k in arrn:
-            #Erstellung des Vektors b
-            arra = gitter(k, dims)
-            arrb = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])/(k**2)
-
-            #Erstellung und Loesen der Bandmatrix
-            mata = Sparse(dims, k)
-            lsg = mata.lgs_lsg(arrb)
-
-            #Erstellung des Vektors der exakten Loesung
-            arrex = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrex[i] = ulsg(arra[i])
-
-            #Erstellung des Vektors des Fehlers in der berechneten Loesung
-            arrf = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrf[i] = np.abs(arrex[i]-lsg[i])
-
-            arrfa[refe] = np.amax(arrf)
-            refe = refe + 1
-        plt.plot(arrn, arrfa, 'r', label="Mit L-U-Zerlegung")
-        plt.title("Konvergenzverhalten in Dimension 2")
-        plt.xlabel("Feinheit der Diskretisierung")
-        plt.ylabel("Absoluter Fehler")
-
-    #Plotten von dem Konvergenzverfahren, Dimension 3
-    if dims == 3:
-        arrn = np.arange(3, 23, 2)
-        arrfa = np.zeros(len(arrn))
-        refe = 0
-        for k in arrn:
-            #Erstellung des Vektors b
-            arra = gitter(k, dims)
-            arrb = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrb[i] = fkt(arra[i])/(k**2)
-
-            #Erstellung und Loesen der Bandmatrix
-            mata = Sparse(dims, k)
-            lsg = mata.lgs_lsg(arrb)
-
-            #Erstellung des Vektors der exakten Loesung
-            arrex = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrex[i] = ulsg(arra[i])
-
-            #Erstellung des Vektors des Fehlers in der berechneten Loesung
-            arrf = np.zeros((k-1)**dims)
-            for i in range((k-1)**dims):
-                arrf[i] = np.abs(arrex[i]-lsg[i])
-
-            arrfa[refe] = np.amax(arrf)
-            refe = refe + 1
-        plt.plot(arrn, arrfa, 'r', label="Mit L-U-Zerlegung")
-        plt.title("Konvergenzverhalten in Dimension 3")
-        plt.xlabel("Feinheit der Diskretisierung")
-        plt.ylabel("Absoluter Fehler")
-
+    plt.plot(arrn, np.array(arrn, dtype=float)**-2, "k", ls="--", label=r"$\sim n^{}$".format("{"+str(-2)+"}"))
+    log_arr1 = np.logspace(2.3,3)
+    log_arr2 = np.logspace(0.6,1.65)
+    plt.plot(log_arr1, log_arr1**1*10**-6, "k", ls="-.", label=r"$\sim n^{}$".format("{"+str(1)+"}"))
+    plt.plot(log_arr2, log_arr2**1.2*10**-2.5, "k", ls=":", label=r"$\sim n^{}$".format("{"+str(1.2)+"}"))
     plt.legend()
-
+    plt.subplots_adjust(left=0.06,top=0.96,bottom=0.08,right=0.99)
+    plt.savefig("Bericht/Bilder/KonVerh_dim_1.eps", format="eps", dpi=200)
     plt.show()
+#        
+#    if dims == 2:
+#        arrn = np.arange(5, 95, 10)
+#        arrfa = np.zeros(len(arrn))
+#        refe = 0
+#        for k in arrn:
+#            #Erstellung des Vektors b
+#            arra = gitter(k, dims)
+#            arrb = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrb[i] = fkt(arra[i])/(k**2)
+#
+#            #Erstellung und Lösen der Bandmatrix mit C-G-Verfahren
+#            los0 = 0.001*np.ones((k-1)**dims)
+#            eps = 10**-14
+#            mata = Sparse(dims, k)
+#            los = mata.cg_meth(los0, arrb, eps)
+#            laeng = len(los)
+#            lsg = los[laeng-1]
+#
+#            #Erstellung des Vektors der exakten Lösung
+#            arrex = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrex[i] = ulsg(arra[i])
+#
+#            #Erstellung des Vektors des Fehlers in der berechneten Lösung
+#            arrf = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrf[i] = np.abs(arrex[i]-lsg[i])
+#
+#            arrfa[refe] = np.amax(arrf)
+#            refe = refe + 1
+#        plt.semilogy(arrn, arrfa, 'b', label="Mit C-G-Verfahren")
+#        
+#    if dims == 3:
+#        arrn = np.arange(3, 23, 4)
+#        arrfa = np.zeros(len(arrn))
+#        refe = 0
+#        for k in arrn:
+#            #Erstellung des Vektors b
+#            arra = gitter(k, dims)
+#            arrb = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrb[i] = fkt(arra[i])/(k**2)
+#
+#            #Erstellung und Lösen der Bandmatrix mit C-G-Verfahren
+#            los0 = 0.001*np.ones((k-1)**dims)
+#            eps = 10**-14
+#            mata = Sparse(dims, k)
+#            los = mata.cg_meth(los0, arrb, eps)
+#            laeng = len(los)
+#            lsg = los[laeng-1]
+#
+#            #Erstellung des Vektors der exakten Lösung
+#            arrex = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrex[i] = ulsg(arra[i])
+#
+#            #Erstellung des Vektors des Fehlers in der berechneten Lösung
+#            arrf = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrf[i] = np.abs(arrex[i]-lsg[i])
+#
+#            arrfa[refe] = np.amax(arrf)
+#            refe = refe + 1
+#        plt.semilogy(arrn, arrfa, 'b', label="Mit C-G-Verfahren")
+#
+#    #Plotten von dem Konvergenzverfahren, Dimension 1
+#    if dims == 1:
+#        arrn = np.arange(4, 1004, 20)
+#        arrfa = np.zeros(len(arrn))
+#        refe = 0
+#        for k in arrn:
+#            #Erstellung des Vektors b
+#            arra = gitter(k, dims)
+#            arrb = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrb[i] = fkt(arra[i])/(k**2)
+#
+#            #Erstellung und Loesen der Bandmatrix
+#            mata = Sparse(dims, k)
+#            lsg = mata.lgs_lsg(arrb)
+#
+#            #Erstellung des Vektors der exakten Loesung
+#            arrex = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrex[i] = ulsg(arra[i])
+#
+#            #Erstellung des Vektors des Fehlers in der berechneten Loesung
+#            arrf = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrf[i] = np.abs(arrex[i]-lsg[i])
+#
+#            arrfa[refe] = np.amax(arrf)
+#            refe = refe + 1
+#        plt.semilogy(arrn, arrfa, 'r', label="Mit L-U-Zerlegung")
+#        plt.title("Konvergenzverhalten in Dimension 1")
+#        plt.xlabel("Feinheit der Diskretisierung")
+#        plt.ylabel("Absoluter Fehler")
+#
+#    #Plotten von dem Konvergenzverfahren, Dimension 2
+#    if dims == 2:
+#        arrn = np.arange(5, 95, 5)
+#        arrfa = np.zeros(len(arrn))
+#        refe = 0
+#        for k in arrn:
+#            #Erstellung des Vektors b
+#            arra = gitter(k, dims)
+#            arrb = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrb[i] = fkt(arra[i])/(k**2)
+#
+#            #Erstellung und Loesen der Bandmatrix
+#            mata = Sparse(dims, k)
+#            lsg = mata.lgs_lsg(arrb)
+#
+#            #Erstellung des Vektors der exakten Loesung
+#            arrex = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrex[i] = ulsg(arra[i])
+#
+#            #Erstellung des Vektors des Fehlers in der berechneten Loesung
+#            arrf = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrf[i] = np.abs(arrex[i]-lsg[i])
+#
+#            arrfa[refe] = np.amax(arrf)
+#            refe = refe + 1
+#        plt.plot(arrn, arrfa, 'r', label="Mit L-U-Zerlegung")
+#        plt.title("Konvergenzverhalten in Dimension 2")
+#        plt.xlabel("Feinheit der Diskretisierung")
+#        plt.ylabel("Absoluter Fehler")
+#
+#    #Plotten von dem Konvergenzverfahren, Dimension 3
+#
+#    if dims == 3:
+#        arrn = np.arange(3, 23, 2)
+#        arrfa = np.zeros(len(arrn))
+#        refe = 0
+#        for k in arrn:
+#            #Erstellung des Vektors b
+#            arra = gitter(k, dims)
+#            arrb = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrb[i] = fkt(arra[i])/(k**2)
+#
+#            #Erstellung und Loesen der Bandmatrix
+#            mata = Sparse(dims, k)
+#            lsg = mata.lgs_lsg(arrb)
+#
+#            #Erstellung des Vektors der exakten Loesung
+#            arrex = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrex[i] = ulsg(arra[i])
+#
+#            #Erstellung des Vektors des Fehlers in der berechneten Loesung
+#            arrf = np.zeros((k-1)**dims)
+#            for i in range((k-1)**dims):
+#                arrf[i] = np.abs(arrex[i]-lsg[i])
+#
+#            arrfa[refe] = np.amax(arrf)
+#            refe = refe + 1
+#        plt.plot(arrn, arrfa, 'r', label="Mit L-U-Zerlegung")
+#        plt.title("Konvergenzverhalten in Dimension 3")
+#        plt.xlabel("Feinheit der Diskretisierung")
+#        plt.ylabel("Absoluter Fehler")
+#
+#    plt.legend()
+#
+#    plt.show()
 
-    return np.amax(arrf)
+#    return np.amax(arrf)
+
+
+
 
 def main():
     """

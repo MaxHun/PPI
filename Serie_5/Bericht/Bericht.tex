@@ -155,60 +155,69 @@ Dies ist gegeben, da die Diagonaleinträge von $A^{(d)}$ den Betrag $2d$ (s.~Ser
 
 Es wurden Experimente durchgeführt, um das Konvergenzvehalten der \textit{C-G-Methode} zu bestimmen.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{Bilder/VergleichDim1}
-	\caption{Vergleich der Genauigkeit der zwei implementierten Methoden in der ersten Dimension}
-	\label{fig:vergleichdim1}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\linewidth]{Bilder/VergleichDim1}
+%	\caption{Vergleich der Genauigkeit der zwei implementierten Methoden in der ersten Dimension}
+%	\label{fig:vergleichdim1}
+%\end{figure}
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\linewidth]{Bilder/VergleichDim3}
+%	\caption{Vergleich der Genauigkeit der zwei implementierten Methoden in der dritten Dimension}
+%	\label{fig:vegleichdim3}
+%\end{figure}
 
 \begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{Bilder/VergleichDim3}
-	\caption{Vergleich der Genauigkeit der zwei implementierten Methoden in der dritten Dimension}
-	\label{fig:vegleichdim3}
+\centering
+\includegraphics[width=\textwidth]{Bilder/KonVerh_dim_1.eps}
+\caption{Vergleich der Genauigkeit der zwei implementierten Methoden für eine Dimension}
+\label{fig:vergleichdim1}
 \end{figure}
 
-Die Figuren \ref{fig:vergleichdim1} und \ref{fig:vegleichdim3} waren mit der festen Abbruchsschranke $10^{-14 }$ erzeugt und zeigen, dass das  \textit{C-G-Verfahren} nach ausreichend viele Iterationen auf ein Ergebnis kommt, das nur durch den Fehler der Diskretisierung geprägt wird. Dies siehr man noch besser in \ref{fig:iterdim1} und \ref{fig:iterdim3}.
+In Abb.~\ref{fig:vergleichdim1} wurde das Konvergenzverhalten in einer Dimension für verschiedene $\epsilon$ in Abhängigkeit von der Feinheit der Diskretisierung $n=\nicefrac{1}{h}$ geplottet. Wie erwartet sinkt der absolute Fehler nicht unter $\epsilon$. Stattdessen kommt es zu \glqq Abzweigungen\grqq, wenn der absolute Fehler sich $\epsilon$ annähert. Für $\epsilon\leq 100^{-4}=10^{-8}$  ist das Konvergenzverhalten im untersuchten Bereich für alle $\epsilon$ gleich und deckt sich mit dem Verhalten der Lösung, die mittels der L-U-Zerlegung ermittelt wurde. Dieser gemeinsame Verlauf ist in der doppeltlogarithmischen Darstellung von Abb.~\ref{fig:vergleichdim1} parallel zu $n^{-2}$, die Abzweigung für $\epsilon=10^{-4}$ ist für $10^{2.3} \leq n\leq 10^{3}$ in etwa parallel zu  $n^{1}$, während die $\epsilon=10^{-2}$-Abzweigung sich wie $n^{1.2}$ verhält, bis sie etwa ab $n=10^{1.65}$ konstant bei 1 verharrt. Es kann also bei hinreichend großen Fehlerschranken passieren, dass das Problem für feiner werdende Diskretisierungen schlechter gelöst wird, ansonsten sinkt der absolute Fehler mit steigendem $n$. Für sehr große $\epsilon \geq 1$ liegt der Fehler konstant bei 1, da schon bei der der nullten Iteration abgebrochen wird, der Startwert liegt also schon nahe genug an der tatsächlichen Lösung. 
+
+%Die Figuren \ref{fig:vergleichdim1} und \ref{fig:vegleichdim3} waren mit der festen Abbruchsschranke $10^{-14 }$ erzeugt und zeigen, dass das  \textit{CG-Verfahren} nach ausreichend viele Iterationen auf ein Ergebnis kommt, das nur durch den Fehler der Diskretisierung geprägt wird. Dies siehr man noch besser in \ref{fig:iterdim1} und \ref{fig:iterdim3}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{Bilder/IterDim1}
-	\caption{Der Fehler bezüglich des Iterationsschritts im C-G-Verfahren in einer Dimension}
+	\caption{Der Fehler bezüglich des Iterationsschritts im CG-Verfahren für eine Dimension}
 	\label{fig:iterdim1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{Bilder/IterDim3}
-	\caption{Der Fehler bezüglich des Iterationsschritts im C-G-Verfahren in drei Dimensionen}
+	\caption{Der Fehler bezüglich des Iterationsschritts im CG-Verfahren in drei Dimensionen}
 	\label{fig:iterdim3}
 \end{figure}
  
- Diese Figuren zeigen, dass der Fehler in der durch die \textit{C-G-Methode} nach genügend viele Iterationen gewonnene Lösung nur der Fehler der Diskretisierung ist. Obwohl in beiden Fällen das Residuum in der Iteration am Ende kleiner als $10^{-14}$ ist, bleibt der absolute Fehler in \ref{fig:iterdim1} bei $10^{-4}$ und in \ref{fig:iterdim3} bei $10^{-3}$. Genau diese Werte sind die Fehler der Diskretisierung für Dimension 1 und Feinheit 100 bzw. Dimension 3 und Feinheit 15, wie man aus \ref{fig:vergleichdim1} bzw. \ref{fig:vegleichdim3} ablesen kann. Eine weitere Beobachtung von den Abbildungen \ref{fig:iterdim1} und \ref{fig:iterdim3} ist dass die Konvergenz der \textit{C-G-Methode} immer mit einem Sprung endet. Aus der Theorie wissen wir, dass der exakte Wert nach höchstens $dim(Matrix)$-vielen Iterationsschritten gewonnen ist, und das ist auch bei unseren Ergebnissen der Fall. Die Konvergenz erfolgt in der Tat nach deutlich weniger als $dim(Matrix)$-vielen Schritten (ungefähr 50 anstelle von 100 in einer Dimension und 15 anstelle von $15^3=3375$) .Jedoch sehen wir auch, dass sofern ein Zwischenergebnis in einer geeigneter Umgebung der exakten Ergebnis liegt, konvergiert das Verfahren fast instantan.  Dies ist insbesondere in \ref{fig:iterdim1} sichtbar. Bei einer Wahl von dem Nullvektor als Startwert in der Iteration konvergiert das Verfahren sogar in ein Schritt. Deswegen wird hier der Vektor mit Werten $0.001$ als Startwert verwendet. 
+Die Abb.~\ref{fig:iterdim1}  und~\ref{fig:iterdim3} zeigen, dass der Fehler in der durch die \textit{CG-Methode} nach genügend vielen Iterationen gewonnene Lösung durch den Fehler der Diskretisierung dominiert wird. Obwohl in beiden Fällen das Residuum in der Iteration am Ende kleiner als $10^{-14}$ ist, bleibt der absolute Fehler in \ref{fig:iterdim1} bei $10^{-4}$ und in \ref{fig:iterdim3} bei $10^{-3}$. Genau diese Werte sind die Fehler der Diskretisierung für Dimension 1 und Feinheit 100 bzw. Dimension 3 und Feinheit 15 (vgl. auch  \ref{fig:vergleichdim1}). Eine weitere Beobachtung von den Abbildungen \ref{fig:iterdim1} und \ref{fig:iterdim3} ist dass die Konvergenz der \textit{CG-Methode} immer mit einem Sprung endet. Aus der Theorie wissen wir, dass der exakte Wert nach höchstens $dim(Matrix)$-vielen Iterationsschritten gewonnen ist, und das ist auch bei unseren Ergebnissen der Fall. Die Konvergenz erfolgt in der Tat nach deutlich weniger als $dim(Matrix)$-vielen Schritten (ungefähr 50 anstelle von 100 in einer Dimension und 15 anstelle von $15^3=3375$) .Jedoch sehen wir auch, dass sofern ein Zwischenergebnis in einer geeigneter Umgebung der exakten Ergebnis liegt, konvergiert das Verfahren fast instantan.  Dies ist insbesondere in \ref{fig:iterdim1} sichtbar. Bei einer Wahl von dem Nullvektor als Startwert in der Iteration konvergiert das Verfahren sogar in ein Schritt. Deswegen wird hier der Vektor mit Werten $0.001$ als Startwert verwendet. 
  
  \begin{figure}[H]
  	\centering
  	\includegraphics[width=\linewidth]{Bilder/SchranekDim1}
- 	\caption{Der Fehler bezüglich der Abbruchsschranke im C-G-Verfahren in einer Dimension}
+ 	\caption{Der Fehler bezüglich der Abbruchsschranke im CG-Verfahren in einer Dimension}
  	\label{fig:schrankedim1}
  \end{figure}
 
  \begin{figure}[H]
  	\centering
  	\includegraphics[width=\linewidth]{Bilder/loglogdim3}
- 	\caption{Der Fehler bezüglich der Abbruchsschranke als Funktion der Feinheit der Diskretisierung im C-G-Verfahren in drei Dimensionen}
+ 	\caption{Der Fehler bezüglich der Abbruchsschranke als Funktion der Feinheit der Diskretisierung im CG-Verfahren in drei Dimensionen}
  	\label{fig:loglog3}
  \end{figure}
 
-Die Abbildungen \ref{fig:schrankedim1} und \ref{fig:loglog3} zeigen erneut, dass der Fehler im \textit{C-G-Verfahren} durch den Fehler der Diskretisierung von unten beschränkt ist. Ab einer bestimmten Wahl von der Abbruchsschranke wird das Ergebnis nicht mehr verbessert, weil die Genauigkeit stärker von der Diskretisuerung geprägt wird. In Figur \ref{fig:loglog3} ist die Schranke als $n^{-k}$ gesetzt, wobei $n$ die Feinheit der Diskretisierung ist und $k$ eine Natürliche Zahl zwischen -2 und 6 ist. Wie erwartet, spielt die Wahl der Schranke ab einem bestimmten Punkt (um $10^{-3}$)keine Rolle mehr.
+Die Abbildungen \ref{fig:schrankedim1} und \ref{fig:loglog3} zeigen erneut, dass der Fehler im \textit{CG-Verfahren} durch den Fehler der Diskretisierung von unten beschränkt ist. Ab einer bestimmten Wahl von der Abbruchsschranke wird das Ergebnis nicht mehr verbessert, weil die Genauigkeit stärker von der Diskretisuerung geprägt wird. In Figur \ref{fig:loglog3} ist die Schranke als $n^{-k}$ gesetzt, wobei $n$ die Feinheit der Diskretisierung ist und $k$ eine Natürliche Zahl zwischen -2 und 6 ist. Wie erwartet, spielt die Wahl der Schranke ab einem bestimmten Punkt (um $10^{-3}$)keine Rolle mehr.
 
 \section{Zusammenfassung}
 
-Das \textit{C-G-Verfahren} hat sich als eine zuverlässige Lösungsmethode des Laplace Problems herausgestellt. Die exakte Lösung wird nach verhältnismäßig wenig Iterationsschritten gewonnen. Jedoch ist es wichtig, eine nicht zu große Abbruchsschranke anzugeben, weil viele Iterationen könnten dann Sinnlos sein, da die Genauigkeit des Ergebnis sowieso durch den Diskretidierungsfehler beschränkt ist.
+Das \textit{CG-Verfahren} hat sich als eine zuverlässige Lösungsmethode des Laplace-Problems herausgestellt. Die exakte Lösung wird nach verhältnismäßig wenig Iterationsschritten gewonnen. Jedoch ist es wichtig, eine nicht zu große Abbruchsschranke anzugeben, weil viele Iterationen könnten dann Sinnlos sein, da die Genauigkeit des Ergebnis sowieso durch den Diskretidierungsfehler beschränkt ist.
 
 \begin{thebibliography}{9}
-\bibitem{wiki:cg} Kein Autor, Aufgerufen am \today, \textit{C-G-Verfahren}. 
+\bibitem{wiki:cg} Kein Autor, Aufgerufen am \today, \textit{CG-Verfahren}. 
 \url{https://de.wikipedia.org/wiki/CG-Verfahren}
 \bibitem{skript:nla} Axel~Kröner: Vorlesungsskript \textit{Numerische Lineare Algebra}, WS 2018/19. 
 \url{https://moodle.hu-berlin.de/pluginfile.php/2445740/mod_resource/content/25/Skriptum_NLA.pdf} (passwortgeschützt)
